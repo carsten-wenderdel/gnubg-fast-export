@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: gnubg.gtkrc,v 1.12 2004/06/16 18:53:20 thyssen Exp $
+# $Id: gnubg.gtkrc,v 1.13 2004/07/04 09:56:22 thyssen Exp $
 #
 # style <name> [= <name>]
 # {
