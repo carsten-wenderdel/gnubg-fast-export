@@ -16,6 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ * $Id: makebearoff.c,v 1.3 2000/01/13 16:50:10 gtw Exp $
  */
 
 #include "config.h"
@@ -49,7 +50,7 @@ static void BearOff( int nId ) {
     
     for( anRoll[ 0 ] = 1; anRoll[ 0 ] <= 6; anRoll[ 0 ]++ )
 	for( anRoll[ 1 ] = 1; anRoll[ 1 ] <= anRoll[ 0 ]; anRoll[ 1 ]++ ) {
-	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ] );
+	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ], FALSE );
 
 	    us = 0xFFFF; iBest = -1;
 	    
@@ -108,7 +109,7 @@ static void BearOff2( int nUs, int nThem ) {
     
     for( anRoll[ 0 ] = 1; anRoll[ 0 ] <= 6; anRoll[ 0 ]++ )
 	for( anRoll[ 1 ] = 1; anRoll[ 1 ] <= anRoll[ 0 ]; anRoll[ 1 ]++ ) {
-	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ] );
+	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ], FALSE );
 
 	    r = -1.0; iBest = -1;
 	    

@@ -3,18 +3,18 @@
  *
  * by Gary Wong, 1999
  *
- * $Id: acconfig.h,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+ * $Id: acconfig.h,v 1.3 2000/03/06 22:29:36 gtw Exp $
  */
+
+/* Installation directory (used to determine PKGDATADIR below). */
+#undef DATADIR
 
 @BOTTOM@
 
 /* The directory where the weights and databases will be stored. */
-#undef PKGDATADIR
+#define PKGDATADIR DATADIR "/" PACKAGE
 
 #ifndef FALSE
 #define FALSE 0
 #define TRUE 1
 #endif
-
-#undef PACKAGE
-#undef VERSION

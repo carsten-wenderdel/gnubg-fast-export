@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: database.c,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+ * $Id: database.c,v 1.8 2000/03/06 17:28:51 gtw Exp $
  */
 
 #include "config.h"
@@ -88,18 +88,18 @@ extern void CommandDatabaseDump( char *sz ) {
     }
 
     if( !c )
-	puts( "There database is empty." );
+	puts( "The database is empty." );
 
     gdbm_close( pdb );
 }
 
-extern void CommandDatabaseEvaluate( char *sz ) {
+extern void CommandDatabaseRollout( char *sz ) {
 
     GDBM_FILE pdb;
     datum dKey, dValue;
     dbevaluation *pev;
     int i, c = 0, anBoardEval[ 2 ][ 25 ];
-    float arOutput[ NUM_OUTPUTS ];
+    float arOutput[ NUM_ROLLOUT_OUTPUTS ];
     void *p;
     
     if( !( pdb = gdbm_open( szDatabase, 0, GDBM_WRITER, 0, NULL ) ) ) {
@@ -115,7 +115,7 @@ extern void CommandDatabaseEvaluate( char *sz ) {
 
 	pev = (dbevaluation *) dValue.dptr;
 
-	if( pev->c < 144 /* FIXME */ ) {
+	if( pev->c < nRollouts /* FIXME */ ) {
 	    c++;
 	    
 	    PositionFromKey( anBoardEval, (unsigned char *) dKey.dptr );
@@ -123,8 +123,9 @@ extern void CommandDatabaseEvaluate( char *sz ) {
 	    /* FIXME if position has some existing rollouts, merge them */
 	    
 	    /* FIXME allow user to change these parameters */
-	    if( ( pev->c = Rollout( anBoardEval, arOutput, NULL, 0, 7, 144 ) )
-		> 0 ) {
+	    if( ( pev->c = Rollout( anBoardEval, arOutput, NULL,
+				    nRolloutTruncate, nRollouts, fVarRedn,
+				    &ecRollout ) ) > 0 ) {
 		for( i = 0; i < NUM_OUTPUTS; i++ )
 		    pev->asEq[ i ] = arOutput[ i ] * 0xFFFF;
 
@@ -179,15 +180,18 @@ extern void CommandDatabaseGenerate( char *sz ) {
 	InitBoard( anBoardGenerate );
 	
 	do {    
-	    if( !( ++c % 100 ) ) {
+	    if( !( ++c % 100 ) && fShowProgress ) {
 		printf( "%6d\r", c );
 		fflush( stdout );
 	    }
 	    
 	    RollDice( anDiceGenerate );
 
-	    FindBestMove( 0, NULL, anDiceGenerate[ 0 ], anDiceGenerate[ 1 ],
-			  anBoardGenerate );
+	    if( fInterrupt )
+		break;
+	    
+	    FindBestMove( NULL, anDiceGenerate[ 0 ], anDiceGenerate[ 1 ],
+			  anBoardGenerate, NULL );
 
 	    if( fInterrupt )
 		break;
@@ -207,8 +211,8 @@ extern void CommandDatabaseGenerate( char *sz ) {
 	    dValue.dsize = sizeof ev;
 
 	    gdbm_store( pdb, dKey, dValue, GDBM_INSERT );
-	    /* FIXME can stop as soon as perfect */
-	} while( !fInterrupt && !GameStatus( anBoardGenerate ) );
+	} while( !fInterrupt && ClassifyPosition( anBoardGenerate ) >
+		 CLASS_PERFECT );
     }
 
     gdbm_close( pdb );
@@ -238,7 +242,7 @@ extern void CommandDatabaseTrain( char *sz ) {
 	    pev = (dbevaluation *) dValue.dptr;
 
 	    if( pev->c >= 72 /* FIXME */ ) {
-		if( !( ++c % 100 ) ) {
+		if( !( ++c % 100 ) && fShowProgress ) {
 		    printf( "%6d\r", c );
 		    fflush( stdout );
 		}
@@ -274,7 +278,6 @@ extern void CommandDatabaseTrain( char *sz ) {
 
     gdbm_close( pdb );
 }
-
 #else
 static void NoGDBM( void ) {
 
@@ -286,11 +289,11 @@ extern void CommandDatabaseDump( char *sz ) {
     NoGDBM();
 }
 
-extern void CommandDatabaseEvaluate( char *sz ) {
+extern void CommandDatabaseGenerate( char *sz ) {
     NoGDBM();
 }
 
-extern void CommandDatabaseGenerate( char *sz ) {
+extern void CommandDatabaseRollout( char *sz ) {
     NoGDBM();
 }
 

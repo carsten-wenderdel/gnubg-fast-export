@@ -1,19 +1,31 @@
 /*
  * neuralnet.c
  *
- * by Gary Wong, 1998
+ * by Gary Wong, 1998-2000
  */
 
+#include "config.h"
+
+#if HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 #include <errno.h>
 #include <math.h>
 #include <neuralnet.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef HAVE_RAND_R
+#include "rand_r.h"
+#endif
+
+
 #define sigmoid( x ) ( (x) > 0.0f ? \
-		       1.0f / ( 2.0f + (x) + 77.0f / 60.0f * (x) * (x) ) : \
+		       1.0f / ( 2.0f + (x) + (1.0f / 2.0f) * (x) * (x) ) : \
 		       1.0f - 1.0f / ( 2.0f + -(x) + \
-				       77.0f / 60.0f * (x) * (x) ) )
+				       (1.0f / 2.0f) * (x) * (x) ) )
+
+static unsigned int nSeed = 1; /* for rand_r */
 
 extern int NeuralNetCreate( neuralnet *pnn, int cInput, int cHidden,
 			    int cOutput, float rBetaHidden,
@@ -52,16 +64,16 @@ extern int NeuralNetCreate( neuralnet *pnn, int cInput, int cHidden,
     }
 
     for( i = cHidden * cInput, pf = pnn->arHiddenWeight; i; i-- )
-	*pf++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+	*pf++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) / 131072.0;
     
     for( i = cOutput * cHidden, pf = pnn->arOutputWeight; i; i-- )
-	*pf++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+	*pf++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) / 131072.0;
     
     for( i = cHidden, pf = pnn->arHiddenThreshold; i; i-- )
-	*pf++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+	*pf++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) / 131072.0;
     
     for( i = cOutput, pf = pnn->arOutputThreshold; i; i-- )
-	*pf++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+	*pf++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) / 131072.0;
 
     return 0;
 }
@@ -79,21 +91,29 @@ extern int NeuralNetDestroy( neuralnet *pnn ) {
 static int Evaluate( neuralnet *pnn, float arInput[], float ar[],
 		     float arOutput[] ) {
     int i, j;
-    float r, *pr, *prWeight;
+    float *prWeight;
 
     /* Calculate activity at hidden nodes */
     for( i = 0; i < pnn->cHidden; i++ )
 	ar[ i ] = pnn->arHiddenThreshold[ i ];
 
-    for( i = 0; i < pnn->cInput; i++ )
-	if( arInput[ i ] == 1.0f )
-	    for( prWeight = pnn->arHiddenWeight + i * pnn->cHidden,
-		     j = pnn->cHidden, pr = ar; j; j-- )
-		*pr++ += *prWeight++;
-	else if( arInput[ i ] )
-	    for( prWeight = pnn->arHiddenWeight + i * pnn->cHidden,
-		     j = pnn->cHidden, pr = ar; j; j-- )
-		*pr++ += *prWeight++ * arInput[ i ];
+    prWeight = pnn->arHiddenWeight;
+    
+    for( i = 0; i < pnn->cInput; i++ ) {
+	float const ari = arInput[ i ];
+
+	if( ari ) {
+	    float *pr = ar;
+
+	    if( ari == 1.0f )
+		for( j = pnn->cHidden; j; j-- )
+		    *pr++ += *prWeight++;
+	    else
+		for( j = pnn->cHidden; j; j-- )
+		    *pr++ += *prWeight++ * ari;
+	} else
+	    prWeight += pnn->cHidden;
+    }
     
     for( i = 0; i < pnn->cHidden; i++ )
 	ar[ i ] = sigmoid( -pnn->rBetaHidden * ar[ i ] );
@@ -102,7 +122,8 @@ static int Evaluate( neuralnet *pnn, float arInput[], float ar[],
     prWeight = pnn->arOutputWeight;
 
     for( i = 0; i < pnn->cOutput; i++ ) {
-	r = pnn->arOutputThreshold[ i ];
+	float r = pnn->arOutputThreshold[ i ];
+	
 	for( j = 0; j < pnn->cHidden; j++ )
 	    r += ar[ j ] * *prWeight++;
 
@@ -114,17 +135,138 @@ static int Evaluate( neuralnet *pnn, float arInput[], float ar[],
 
 extern int NeuralNetEvaluate( neuralnet *pnn, float arInput[],
 			      float arOutput[] ) {
+#if __GNUC__
     float ar[ pnn->cHidden ];
-
+#elif HAVE_ALLOCA
+    float *ar = alloca( pnn->cHidden * sizeof( float ) );
+#else
+    float ar[ 1024 ];
+#endif
+    
     return Evaluate( pnn, arInput, ar, arOutput );
 }
+
+/*
+ * Calculate the partial derivate of the output neurons with respect to
+ * each of the inputs.
+ *
+ * Note: this is a numerical approximation to the derivative.  There is
+ * an analytical solution below, with an explanation of why it is not used.
+ */
+extern int NeuralNetDifferentiate( neuralnet *pnn, float arInput[],
+				   float arOutput[], float arDerivative[] ) {
+#if __GNUC__
+    float ar[ pnn->cHidden ], arIDelta[ pnn->cInput ],
+	arODelta[ pnn->cOutput ];
+#elif HAVE_ALLOCA
+    float *ar = alloca( pnn->cHidden * sizeof( float ) ),
+	*arIDelta = alloca( pnn->cInput * sizeof( float ) ),
+	*arODelta = alloca( pnn->cOutput * sizeof( float ) );
+#else
+    float ar[ 1024 ], arIDelta[ 1024 ], arODelta[ 1024 ];
+#endif
+    int i, j;
+
+    Evaluate( pnn, arInput, ar, arOutput );
+
+    memcpy( arIDelta, arInput, sizeof( arIDelta ) );
+    
+    for( i = 0; i < pnn->cInput; i++ ) {
+	arIDelta[ i ] = arInput[ i ] + 0.001f;
+	if( i )
+	    arIDelta[ i - 1 ] = arInput[ i - 1 ];
+	
+	Evaluate( pnn, arIDelta, ar, arODelta );
+
+	for( j = 0; j < pnn->cOutput; j++ )
+	    arDerivative[ j * pnn->cInput + i ] =
+		( arODelta[ j ] - arOutput[ j ] ) * 1000.0f;
+    }
+
+    return 0;
+}
+
+/*
+ * Here is an analytical solution to the partial derivative.  Normally this
+ * algorithm would be preferable (for its efficiency and numerical stability),
+ * but unfortunately it relies on the relation:
+ *
+ *  d sigmoid(x)
+ *  ------------ = sigmoid( x ) . sigmoid( -x )
+ *       dx
+ *                                                              x  -1
+ * This relation is true for the function sigmoid( x ) = ( 1 + e  ), but
+ * the inaccuracy of the polynomial approximation to the exponential
+ * function used here leads to significant error near x=0.  There
+ * are numerous possible solutions, but in the meantime the numerical
+ * algorithm above will do.
+ */
+#if 0
+extern int NeuralNetDifferentiate( neuralnet *pnn, float arInput[],
+				   float arOutput[], float arDerivative[] ) {
+#if __GNUC__
+    float ar[ pnn->cHidden ], ardOdSigmaI[ pnn->cHidden * pnn->cOutput ];
+#elif HAVE_ALLOCA
+    float *ar = alloca( pnn->cHidden * sizeof( float ) ),
+	*ardOdSigmaI = alloca( pnn->cHidden * pnn->cOutput * sizeof( float ) );
+#else
+    float ar[ 1024 ], *ardOdSigmaI = malloc( pnn->cHidden * pnn->cOutput *
+					sizeof( float ) );
+#endif
+    int i, j, k;
+    float rdOdSigmaH, *prWeight, *prdOdSigmaI, *prdOdI;
+    
+    Evaluate( pnn, arInput, ar, arOutput );
+
+    for( i = 0; i < pnn->cHidden; i++ )
+	ar[ i ] = ar[ i ] * ( 1.0f - ar[ i ] ) * pnn->rBetaHidden;
+
+    prWeight = pnn->arOutputWeight;
+    prdOdSigmaI = ardOdSigmaI;
+    
+    for( i = 0; i < pnn->cOutput; i++ ) {
+	rdOdSigmaH = arOutput[ i ] * ( 1.0f - arOutput[ i ] ) *
+	    pnn->rBetaOutput;
+	for( j = 0; j < pnn->cHidden; j++ )
+	    *prdOdSigmaI++ = rdOdSigmaH * ar[ j ] * *prWeight++;
+    }
+
+    prdOdI = arDerivative;
+    
+    for( i = 0; i < pnn->cOutput; i++ ) {
+	prWeight = pnn->arHiddenWeight;
+	for( j = 0; j < pnn->cInput; j++ ) {
+	    *prdOdI = 0.0f;
+	    prdOdSigmaI = ardOdSigmaI + i * pnn->cHidden;
+	    for( k = 0; k < pnn->cHidden; k++ )
+		*prdOdI += *prdOdSigmaI++ * *prWeight++;
+	    prdOdI++;
+	}
+    }
+    
+#if !__GNUC__ && !HAVE_ALLOCA
+    free( ardOdSigmaI );
+#endif
+
+    return 0;
+}
+#endif
 
 extern int NeuralNetTrain( neuralnet *pnn, float arInput[], float arOutput[],
 			   float arDesired[], float rAlpha ) {
     int i, j;    
+    float *pr, *prWeight;
+#if __GNUC__
     float ar[ pnn->cHidden ], arOutputError[ pnn->cOutput ],
-	arHiddenError[ pnn->cHidden ], *pr, *prWeight;
-
+	arHiddenError[ pnn->cHidden ];
+#elif HAVE_ALLOCA
+    float *ar = alloca( pnn->cHidden * sizeof( float ) ),
+	*arOutputError = alloca( pnn->cOutput * sizeof( float ) ),
+	*arHiddenError = alloca( pnn->cHidden * sizeof( float ) );
+#else
+    float ar[ 1024 ], arOutputError[ 128 ], arHiddenError[ 1024 ];
+#endif
+    
     Evaluate( pnn, arInput, ar, arOutput );
 
     /* Calculate error at output nodes */
@@ -185,8 +327,8 @@ extern int NeuralNetResize( neuralnet *pnn, int cInput, int cHidden,
 	    return -1;
 
 	for( i = pnn->cHidden; i < cHidden; i++ )
-	    pnn->arHiddenThreshold[ i ] = ( ( random() & 0xFFFF ) - 0x8000 ) /
-		131072.0;
+	    pnn->arHiddenThreshold[ i ] = ( ( rand_r( &nSeed ) & 0xFFFF ) -
+					    0x8000 ) / 131072.0;
     }
     
     if( cHidden != pnn->cHidden || cInput != pnn->cInput ) {
@@ -198,9 +340,11 @@ extern int NeuralNetResize( neuralnet *pnn, int cInput, int cHidden,
 	for( i = 0; i < cInput; i++ )
 	    for( j = 0; j < cHidden; j++ )
 		if( j >= pnn->cHidden )
-		    *prNew++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+		    *prNew++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) /
+			131072.0;
 		else if( i >= pnn->cInput )
-		    *prNew++ = ( ( random() & 0x0FFF ) - 0x0800 ) / 131072.0;
+		    *prNew++ = ( ( rand_r( &nSeed ) & 0x0FFF ) - 0x0800 ) /
+			131072.0;
 		else
 		    *prNew++ = pnn->arHiddenWeight[ i * pnn->cHidden + j ];
 		    
@@ -215,8 +359,8 @@ extern int NeuralNetResize( neuralnet *pnn, int cInput, int cHidden,
 	    return -1;
 
 	for( i = pnn->cOutput; i < cOutput; i++ )
-	    pnn->arOutputThreshold[ i ] = ( ( random() & 0xFFFF ) - 0x8000 ) /
-		131072.0;
+	    pnn->arOutputThreshold[ i ] = ( ( rand_r( &nSeed ) & 0xFFFF ) -
+					    0x8000 ) / 131072.0;
     }
     
     if( cOutput != pnn->cOutput || cHidden != pnn->cHidden ) {
@@ -228,12 +372,14 @@ extern int NeuralNetResize( neuralnet *pnn, int cInput, int cHidden,
 	for( i = 0; i < cHidden; i++ )
 	    for( j = 0; j < cOutput; j++ )
 		if( j >= pnn->cOutput )
-		    *prNew++ = ( ( random() & 0xFFFF ) - 0x8000 ) / 131072.0;
+		    *prNew++ = ( ( rand_r( &nSeed ) & 0xFFFF ) - 0x8000 ) /
+			131072.0;
 		else if( i >= pnn->cHidden )
-		    *prNew++ = ( ( random() & 0x0FFF ) - 0x0800 ) / 131072.0;
+		    *prNew++ = ( ( rand_r( &nSeed ) & 0x0FFF ) - 0x0800 ) /
+			131072.0;
 		else
 		    *prNew++ = pnn->arOutputWeight[ i * pnn->cOutput + j ];
-		    
+
 	free( pnn->arOutputWeight );
 
 	pnn->arOutputWeight = pr;
@@ -286,6 +432,42 @@ extern int NeuralNetLoad( neuralnet *pnn, FILE *pf ) {
     return 0;
 }
 
+extern int NeuralNetLoadBinary( neuralnet *pnn, FILE *pf ) {
+
+    int nTrained;
+
+#define FREAD( p, c ) \
+    if( fread( (p), sizeof( *(p) ), (c), pf ) < (c) ) return -1;
+
+    FREAD( &pnn->cInput, 1 );
+    FREAD( &pnn->cHidden, 1 );
+    FREAD( &pnn->cOutput, 1 );
+    FREAD( &nTrained, 1 );
+    FREAD( &pnn->rBetaHidden, 1 );
+    FREAD( &pnn->rBetaOutput, 1 );
+
+    if( pnn->cInput < 1 || pnn->cHidden < 1 || pnn->cOutput < 1 ||
+	nTrained < 0 || pnn->rBetaHidden <= 0.0 || pnn->rBetaOutput <= 0.0 ) {
+	errno = EINVAL;
+
+	return -1;
+    }
+
+    if( NeuralNetCreate( pnn, pnn->cInput, pnn->cHidden, pnn->cOutput,
+			 pnn->rBetaHidden, pnn->rBetaOutput ) )
+	return -1;
+
+    pnn->nTrained = nTrained;
+    
+    FREAD( pnn->arHiddenWeight, pnn->cInput * pnn->cHidden );
+    FREAD( pnn->arOutputWeight, pnn->cHidden * pnn->cOutput );
+    FREAD( pnn->arHiddenThreshold, pnn->cHidden );
+    FREAD( pnn->arOutputThreshold, pnn->cOutput );
+#undef FREAD
+
+    return 0;
+}
+
 extern int NeuralNetSave( neuralnet *pnn, FILE *pf ) {
 
     int i;
@@ -312,5 +494,26 @@ extern int NeuralNetSave( neuralnet *pnn, FILE *pf ) {
 	if( fprintf( pf, "%11.7f\n", *pr++ ) < 0 )
 	    return -1;
 
+    return 0;
+}
+
+extern int NeuralNetSaveBinary( neuralnet *pnn, FILE *pf ) {
+
+#define FWRITE( p, c ) \
+    if( fwrite( (p), sizeof( *(p) ), (c), pf ) < (c) ) return -1;
+
+    FWRITE( &pnn->cInput, 1 );
+    FWRITE( &pnn->cHidden, 1 );
+    FWRITE( &pnn->cOutput, 1 );
+    FWRITE( &pnn->nTrained, 1 );
+    FWRITE( &pnn->rBetaHidden, 1 );
+    FWRITE( &pnn->rBetaOutput, 1 );
+
+    FWRITE( pnn->arHiddenWeight, pnn->cInput * pnn->cHidden );
+    FWRITE( pnn->arOutputWeight, pnn->cHidden * pnn->cOutput );
+    FWRITE( pnn->arHiddenThreshold, pnn->cHidden );
+    FWRITE( pnn->arOutputThreshold, pnn->cOutput );
+#undef FWRITE
+    
     return 0;
 }

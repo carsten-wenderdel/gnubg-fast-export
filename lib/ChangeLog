@@ -1,1 +1,24 @@
-None, yet.
+Sat Mar 11 20:09:10 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* neuralnet.c (NeuralNetDifferentiate): New function.
+	
+Fri Jan 14 09:34:52 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* fifo.c: replaced bcopy with memcpy.
+
+Sat Jan  8 17:57:54 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* event.c: removed syslog code (unportable and unnecessary).
+
+Thu Jan  6 22:24:39 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* neuralnet.c (NeuralNetLoadBinary, NeuralNetLoadBinary): New
+	functions.
+
+Mon Jan  3 03:40:48 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* rand_r.c (rand_r): New function.
+
+Sun Jan  2 11:33:58 2000  Gary Wong  <gary@cs.arizona.edu>
+
+	* hash.c (CacheResize): New function.

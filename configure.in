@@ -18,7 +18,7 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
 dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 dnl
-dnl $Id: configure.in,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+dnl $Id: configure.in,v 1.14.2.1 2000/07/10 17:01:53 gtw Exp $
 
 AC_INIT(gnubg.c)
 AM_INIT_AUTOMAKE(gnubg,0.02)
@@ -30,40 +30,51 @@ then
 fi
 
 dnl Checks for programs.
+AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_INSTALL
+AC_PROG_LN_S
 
 dnl Checks for libraries.
 AC_CHECK_LIB(m, sqrt)
-AC_CHECK_LIB(readline, readline)
-AC_CHECK_LIB(gdbm, gdbm_open)
+AC_ARG_WITH(readline,[  --with-readline         support fancy command line editing])
+if test "$with_readline" != "no"; then
+  for lib in termcap ncurses curses; do
+    AC_CHECK_LIB($lib, tgetent, LIBS="-l$lib $LIBS"; break)
+  done
+  AC_CHECK_LIB(readline, readline)
+fi
+AC_ARG_WITH(gdbm,[  --with-gdbm             use GNU gdm for position databases])
+if test "$with_gdbm" != "no"; then
+  AC_CHECK_LIB(gdbm, gdbm_open)
+fi
+AC_CHECK_LIB(dl, dlopen)
 
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_TIME
-AC_CHECK_HEADERS(fcntl.h sys/mman.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(alloca.h fcntl.h sys/file.h sys/ioctl.h limits.h sys/mman.h pwd.h sys/time.h sys/types.h unistd.h sys/wait.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_TYPE_SIZE_T
 
 dnl Checks for library functions.
 AC_FUNC_MMAP
 AC_CHECK_FUNCS(sigaction sigvec,break)
-AC_CHECK_FUNCS(gettimeofday)
-AC_CHECK_FUNCS(random)
+AC_CHECK_FUNCS(sigprocmask sigblock,break)
+AC_CHECK_FUNCS(alloca getlogin getpwuid gettimeofday isatty random)
+AC_REPLACE_FUNCS(rand_r)
 AC_TYPE_SIGNAL
 
-dnl Check for the X Window System.
-AC_PATH_XTRA
-AM_CONDITIONAL(NOX, test "$no_x" = "yes" )
+dnl Check for GTK
+AM_PATH_GTK(1.2.0)
+AM_CONDITIONAL(NOX, test "$no_gtk" = "yes" )
 
 dnl Record installation paths.
-AC_DEFINE_DIR(PKGDATADIR, pkgdatadir)
+AC_DEFINE_DIR(DATADIR, datadir)
 
-if test "$no_x" != "yes"; then
-  conf_ext=ext
-fi
-AC_CONFIG_SUBDIRS(lib $conf_ext)
+AC_CONFIG_SUBDIRS(lib doc)
 
 AC_OUTPUT(Makefile)
 

@@ -57,39 +57,50 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+AWK = @AWK@
 CC = @CC@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_CONFIG = @GTK_CONFIG@
+GTK_LIBS = @GTK_LIBS@
+LN_S = @LN_S@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
-@NOX_TRUE@SUBDIRS = lib
-@NOX_FALSE@SUBDIRS = lib ext
+
+SUBDIRS = lib doc
 
 COMMON_INCS = -I$(srcdir)/lib
 COMMON_LIBS = -Llib -levent
-COMMON_SOURCES = backgammon.h gnubg.c getopt.h getopt.c getopt1.c eval.h \
-	eval.c play.c positionid.h positionid.c drawboard.h drawboard.c \
-	pub_eval.c set.c show.c database.h database.c mt19937int.c \
-	mt19937int.h dice.c dice.h rollout.c rollout.h isaac.c isaac.h \
-	isaacs.h
+COMMON_SOURCES = backgammon.h gnubg.c getopt.h getopt.c getopt1.c eval.h 	eval.c play.c positionid.h positionid.c drawboard.h drawboard.c 	pub_eval.c set.c show.c database.h database.c mt19937int.c 	mt19937int.h dice.c dice.h rollout.c rollout.h isaac.c isaac.h 	isaacs.h copying.c kleinman.c
+
 COMMON_DEPS = lib/libevent.a
 
 bin_PROGRAMS = gnubg
 @NOX_TRUE@INCLUDES = $(COMMON_INCS)
-@NOX_FALSE@INCLUDES = $(COMMON_INCS) -I$(srcdir)/ext @X_CFLAGS@
+@NOX_FALSE@INCLUDES = $(COMMON_INCS) @GTK_CFLAGS@
 @NOX_TRUE@gnubg_SOURCES = $(COMMON_SOURCES)
-@NOX_FALSE@gnubg_SOURCES = $(COMMON_SOURCES) xboard.c xboard.h xgame.c xgame.h
+@NOX_FALSE@gnubg_SOURCES = $(COMMON_SOURCES) gtkboard.c gtkboard.h
 @NOX_TRUE@gnubg_LDADD = $(COMMON_LIBS)
-@NOX_FALSE@gnubg_LDADD = -Lext -lext @X_LIBS@ @X_PRE_LIBS@ -lX11 -lXmu @X_EXTRA_LIBS@ 	$(COMMON_LIBS)
+@NOX_FALSE@gnubg_LDADD = @GTK_LIBS@ $(COMMON_LIBS)
 @NOX_TRUE@gnubg_DEPENDENCIES = $(COMMON_DEPS)
-@NOX_FALSE@gnubg_DEPENDENCIES = $(COMMON_DEPS) ext/libext.a
+@NOX_FALSE@gnubg_DEPENDENCIES = $(COMMON_DEPS)
 
-pkgdata_DATA = gnubg.bd gnubg.weights
+pkgdata_DATA = gnubg.bd gnubg.wd
 
-noinst_PROGRAMS = makebearoff
+noinst_PROGRAMS = makebearoff makeweights
+
 makebearoff_SOURCES = makebearoff.c eval.h eval.c positionid.h positionid.c 	pub_eval.c
 
 makebearoff_LDADD = -Llib -levent
 makebearoff_DEPENDENCIES = lib/libevent.a
+
+makeweights_SOURCES = makeweights.c
+makeweights_LDADD = -Llib -levent
+makeweights_DEPENDENCIES = lib/libevent.a
+
+TESTS = gnubgtest
+
+EXTRA_DIST = userrng.c copying.awk gnubgtest
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -101,22 +112,18 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
 @NOX_TRUE@gnubg_OBJECTS =  gnubg.o getopt.o getopt1.o eval.o play.o \
 @NOX_TRUE@positionid.o drawboard.o pub_eval.o set.o show.o database.o \
-@NOX_TRUE@mt19937int.o dice.o rollout.o isaac.o
-@NOX_FALSE@cond1gnubg_OBJECTS =  gnubg.o getopt.o getopt1.o eval.o \
-@NOX_FALSE@play.o positionid.o drawboard.o pub_eval.o set.o show.o \
-@NOX_FALSE@database.o mt19937int.o dice.o rollout.o isaac.o xboard.o \
-@NOX_FALSE@xgame.o
-gnubg_OBJECTS =  $(cond0gnubg_OBJECTS) $(cond1gnubg_OBJECTS)
-$(COMMON_LIBS)gnubg_DEPENDENCIES = 
+@NOX_TRUE@mt19937int.o dice.o rollout.o isaac.o copying.o kleinman.o
+@NOX_FALSE@gnubg_OBJECTS =  gnubg.o getopt.o getopt1.o eval.o play.o \
+@NOX_FALSE@positionid.o drawboard.o pub_eval.o set.o show.o database.o \
+@NOX_FALSE@mt19937int.o dice.o rollout.o isaac.o copying.o kleinman.o \
+@NOX_FALSE@gtkboard.o
 gnubg_LDFLAGS = 
 makebearoff_OBJECTS =  makebearoff.o eval.o positionid.o pub_eval.o
 makebearoff_LDFLAGS = 
+makeweights_OBJECTS =  makeweights.o
+makeweights_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -125,21 +132,22 @@ DATA =  $(pkgdata_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
 Makefile.am Makefile.in NEWS TODO acconfig.h acinclude.m4 aclocal.m4 \
-config.h.in configure configure.in install-sh missing mkinstalldirs
+config.h.in configure configure.in install-sh mdate-sh missing \
+mkinstalldirs texinfo.tex
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-DIST_SUBDIRS =  lib lib ext
-DEP_FILES =  .deps/database.P .deps/dice.P .deps/drawboard.P \
-.deps/eval.P .deps/getopt.P .deps/getopt1.P .deps/gnubg.P .deps/isaac.P \
-.deps/makebearoff.P .deps/mt19937int.P .deps/play.P .deps/positionid.P \
-.deps/pub_eval.P .deps/rollout.P .deps/set.P .deps/show.P \
-.deps/xboard.P .deps/xgame.P
-SOURCES = $(gnubg_SOURCES) $(makebearoff_SOURCES)
-OBJECTS = $(gnubg_OBJECTS) $(makebearoff_OBJECTS)
+DEP_FILES =  .deps/copying.P .deps/database.P .deps/dice.P \
+.deps/drawboard.P .deps/eval.P .deps/getopt.P .deps/getopt1.P \
+.deps/gnubg.P .deps/gtkboard.P .deps/isaac.P .deps/kleinman.P \
+.deps/makebearoff.P .deps/makeweights.P .deps/mt19937int.P .deps/play.P \
+.deps/positionid.P .deps/pub_eval.P .deps/rollout.P .deps/set.P \
+.deps/show.P
+SOURCES = $(gnubg_SOURCES) $(makebearoff_SOURCES) $(makeweights_SOURCES)
+OBJECTS = $(gnubg_OBJECTS) $(makebearoff_OBJECTS) $(makeweights_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -244,6 +252,10 @@ gnubg: $(gnubg_OBJECTS) $(gnubg_DEPENDENCIES)
 makebearoff: $(makebearoff_OBJECTS) $(makebearoff_DEPENDENCIES)
 	@rm -f makebearoff
 	$(LINK) $(makebearoff_LDFLAGS) $(makebearoff_OBJECTS) $(makebearoff_LDADD) $(LIBS)
+
+makeweights: $(makeweights_OBJECTS) $(makeweights_DEPENDENCIES)
+	@rm -f makeweights
+	$(LINK) $(makeweights_LDFLAGS) $(makeweights_OBJECTS) $(makeweights_LDADD) $(LIBS)
 
 install-pkgdataDATA: $(pkgdata_DATA)
 	@$(NORMAL_INSTALL)
@@ -365,6 +377,7 @@ distcheck: dist
 	mkdir $(distdir)/=build
 	mkdir $(distdir)/=inst
 	dc_install_base=`cd $(distdir)/=inst && pwd`; \
+	$(MAKE) $(AM_MAKEFLAGS) distcheck-hook; \
 	cd $(distdir)/=build \
 	  && ../configure --srcdir=.. --prefix=$$dc_install_base \
 	  && $(MAKE) $(AM_MAKEFLAGS) \
@@ -406,7 +419,7 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-	for subdir in $(DIST_SUBDIRS); do \
+	for subdir in $(SUBDIRS); do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
@@ -448,11 +461,37 @@ maintainer-clean-depend:
 	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
 	    >> .deps/$(*F).P; \
 	rm -f .deps/$(*F).pp
+check-TESTS: $(TESTS)
+	@failed=0; all=0; \
+	srcdir=$(srcdir); export srcdir; \
+	for tst in $(TESTS); do \
+	  if test -f $$tst; then dir=.; \
+	  else dir="$(srcdir)"; fi; \
+	  if $(TESTS_ENVIRONMENT) $$dir/$$tst; then \
+	    all=`expr $$all + 1`; \
+	    echo "PASS: $$tst"; \
+	  elif test $$? -ne 77; then \
+	    all=`expr $$all + 1`; \
+	    failed=`expr $$failed + 1`; \
+	    echo "FAIL: $$tst"; \
+	  fi; \
+	done; \
+	if test "$$failed" -eq 0; then \
+	  banner="All $$all tests passed"; \
+	else \
+	  banner="$$failed of $$all tests failed"; \
+	fi; \
+	dashes=`echo "$$banner" | sed s/./=/g`; \
+	echo "$$dashes"; \
+	echo "$$banner"; \
+	echo "$$dashes"; \
+	test "$$failed" -eq 0
 info-am:
 info: info-recursive
 dvi-am:
 dvi: dvi-recursive
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
@@ -533,24 +572,40 @@ dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir \
 mostlyclean-depend distclean-depend clean-depend \
-maintainer-clean-depend info-am info dvi-am dvi check check-am \
-installcheck-am installcheck all-recursive-am install-exec-am \
+maintainer-clean-depend check-TESTS info-am info dvi-am dvi check \
+check-am installcheck-am installcheck all-recursive-am install-exec-am \
 install-exec install-data-am install-data install-am install \
 uninstall-am uninstall all-redirect all-am all installdirs-am \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+distcheck-hook:
+	-cp $(srcdir)/gnubg.bd $(srcdir)/gnubg.weights $(distdir)/
+
+copying.c: COPYING copying.awk
+	$(AWK) -f $(srcdir)/copying.awk < $< > $@
 
 gnubg.bd: makebearoff
-	[ -s gnubg.bd ] || ./makebearoff > gnubg.bd
+	[ -s $@ ] || if [ -s $(srcdir)/gnubg.bd ]; then \
+	$(LN_S) $(srcdir)/gnubg.bd $@; else ./makebearoff > $@; fi
+
+weights.message:
+	@echo ' ** NOTE: For proper operation, GNU Backgammon requires'
+	@echo ' ** a "gnubg.weights" file containing neural net'
+	@echo ' ** parameters.  This file is not included in the'
+	@echo ' ** distribution, but you can obtain it from the GNU'
+	@echo ' ** Backgammon home page <http://www.gnu.org/software/gnubg/>'
+	@echo ' ** or generate one by training a neural net yourself.'
+
+.PHONY: weights.message
 
 gnubg.weights:
-	@echo 'NOTE: For proper operation, GNU Backgammon requires'
-	@echo 'a "gnubg.weights" file containing neural net'
-	@echo 'parameters.  This file is not included in the'
-	@echo 'distribution, but you can obtain it from the GNU'
-	@echo 'Backgammon home page <http://gnubg.sourceforge.net/>'
-	@echo 'or generate one by training a neural net yourself.'
+	[ -s $(srcdir)/gnubg.weights ] || $(MAKE) weights.message
+
+gnubg.wd: gnubg.weights makeweights
+	[ -s $@ ] || ./makeweights < $< > $@
+
+.DELETE_ON_ERROR:
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

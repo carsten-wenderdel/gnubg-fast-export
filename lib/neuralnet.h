@@ -22,12 +22,16 @@ extern int NeuralNetDestroy( neuralnet *pnn );
 
 extern int NeuralNetEvaluate( neuralnet *pnn, float arInput[],
 			      float arOutput[] );
+extern int NeuralNetDifferentiate( neuralnet *pnn, float arInput[],
+				   float arOutput[], float arDerivative[] );
 extern int NeuralNetTrain( neuralnet *pnn, float arInput[], float arOutput[],
 			   float arDesired[], float rAlpha );
 extern int NeuralNetResize( neuralnet *pnn, int cInput, int cHidden,
 			    int cOutput );
 
 extern int NeuralNetLoad( neuralnet *pnn, FILE *pf );
+extern int NeuralNetLoadBinary( neuralnet *pnn, FILE *pf );
 extern int NeuralNetSave( neuralnet *pnn, FILE *pf );
+extern int NeuralNetSaveBinary( neuralnet *pnn, FILE *pf );
 
 #endif

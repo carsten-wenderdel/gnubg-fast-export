@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: dice.h,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+ * $Id: dice.h,v 1.5.2.1 2000/07/10 17:01:53 gtw Exp $
  */
 
 #ifndef _DICE_H_
@@ -28,7 +28,11 @@ typedef enum _rng {
 
 extern rng rngCurrent;
 
-extern void InitRNG( void ), InitRNGSeed( int n );
-extern void RollDice( int anDice[ 2 ] );
+extern int InitRNG( void );
+extern void InitRNGSeed( int n );
+extern int RollDice( int anDice[ 2 ] );
+
+extern void UserRNGClose();
+extern int UserRNGOpen();
 
 #endif

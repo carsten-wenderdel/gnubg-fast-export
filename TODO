@@ -1,16 +1,108 @@
-* Check "show" exists for every "set"!
-* Add cube handling for computer player.
-* Add options for Jacoby/cubeless.
-* Save positions and evaluations to databases.
-* Add matches and money sessions.
-* Add supervised training.
-* Use Guile if available.
-* Use X (prime interface) if available.
-* Add more completions to help and readline.
-* Allow user to vary parameters for rollouts.
-* Allow timeouts for "train" (and others?).
-* Add a neural net to correct errors in BEAROFF1 class.
-* Clean up the search paths for weights and database.
-* Load, save and analyse games and matches.
-* Add different dice generators.
-* Improve the evaluator!
+People's names next to entries in this file mean they intend to work on that
+item soon.  Please contact them before working on related areas, to avoid
+duplication of effort and to make sure our changes merge easily.
+
+* Evaluations:
+** Allow different settings (e.g. search ply, candidates, tolerance) for each
+  position class.
+** Add more evaluation classes.
+*** Add a neural net to correct errors in BEAROFF1 class.
+*** Classes for bearing off against contact, back games, containment
+  positions, prime-vs-prime...
+*** Consider meta-pi scheme for using output from multiple nets.
+** See http://www.oasya.com/CubefulAdvantages.html for example of
+  cubeful evaluation.
+** Improve quasi-random dice generation for rollouts. (gary)
+** Create multiple threads to parallelise rollouts (and evaluations?) on
+  multiprocessors.  Perhaps start remote processes?
+
+* Game play:
+** Add cube handling for computer player.  See tag "thyssen-double-branch"
+  in the CVS repository for work on this.
+
+* Command interface:
+** Add more completions to readline.
+** Allow timeouts for "train" (and others?).
+** Add interactive rollouts.
+** Load, save and analyse games and matches.
+** Finish saving positions and evaluations to databases.
+** Finish supervised training, and allow people to submit training data via
+  web.
+** Make sure input behaves correctly when stdin is not a TTY. (gary)
+** Write fancy output routines (to replace printf, puts, etc.) that wraps
+  words and pauses before scrolling (as in gdb).
+** Extend FormatMove() and ParseMove() to handle abbreviation of
+  multiple moves (e.g. "8/7(2) 6/5(2)").
+** Add undo, reroll, and viewing next/prev moves in game/match.  (Reroll
+  is not really necessary, since "set turn <player>" will let them roll
+  again.)
+** Allow reading commands from scripts.  A .gnubgrc file would contain
+  startup commands.  This needs some thought to make sure it works well
+  with Guile scripts.
+** Add ":" as a Guile escape, once it's here.
+** When "set board" is given with no parameters under X, set it to the
+  current position displayed in the board window.  (Perhaps a button in
+  the board window would be better.)
+** Allow resuming interrupted rollouts.
+** Save partial input when TTY input is overwritten by an X command.
+  The best way would be to unify what GetInput does and ProcessInput,
+  with push/pop semantics for readline state. (gary)
+
+* X interface:
+** Get rid of Xmu calls in ext (they're not really portable). (gary)
+** Add a board edit mode (button 1 drags chequers, button 2 adds
+  player 0/removes player 1, button 3 adds player 1/removes player 0).
+** Add a game window, which lists the moves made in the game so far and
+  allows moving back and forth.
+** Don't flood the server with requests (which can happen if gnubg is
+  playing itself at ply 0).  Wait until the server has finished the
+  previous ShowBoard before sending a new one; boards in the meantime
+  can be silently discarded.  What does xterm do to implement jump
+  scrolling?
+** Allow clicking on a point to make that point.
+** Use the MBX (multi buffering) and SHM (shared memory) extensions in the
+  board window, if available.
+** Add GTK support.
+*** Make sure the board window behaves properly with ICCCM things.
+*** Allow copy/paste and drag & drop of the board ID in the board window.
+*** Add silly bells and whistles.  Things like colour selector for chequer
+  colours, angle of light, surface of pieces, transparent background, etc.
+*** Add menus and dialogs so that games can be played without the
+  terminal window at all.
+
+* Bugs:
+** Nothing handles running out of memory gracefully.  A solution
+  could be to write a malloc() wrapper that (if malloc fails) first
+  tries to free memory (e.g. flush the eval cache); if malloc still
+  doesn't succeed, then print an error message and longjmp() to the
+  main loop.  When using the GNU C library, __malloc_hook can be used
+  too (so we can intercept calls coming from Xlib, for instance).  We
+  shouldn't longjmp() out of the hook, though (it might confuse library
+  functions).
+** If the exposed area in BoardRedraw() intersects a point but not the
+  dice, the point will be redrawn -- but sometimes that will overwrite
+  the dice, which then need updating.
+** The erroneous commands "set player both" and "set player both evaluation"
+  give poor error messages; "help r" doesn't do anything.
+
+* Documentation:
+** Complete the Texinfo manual.  Perhaps for now, only things that are
+  unlikely to change should be documented.
+
+* Miscellaneous:
+** Add internationalisation (gettext).
+** Add more to http://www.gnu.org/software/gnubg/... -- definitely the
+  HTML formatted manual, and perhaps pages to submit training data,
+  an online evaluator like Monte Carlo, maybe even an entire game like
+  Motif.
+** Submit something to <http://www.distributed.net/nextgen/projects.html>.
+** Allow loading and saving weights to specify binary or ASCII format.
+** Allow annotating moves in matches.  It would be nice to be compatible
+  with other formats (Snowie?  CBG?) but these are probably undocumented.
+  The SGF format (Smart Game Format -- see <http://www.red-bean.com/sgf/>)
+  can probably be extended to backgammon, instead.
+** Export matches (and analysis) to ASCII, HTML, PostScript, etc.
+** Import and export position databases to a portable format.
+** Add option to flip the board.
+** Find someone who lives near London and wants to enter gnubg in the
+  MSO Olympiad in August: <http://www.msoworld.com/Olympiad/computer.html>.
