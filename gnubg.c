@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.371.2.3 2003/01/30 17:56:27 thyssen Exp $
+ * $Id: gnubg.c,v 1.371.2.4 2003/03/02 15:02:37 thyssen Exp $
  */
 
 #include "config.h"
@@ -48,6 +48,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #if TIME_WITH_SYS_TIME
 #include <sys/time.h>
 #include <time.h>
@@ -93,6 +94,7 @@ static char szCommandSeparators[] = " \t\n\r\v\f";
 #include "sound.h"
 #include "path.h"
 #include "render.h"
+#include "record.h"
 
 #if USE_GUILE
 #include <libguile.h>
@@ -6035,6 +6037,31 @@ CreateGnubgDirectory ( void ) {
 }
 
 
+static void
+MoveGnubgpr ( void ) {
+
+#if __GNUC__
+    char szOld[ strlen( szHomeDirectory ) + 10 ];
+    char szNew[ strlen( szHomeDirectory ) + 2 + strlen ( GNUBGPR ) ];
+#elif HAVE_ALLOCA
+    char *szOld = alloca( strlen( szHomeDirectory ) + 10 );
+    char *szNew = alloca( strlen( szHomeDirectory ) + 2 + strlen ( GNUBGPR ) );
+#else
+    char szOld[ 4096 ];
+    char szNew[ 4096 ];
+#endif
+
+  sprintf ( szOld, "%s/.gnubgpr", szHomeDirectory );
+  sprintf ( szNew, "%s/%s", szHomeDirectory, GNUBGPR );
+
+  if ( ! access ( szOld, R_OK ) )
+    /* old file exists */
+    if ( rename ( szOld, szNew ) ) 
+      outputerr ( szOld );
+
+}
+
+
 
 extern RETSIGTYPE HandleInterrupt( int idSignal ) {
 
@@ -6511,6 +6538,12 @@ static void real_main( void *closure, int argc, char *argv[] ) {
 
     if ( CreateGnubgDirectory () )
       exit ( EXIT_FAILURE );
+
+    /* move .gnubgpr into gnubg directory */
+    /*  FIXME: this code can be removed when all users have had their
+        .gnubgpr move */
+
+    MoveGnubgpr();
     
     /* load rc files */
 
