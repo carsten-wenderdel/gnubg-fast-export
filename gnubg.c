@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.371.2.5 2003/03/08 07:57:52 thyssen Exp $
+ * $Id: gnubg.c,v 1.371.2.6 2003/03/27 18:44:33 thyssen Exp $
  */
 
 #include "config.h"
@@ -4020,7 +4020,7 @@ extern void CommandImportTMG( char *sz ) {
     if( ( pf = fopen( sz, "r" ) ) ) {
 	ImportTMG( pf, sz );
 	fclose( pf );
-        //setDefaultFileName ( sz, PATH_SGG );
+        setDefaultFileName ( sz, PATH_TMG );
     } else
 	outputerr( sz );
 }
