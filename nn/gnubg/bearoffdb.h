@@ -21,7 +21,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: bearoffdb.h,v 1.1 2004/06/18 20:22:00 joseph Exp $
+ * $Id: bearoffdb.h,v 1.2 2004/06/20 22:56:09 joseph Exp $
  */
 
 #if !defined( BEAROFFDB_H )
@@ -91,6 +91,13 @@ BearoffEval(bearoffcontext* pbc, CONST int anBoard[2][25], float arOutput[]);
 
 extern void
 BearoffClose ( bearoffcontext *pbc );
+
+extern void
+BearoffDist ( bearoffcontext *pbc, const unsigned int nPosID,
+              float arProb[ 32 ], float arGammonProb[ 32 ],
+              float ar[ 4 ],
+              unsigned short int ausProb[ 32 ], 
+              unsigned short int ausGammonProb[ 32 ] );
 
 #endif
 
