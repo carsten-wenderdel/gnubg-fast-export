@@ -26,3 +26,18 @@ _$*
 *.ln
 core
 # CVS default ignores end
+.deps
+Makefile
+config.cache
+config.h
+config.log
+config.status
+gnubg
+gnubg.bd
+gnubg.wd
+gnubg.weights
+makebearoff
+makeweights
+erftest
+stamp-h
+stamp-vti

@@ -1,133 +1,823 @@
 /*
  * backgammon.h
  *
- * by Gary Wong, 1999
+ * by Gary Wong <gtw@gnu.org>, 1999, 2000, 2001, 2002.
  *
- * $Id: backgammon.h,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of version 2 of the GNU General Public License as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * $Id: backgammon.h,v 1.155 2002/09/08 19:43:38 thyssen Exp $
  */
 
 #ifndef _BACKGAMMON_H_
 #define _BACKGAMMON_H_
 
-#if !X_DISPLAY_MISSING
-#include <ext.h>
-extern extwindow ewnd;
-extern int fX;
+#include <float.h>
+#include <list.h>
+#include <math.h>
+#include <stdarg.h>
+
+#include "analysis.h"
+#include "eval.h"
+
+#if !defined (__GNUC__) && !defined (__attribute__)
+#define __attribute__(X)
 #endif
 
+#ifdef HUGE_VALF
+#define ERR_VAL (-HUGE_VALF)
+#elif defined (HUGE_VAL)
+#define ERR_VAL (-HUGE_VAL)
+#else
+#define ERR_VAL (-FLT_MAX)
+#endif
+
+#if USE_GTK
+#include <gtk/gtk.h>
+extern GtkWidget *pwBoard;
+extern int fX, nDelay, fNeedPrompt;
+extern guint nNextTurn; /* GTK idle function */
+#elif USE_EXT
+#include <ext.h>
+#include <event.h>
+extern extwindow ewnd;
+extern int fX, nDelay, fNeedPrompt;
+extern event evNextTurn;
+#endif
+
+#if HAVE_SIGACTION
+typedef struct sigaction psighandler;
+#elif HAVE_SIGVEC
+typedef struct sigvec psighandler;
+#else
+typedef RETSIGTYPE (*psighandler)( int );
+#endif
+
+#define MAX_CUBE ( 1 << 12 )
+#define MAX_CUBE_STR "4096"
+
+
+/* position of windows: main window, game list, and annotation */
+
+typedef enum _gnubgwindow {
+  WINDOW_MAIN = 0,
+  WINDOW_GAME,
+  WINDOW_ANNOTATION,
+  WINDOW_HINT,
+  WINDOW_MESSAGE,
+  NUM_WINDOWS 
+} gnubgwindow;
+
+typedef struct _windowgeometry {
+#if USE_GTK
+  gint nWidth, nHeight;
+  gint nPosX, nPosY;
+#else
+  int nWidth, nHeight;
+  int nPosX, nPosY;
+#endif
+} windowgeometry;
+
+extern windowgeometry awg[ NUM_WINDOWS ];
+
+
+typedef struct _monitor {
+#if USE_GTK
+    int fGrab;
+    int idSignal;
+#endif
+} monitor;
+
 typedef struct _command {
-    char *sz;
-    void ( *pf )( char * );
-    char *szHelp;
-    struct _command *pc;
+    char *sz; /* Command name (NULL indicates end of list) */
+    void ( *pf )( char * ); /* Command handler; NULL to use default
+			       subcommand handler */
+    char *szHelp, *szUsage; /* Documentation; NULL for abbreviations */
+    struct _command *pc; /* List of subcommands (NULL if none) */
 } command;
 
 typedef enum _playertype {
-    PLAYER_HUMAN, PLAYER_GNU, PLAYER_PUBEVAL
+    PLAYER_EXTERNAL, PLAYER_HUMAN, PLAYER_GNU, PLAYER_PUBEVAL
 } playertype;
 
 typedef struct _player {
+    /* For all player types: */
     char szName[ 32 ];
     playertype pt;
-    int nPlies;
+    /* For PLAYER_GNU: */
+    evalsetup esChequer, esCube;
+    int h;
+    /* For PLAYER_EXTERNAL: */
+    char *szSocket;
 } player;
 
 typedef enum _movetype {
-    MOVE_NORMAL, MOVE_DOUBLE, MOVE_TAKE, MOVE_DROP, MOVE_RESIGN
+    MOVE_GAMEINFO, MOVE_NORMAL, MOVE_DOUBLE, MOVE_TAKE, MOVE_DROP, MOVE_RESIGN,
+    MOVE_SETBOARD, MOVE_SETDICE, MOVE_SETCUBEVAL, MOVE_SETCUBEPOS
 } movetype;
+
+typedef struct _movegameinfo {
+    movetype mt;
+    char *sz;
+    int i, /* the number of the game within a match */
+	nMatch, /* match length */
+	anScore[ 2 ], /* match score BEFORE the game */
+	fCrawford, /* the Crawford rule applies during this match */
+	fCrawfordGame, /* this is the Crawford game */
+	fJacoby,
+	fWinner, /* who won (-1 = unfinished) */
+	nPoints, /* how many points were scored by the winner */
+	fResigned, /* the game was ended by resignation */
+	nAutoDoubles; /* how many automatic doubles were rolled */
+    statcontext sc;
+} movegameinfo;
+
+typedef struct _movedouble {
+    movetype mt;
+    char *sz;
+    int fPlayer;
+    /* evaluation of cube action */
+    float aarOutput[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+    float aarStdDev[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+    float arDouble[ 4 ];
+    evalsetup esDouble;
+    skilltype st;
+} movedouble;
 
 typedef struct _movenormal {
     movetype mt;
+    char *sz;
     int fPlayer;
     int anRoll[ 2 ];
     int anMove[ 8 ];
+    /* evaluation setup for move analysis */
+    evalsetup esChequer;
+    /* evaluation of cube action before this move */
+    float aarOutput[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+    float aarStdDev[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+    float arDouble[ 4 ];
+    evalsetup esDouble;
+    /* evaluation of the moves */
+    movelist ml;
+    int iMove; /* index into the movelist of the move that was made */
+    lucktype lt;
+    float rLuck; /* ERR_VAL means unknown */
+    skilltype stMove;
+    skilltype stCube;
 } movenormal;
 
 typedef struct _moveresign {
     movetype mt;
+    char *sz;
     int fPlayer;
     int nResigned;
+
+    evalsetup esResign;
+    float arResign[ NUM_ROLLOUT_OUTPUTS ];
+
+    skilltype stResign;
+    skilltype stAccept;
 } moveresign;
+
+typedef struct _movesetboard {
+    movetype mt;
+    char *sz;
+    unsigned char auchKey[ 10 ]; /* always stored as if player 0 was on roll */
+} movesetboard;
+
+typedef struct _movesetdice {
+    movetype mt;
+    char *sz;
+    int fPlayer;
+    int anDice[ 2 ];
+    lucktype lt;
+    float rLuck; /* ERR_VAL means unknown */
+} movesetdice;
+
+typedef struct _movesetcubeval {
+    movetype mt;
+    char *sz;
+    int nCube;
+} movesetcubeval;
+
+typedef struct _movesetcubepos {
+    movetype mt;
+    char *sz;
+    int fCubeOwner;
+} movesetcubepos;
 
 typedef union _moverecord {
     movetype mt;
+    struct _moverecordall {
+	movetype mt;
+	char *sz;
+    } a;
+    movegameinfo g;
+    movedouble d; /* cube decisions */
     movenormal n;
     moveresign r;
+    movesetboard sb;
+    movesetdice sd;
+    movesetcubeval scv;
+    movesetcubepos scp;
 } moverecord;
 
-extern char *aszGameResult[];
+extern char *aszGameResult[], szDefaultPrompt[], *szPrompt;
 
-extern int anBoard[ 2 ][ 25 ], anDice[ 2 ], fTurn, fDisplay, fAutoGame,
-    fAutoMove, fResigned, fMove, fDoubled, nPliesEval, anScore[ 2 ], cGames,
-    nCube, fCubeOwner, fAutoRoll, nMatchTo;
+typedef enum _gamestate {
+    GAME_NONE, GAME_PLAYING, GAME_OVER, GAME_RESIGNED, GAME_DROP
+} gamestate; 
 
-extern list lMatch, lGame; /* (list of) list of moverecords */
+/* The match state is represented by the board position (anBoard),
+   fTurn (indicating which player makes the next decision), fMove
+   (which indicates which player is on roll: normally the same as
+   fTurn, but occasionally different, e.g. if a double has been
+   offered).  anDice indicate the roll to be played (0,0 indicates the
+   roll has not been made). */
+typedef struct _matchstate {
+    int anBoard[ 2 ][ 25 ], anDice[ 2 ], fTurn, fResigned,
+	fResignationDeclined, fDoubled, cGames, fMove, fCubeOwner, fCrawford,
+	fPostCrawford, nMatchTo, anScore[ 2 ], nCube, cBeavers;
+    gamestate gs;
+} matchstate;
+
+extern matchstate ms;
+extern int fNextTurn, fComputing;
+
+/* User settings. */
+extern int fAutoGame, fAutoMove, fAutoRoll, fAutoCrawford, cAutoDoubles,
+    fCubeUse, fNackgammon, fDisplay, fAutoBearoff, fShowProgress,
+    nBeavers, fOutputMWC, fEgyptian, fOutputWinPC, fOutputMatchPC, fJacoby,
+    fOutputRawboard, fAnnotation, cAnalysisMoves, fAnalyseCube,
+    fAnalyseDice, fAnalyseMove, fRecord, fMessage;
+extern int fInvertMET;
+extern int fConfirm, fConfirmSave;
+extern float rAlpha, rAnneal, rThreshold, arLuckLevel[ LUCK_VERYGOOD + 1 ],
+    arSkillLevel[ SKILL_VERYGOOD + 1 ];
+
+typedef enum _pathformat {
+  PATH_EPS, PATH_GAM, PATH_HTML, PATH_LATEX, PATH_MAT, PATH_OLDMOVES,
+  PATH_PDF, PATH_POS, PATH_POSTSCRIPT, PATH_SGF, PATH_SGG, PATH_TEXT, 
+  PATH_MET } 
+pathformat;
+
+extern char aaszPaths[ PATH_MET + 1 ][ 2 ][ 255 ];
+extern char *aszExtensions[ PATH_MET + 1 ];
+extern char *szCurrentFileName;
+
+extern evalcontext ecTD;
+
+extern evalsetup esEvalCube, esEvalChequer;
+extern evalsetup esAnalysisCube, esAnalysisChequer;
+
+extern rolloutcontext rcRollout;
+
+/* plGame is the list of moverecords representing the current game;
+   plLastMove points to a move within it (typically the most recently
+   one played, but "previous" and "next" commands navigate back and forth).
+   lMatch is a list of games (i.e. a list of list of moverecords),
+   and plGame points to a game within it (again, typically the last). */
+extern list lMatch, *plGame, *plLastMove;
+extern statcontext scMatch;
+
+/* There is a global storedmoves struct to maintain the list of moves
+   for "=n" notation (e.g. "hint", "rollout =1 =2 =4").
+
+   Anything that _writes_ stored moves ("hint", "show moves", "add move")
+   should free the old dynamic move list first (sm.ml.amMoves), if it is
+   non-NULL.
+
+   Anything that _reads_ stored moves should check that the move is still
+   valid (i.e. auchKey matches the current board and anDice matches the
+   current dice). */
+typedef struct _storedmoves {
+    movelist ml;
+    matchstate ms;
+} storedmoves;
+extern storedmoves sm;
+
+/*
+ * Store cube analysis
+ *
+ */
+
+typedef struct _storedcube {
+  float aarOutput[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+  float aarStdDev[ 2 ][ NUM_ROLLOUT_OUTPUTS ];
+  evalsetup es;
+  matchstate ms;
+} storedcube;
+extern storedcube sc;
+
 
 extern player ap[ 2 ];
 
+extern char *GetInput( char *szPrompt );
+extern int GetInputYN( char *szPrompt );
 extern void HandleCommand( char *sz, command *ac );
 extern void InitBoard( int anBoard[ 2 ][ 25 ] );
 extern char *NextToken( char **ppch );
+extern int NextTurn( int fPlayNext );
+extern void TurnDone( void );
+extern void AddMoveRecord( void *pmr );
+extern void ApplyMoveRecord( matchstate *pms, moverecord *pmr );
+extern void SetMoveRecord( void *pmr );
+extern void ClearMoveRecord( void );
+extern void AddGame( moverecord *pmr );
+extern void ChangeGame( list *plGameNew );
+extern void
+FixMatchState ( matchstate *pms, const moverecord *pmr );
+extern void CalculateBoard( void );
+extern void CancelCubeAction( void );
+extern int ComputerTurn( void );
+extern void ClearMatch( void );
+extern void FreeMatch( void );
+extern int GetMatchStateCubeInfo( cubeinfo *pci, matchstate *pms );
 extern int ParseNumber( char **ppch );
 extern int ParsePlayer( char *sz );
-extern int ParsePosition( int an[ 2 ][ 25 ], char *sz );
-extern void SetToggle( char *szName, int *pf, char *sz, char *szOn,
+extern int ParsePosition( int an[ 2 ][ 25 ], char **ppch, char *pchDesc );
+extern double ParseReal( char **ppch );
+extern int ParseKeyValue( char **ppch, char *apch[ 2 ] );
+extern int CompareNames( char *sz0, char *sz1 );
+extern int SetToggle( char *szName, int *pf, char *sz, char *szOn,
 		       char *szOff );
 extern void ShowBoard( void );
+extern void SetMatchID ( const char *szMatchID );
+extern char*
+FormatCubePosition ( char *sz, cubeinfo *pci );
+extern char *FormatPrompt( void );
+extern char *FormatMoveHint( char *sz, matchstate *pms, movelist *pml,
+			     int i, int fRankKnown,
+                             int fDetailProb, int fShowParameters );
+extern void UpdateSetting( void *p );
+extern void UpdateSettings( void );
+extern void ResetInterrupt( void );
+extern void PromptForExit( void );
+extern void Prompt( void );
+extern void PortableSignal( int nSignal, RETSIGTYPE (*p)(int),
+			    psighandler *pOld, int fRestart );
+extern void PortableSignalRestore( int nSignal, psighandler *p );
+extern RETSIGTYPE HandleInterrupt( int idSignal );
+
+/* Like strncpy, except it does the right thing */
+extern char *strcpyn( char *szDest, const char *szSrc, int cch );
+
+/* Write a string to stdout/status bar/popup window */
+extern void output( char *sz );
+/* Write a string to stdout/status bar/popup window, and append \n */
+extern void outputl( char *sz );
+/* Write a character to stdout/status bar/popup window */
+extern void outputc( char ch );
+/* Write a string to stdout/status bar/popup window, printf style */
+extern void outputf( char *sz, ... ) __attribute__((format(printf,1,2)));
+/* Write a string to stdout/status bar/popup window, vprintf style */
+extern void outputv( char *sz, va_list val )
+    __attribute__((format(printf,1,0)));
+/* Signifies that all output for the current command is complete */
+extern void outputx( void );
+/* Temporarily disable outputx() calls */
+extern void outputpostpone( void );
+/* Re-enable outputx() calls */
+extern void outputresume( void );
+/* Signifies that subsequent output is for a new command */
+extern void outputnew( void );
+/* Disable output */
+extern void outputoff( void );
+/* Enable output */
+extern void outputon( void );
+
+/* Temporarily ignore TTY/GUI input. */
+extern void SuspendInput( monitor *pm );
+/* Resume input (must match a previous SuspendInput). */
+extern void ResumeInput( monitor *pm );
+
+extern void ProgressStart( char *sz );
+extern void ProgressStartValue( char *sz, int iMax );
+extern void Progress( void );
+extern void ProgressValue ( int iValue );
+extern void ProgressValueAdd ( int iValue );
+extern void ProgressEnd( void );
+
+#if USE_GUI
+#if USE_GTK
+extern gint NextTurnNotify( gpointer p );
+#else
+extern int NextTurnNotify( event *pev, void *p );
+#endif
+extern void UserCommand( char *sz );
+extern void HandleXAction( void );
+#if HAVE_LIBREADLINE
+extern int fReadingCommand;
+extern void HandleInput( char *sz );
+#endif
+#endif
+
+#if HAVE_LIBREADLINE
+extern int fReadline;
+#endif
+
+extern int
+AnalyzeMove ( moverecord *pmr, matchstate *pms, statcontext *psc,
+              evalsetup *pesChequer,
+              evalsetup *pesCube,
+              int fUpdateStatistics );
+
+extern int
+confirmOverwrite ( const char *sz, const int f );
+
+extern void
+setDefaultPath ( const char *sz, const pathformat f );
+
+extern void
+setDefaultFileName ( const char *sz, const pathformat f );
+
+extern char *
+getDefaultFileName ( const pathformat f );
+
+extern char *
+getDefaultPath ( const pathformat f );
+
+extern char *GetLuckAnalysis( matchstate *pms, float rLuck );
+
+extern moverecord *
+getCurrentMoveRecord ( void );
+
+extern void
+UpdateStoredMoves ( const movelist *pml, const matchstate *pms );
+
+extern void
+UpdateStoredCube ( float aarOutput[ 2 ][ NUM_ROLLOUT_OUTPUTS ],
+                   float aarStdDev[ 2 ][ NUM_ROLLOUT_OUTPUTS ],
+                   const evalsetup *pes,
+                   const matchstate *pms );
+
+#ifdef WIN32
+extern void WinCopy( char *szOut );
+#endif
+
+extern int iProgressMax, iProgressValue;
+extern char *pcProgress;
+
+extern char *aszVersion[], *szHomeDirectory, *szDataDirectory;
+
+extern char *aszSkillType[], *aszSkillTypeAbbr[], *aszLuckType[],
+    *aszLuckTypeAbbr[], *aszSkillTypeCommand[], *aszLuckTypeCommand[];
+
+extern command acDatabase[], acNew[], acSave[], acSetAutomatic[],
+    acSetCube[], acSetEvaluation[], acSetPlayer[], acSetRNG[], acSetRollout[],
+    acSet[], acShow[], acTrain[], acTop[], acSetMET[], acSetEvalParam[],
+    acSetRolloutPlayer[], cOnOff, cFilename;
+extern command acAnnotateMove[];
+extern command acSetExportParameters[];
+extern command acSetGeometryValues[];
 
 extern void CommandAccept( char * ),
     CommandAgree( char * ),
+    CommandAnalyseGame( char * ),
+    CommandAnalyseMatch( char * ),
+    CommandAnalyseMove( char * ),
+    CommandAnalyseSession( char * ),
+    CommandAnnotateAccept ( char * ),
+    CommandAnnotateBad( char * ),
+    CommandAnnotateClearComment( char * ),
+    CommandAnnotateClearLuck( char * ),
+    CommandAnnotateClearSkill( char * ),
+    CommandAnnotateCube ( char * ),
+    CommandAnnotateDouble ( char * ),
+    CommandAnnotateDoubtful( char * ),
+    CommandAnnotateDrop ( char * ),
+    CommandAnnotateGood( char * ),
+    CommandAnnotateInteresting( char * ),
+    CommandAnnotateLucky( char * ),
+    CommandAnnotateMove ( char * ),
+    CommandAnnotateReject ( char * ),
+    CommandAnnotateResign ( char * ),
+    CommandAnnotateUnlucky( char * ),
+    CommandAnnotateVeryBad( char * ),
+    CommandAnnotateVeryGood( char * ),
+    CommandAnnotateVeryLucky( char * ),
+    CommandAnnotateVeryUnlucky( char * ),
+    CommandCopy ( char * ),
     CommandDatabaseDump( char * ),
-    CommandDatabaseEvaluate( char * ),
+    CommandDatabaseExport( char * ),
+    CommandDatabaseImport( char * ),
+    CommandDatabaseRollout( char * ),
     CommandDatabaseGenerate( char * ),
     CommandDatabaseTrain( char * ),
+    CommandDatabaseVerify( char * ),
     CommandDecline( char * ),
     CommandDouble( char * ),
     CommandDrop( char * ),
     CommandEval( char * ),
+    CommandEq2MWC( char * ),
+    CommandExportGameGam( char * ),
+    CommandExportGameHtml( char * ),
+    CommandExportGameLaTeX( char * ),
+    CommandExportGamePDF( char * ),
+    CommandExportGamePostScript( char * ),
+    CommandExportGameText( char * ),
+    CommandExportGameEquityEvolution ( char * ),
+    CommandExportMatchMat( char * ),
+    CommandExportMatchHtml( char * ),
+    CommandExportMatchLaTeX( char * ),
+    CommandExportMatchPDF( char * ),
+    CommandExportMatchPostScript( char * ),
+    CommandExportMatchText( char * ),
+    CommandExportMatchEquityEvolution ( char * ),
+    CommandExportPositionEPS( char * ),
+    CommandExportPositionHtml( char * ),
+    CommandExportPositionText( char * ),
+    CommandExternal( char * ),
     CommandHelp( char * ),
     CommandHint( char * ),
+    CommandImportJF( char * ),
+    CommandImportMat( char * ),
+    CommandImportOldmoves( char * ),
+    CommandImportSGG( char * ),
+    CommandListGame( char * ),
+    CommandListMatch( char * ),
+    CommandLoadCommands( char * ),
+    CommandLoadGame( char * ),
+    CommandLoadMatch( char * ),
     CommandMove( char * ),
+    CommandMWC2Eq( char * ),
     CommandNewGame( char * ),
     CommandNewMatch( char * ),
     CommandNewSession( char * ),
+    CommandNewWeights( char * ),
+    CommandNext( char * ),
     CommandNotImplemented( char * ),
     CommandPlay( char * ),
+    CommandPrevious( char * ),
     CommandQuit( char * ),
     CommandRedouble( char * ),
     CommandReject( char * ),
     CommandResign( char * ),
     CommandRoll( char * ),
     CommandRollout( char * ),
+    CommandSaveGame( char * ),
     CommandSaveMatch( char * ),
+    CommandSaveSettings( char * ),
     CommandSaveWeights( char * ),
+    CommandSetAnalysisChequerplay( char * ),
+    CommandSetAnalysisCube( char * ),
+    CommandSetAnalysisCubedecision( char * ),
+    CommandSetAnalysisLimit( char * ),
+    CommandSetAnalysisLuck( char * ),
+    CommandSetAnalysisMoves( char * ),
+    CommandSetAnalysisThresholdBad( char * ),
+    CommandSetAnalysisThresholdDoubtful( char * ),
+    CommandSetAnalysisThresholdGood( char * ),
+    CommandSetAnalysisThresholdInteresting( char * ),
+    CommandSetAnalysisThresholdLucky( char * ),
+    CommandSetAnalysisThresholdUnlucky( char * ),
+    CommandSetAnalysisThresholdVeryBad( char * ),
+    CommandSetAnalysisThresholdVeryGood( char * ),
+    CommandSetAnalysisThresholdVeryLucky( char * ),
+    CommandSetAnalysisThresholdVeryUnlucky( char * ),
+    CommandSetAnnotation( char * ),
+    CommandSetAppearance( char * ),
+    CommandSetAutoAnalysis( char * ),
+    CommandSetAutoBearoff( char * ),
+    CommandSetAutoCrawford( char * ),
+    CommandSetAutoDoubles( char * ),
     CommandSetAutoGame( char * ),
     CommandSetAutoMove( char * ),
     CommandSetAutoRoll( char * ),
     CommandSetBoard( char * ),
+    CommandSetBeavers( char * ),
+    CommandSetCache( char * ),
+    CommandSetClockwise( char * ),
+    CommandSetConfirmNew( char * ),
+    CommandSetConfirmSave( char * ),
+    CommandSetCrawford( char * ),
+    CommandSetCubeCentre( char * ),
+    CommandSetCubeOwner( char * ),
+    CommandSetCubeUse( char * ),
+    CommandSetCubeValue( char * ),
+    CommandSetDelay( char * ),
     CommandSetDice( char * ),
     CommandSetDisplay( char * ),
+    CommandSetEvalCandidates( char * ),
+    CommandSetEvalCubeful( char * ),
+    CommandSetEvalDeterministic( char * ),
+    CommandSetEvalNoOnePlyPrune( char * ),
+    CommandSetEvalNoise( char * ),    
+    CommandSetEvalPlies( char * ),
+    CommandSetEvalReduced ( char * ),
+    CommandSetEvalTolerance( char * ),
+    CommandSetEvaluation( char * ),
+    CommandSetEvalParamType( char * ),
+    CommandSetEvalParamRollout( char * ),
+    CommandSetEvalParamEvaluation( char * ),
+    CommandSetEvalChequerplay ( char * ),
+    CommandSetEvalCubedecision ( char * ),
+    CommandSetEgyptian( char * ),
+    CommandSetExportIncludeAnnotations ( char * ),
+    CommandSetExportIncludeAnalysis ( char * ),
+    CommandSetExportIncludeStatistics ( char * ),
+    CommandSetExportIncludeLegend ( char * ),
+    CommandSetExportShowBoard ( char * ),
+    CommandSetExportShowPlayer ( char * ),
+    CommandSetExportMovesNumber ( char * ),
+    CommandSetExportMovesProb ( char * ),
+    CommandSetExportMovesParameters ( char * ),
+    CommandSetExportMovesDisplayVeryBad ( char * ),
+    CommandSetExportMovesDisplayBad ( char * ),
+    CommandSetExportMovesDisplayDoubtful ( char * ),
+    CommandSetExportMovesDisplayUnmarked ( char * ),
+    CommandSetExportMovesDisplayInteresting ( char * ),
+    CommandSetExportMovesDisplayGood ( char * ),
+    CommandSetExportMovesDisplayVeryGood ( char * ),
+    CommandSetExportCubeProb ( char * ),
+    CommandSetExportCubeParameters ( char * ),
+    CommandSetExportCubeDisplayVeryBad ( char * ),
+    CommandSetExportCubeDisplayBad ( char * ),
+    CommandSetExportCubeDisplayDoubtful ( char * ),
+    CommandSetExportCubeDisplayUnmarked ( char * ),
+    CommandSetExportCubeDisplayInteresting ( char * ),
+    CommandSetExportCubeDisplayGood ( char * ),
+    CommandSetExportCubeDisplayVeryGood ( char * ),
+    CommandSetExportCubeDisplayActual ( char * ),
+    CommandSetExportCubeDisplayClose ( char * ),
+    CommandSetExportHTMLPictureURL ( char * ),
+    CommandSetExportHTMLType ( char * ),
+    CommandSetExportParametersEvaluation ( char * ),
+    CommandSetExportParametersRollout ( char * ),
+    CommandSetGeometryAnnotation ( char * ),
+    CommandSetGeometryGame ( char * ),
+    CommandSetGeometryHint ( char * ),
+    CommandSetGeometryMain ( char * ),
+    CommandSetGeometryMessage ( char * ),
+    CommandSetGeometryWidth ( char * ),
+    CommandSetGeometryHeight ( char * ),
+    CommandSetGeometryPosX ( char * ),
+    CommandSetGeometryPosY ( char * ),
+    CommandSetInvertMatchEquityTable( char * ),
+    CommandSetJacoby( char * ),
+    CommandSetMatchID ( char * ),
+    CommandSetMessage ( char * ),
+    CommandSetMET( char * ),
+    CommandSetJacoby( char * ),
+    CommandSetNackgammon( char * ),
+    CommandSetOutputMatchPC( char * ),
+    CommandSetOutputMWC ( char * ),
+    CommandSetOutputRawboard( char * ),
+    CommandSetOutputWinPC( char * ),
+    CommandSetPathEPS( char * ),
+    CommandSetPathSGF( char * ),
+    CommandSetPathLaTeX( char * ),
+    CommandSetPathPDF( char * ),
+    CommandSetPathHTML( char * ),
+    CommandSetPathMat( char * ),
+    CommandSetPathMET( char * ),
+    CommandSetPathSGG( char * ),
+    CommandSetPathOldMoves( char * ),
+    CommandSetPathPos( char * ),
+    CommandSetPathGam( char * ),
+    CommandSetPathPostScript( char * ),
+    CommandSetPathText( char * ),
+    CommandSetPlayerChequerplay( char * ),
+    CommandSetPlayerCubedecision( char * ),
+    CommandSetPlayerExternal( char * ),
     CommandSetPlayerGNU( char * ),
     CommandSetPlayerHuman( char * ),
     CommandSetPlayerName( char * ),
     CommandSetPlayerPlies( char * ),
     CommandSetPlayerPubeval( char * ),
     CommandSetPlayer( char * ),
-    CommandSetPlies( char * ),
+    CommandSetPostCrawford( char * ),
+    CommandSetPrompt( char * ),
+    CommandSetRecord( char * ),
+    CommandSetRNG( char * ),
     CommandSetRNGAnsi( char * ),
     CommandSetRNGBsd( char * ),
     CommandSetRNGIsaac( char * ),
     CommandSetRNGManual( char * ),
+    CommandSetRNGMD5( char * ),
     CommandSetRNGMersenne( char * ),
+    CommandSetRNGRandomDotOrg( char * ),
+    CommandSetRNGUser( char * ),
+    CommandSetRollout ( char * ),
+    CommandSetRolloutCubedecision ( char * ),
+    CommandSetRolloutCubeful ( char * ),
+    CommandSetRolloutChequerplay ( char * ),
+    CommandSetRolloutInitial( char * ),
+    CommandSetRolloutPlayer ( char * ),
+    CommandSetRolloutPlayerChequerplay ( char * ),
+    CommandSetRolloutPlayerCubedecision ( char * ),
+    CommandSetRolloutRNG ( char * ),
+    CommandSetRolloutRotate ( char * ),
+    CommandSetRolloutSeed( char * ),
+    CommandSetRolloutTrials( char * ),
+    CommandSetRolloutTruncation( char * ),
+    CommandSetRolloutVarRedn( char * ),
+    CommandSetScore( char * ),
     CommandSetSeed( char * ),
+    CommandSetSoundEnable ( char * ),
+    CommandSetSoundSystemArtsc ( char * ),
+    CommandSetSoundSystemCommand ( char * ),
+    CommandSetSoundSystemESD ( char * ),
+    CommandSetSoundSystemNAS ( char * ),
+    CommandSetSoundSystemNormal ( char * ),
+    CommandSetSoundSystemWindows ( char * ),
+    CommandSetSoundSoundAgree ( char * ),
+    CommandSetSoundSoundBotDance ( char * ),
+    CommandSetSoundSoundBotWinGame ( char * ),
+    CommandSetSoundSoundBotWinMatch ( char * ),
+    CommandSetSoundSoundDouble ( char * ),
+    CommandSetSoundSoundDrop ( char * ),
+    CommandSetSoundSoundExit ( char * ),
+    CommandSetSoundSoundHumanDance ( char * ),
+    CommandSetSoundSoundHumanWinGame ( char * ),
+    CommandSetSoundSoundHumanWinMatch ( char * ),
+    CommandSetSoundSoundMove ( char * ),
+    CommandSetSoundSoundRedouble ( char * ),
+    CommandSetSoundSoundResign ( char * ),
+    CommandSetSoundSoundRoll ( char * ),
+    CommandSetSoundSoundStart ( char * ),
+    CommandSetSoundSoundTake ( char * ),
+    CommandSetTrainingAlpha( char * ),
+    CommandSetTrainingAnneal( char * ),
+    CommandSetTrainingThreshold( char * ),
     CommandSetTurn( char * ),
+    CommandSetTutorCube( char * ),
+    CommandSetTutorEval( char *sz ),
+    CommandSetTutorChequer( char * ),
+    CommandSetTutorMode( char * ),  
+    CommandSetTutorSkillDoubtful( char *sz ),
+    CommandSetTutorSkillBad( char *sz ), 
+    CommandSetTutorSkillVeryBad( char *sz ),
+    CommandShowAnalysis( char * ),
+    CommandShowAutomatic( char * ),
     CommandShowBoard( char * ),
+    CommandShowBeavers( char * ),
     CommandShowCache( char * ),
+    CommandShowClockwise( char * ),
+    CommandShowCommands( char * ),
+    CommandShowConfirm( char * ),
+    CommandShowCopying( char * ),
+    CommandShowCrawford( char * ),
+    CommandShowCube( char * ),
+    CommandShowDelay( char * ),
     CommandShowDice( char * ),
+    CommandShowDisplay( char * ),
+    CommandShowEngine( char * ),
+    CommandShowEvaluation( char * ),
+    CommandShowExport ( char * ),
+    CommandShowGammonValues( char * ),
+    CommandShowGeometry ( char * ),
+    CommandShowEgyptian( char * ),
+    CommandShowJacoby( char * ),
+    CommandShowKleinman( char * ),
+    CommandShowMarketWindow( char * ),
+    CommandShowNackgammon( char * ),
+    CommandShowMatchEquityTable( char * ),
+    CommandShowOutput( char * ),
+    CommandShowPath( char * ),
     CommandShowPipCount( char * ),
+    CommandShowPostCrawford( char * ),
     CommandShowPlayer( char * ),
+    CommandShowPrompt( char * ),
+    CommandShowRNG( char * ),
+    CommandShowRollout( char * ),
     CommandShowScore( char * ),
+    CommandShowSeed( char * ),
+    CommandShowSound( char * ),
+    CommandShowStatisticsGame( char * ),
+    CommandShowStatisticsMatch( char * ),
+    CommandShowStatisticsSession( char * ),
+    CommandShowThorp( char * ),
+    CommandShowTraining( char * ),
     CommandShowTurn( char * ),
+    CommandShowTutor( char * ), 
+    CommandShowVersion( char * ),
+    CommandShowWarranty( char * ),
+    CommandSwapPlayers ( char * ),
     CommandTake( char * ),
-    CommandTrainTD( char * );
+    CommandTrainTD( char * ),
+    CommandXCopy ( char * );
+
+
+extern int fTutor, fTutorCube, fTutorChequer, nTutorSkillCurrent;
+
+extern int GiveAdvice ( skilltype Skill );
+extern skilltype TutorSkill;
+extern int fTutorAnalysis;
+
+#ifndef HAVE_BASENAME
+extern char *
+basename ( const char *filename );
+#endif
+
 #endif

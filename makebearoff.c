@@ -16,12 +16,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ * $Id: makebearoff.c,v 1.5 2001/02/22 16:43:21 gtw Exp $
  */
 
 #include "config.h"
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "eval.h"
 #include "positionid.h"
@@ -49,7 +51,7 @@ static void BearOff( int nId ) {
     
     for( anRoll[ 0 ] = 1; anRoll[ 0 ] <= 6; anRoll[ 0 ]++ )
 	for( anRoll[ 1 ] = 1; anRoll[ 1 ] <= anRoll[ 0 ]; anRoll[ 1 ]++ ) {
-	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ] );
+	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ], FALSE );
 
 	    us = 0xFFFF; iBest = -1;
 	    
@@ -108,7 +110,7 @@ static void BearOff2( int nUs, int nThem ) {
     
     for( anRoll[ 0 ] = 1; anRoll[ 0 ] <= 6; anRoll[ 0 ]++ )
 	for( anRoll[ 1 ] = 1; anRoll[ 1 ] <= anRoll[ 0 ]; anRoll[ 1 ]++ ) {
-	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ] );
+	    GenerateMoves( &ml, anBoard, anRoll[ 0 ], anRoll[ 1 ], FALSE );
 
 	    r = -1.0; iBest = -1;
 	    
@@ -140,6 +142,16 @@ static void BearOff2( int nUs, int nThem ) {
 extern int main( void ) {
 
     int i, j, k;
+#ifdef STDOUT_FILENO 
+    FILE *output;
+
+    if( !( output = fdopen( STDOUT_FILENO, "wb" ) ) ) {
+	perror( "(stdout)" );
+	return EXIT_FAILURE;
+    }
+#else
+#define output stdout
+#endif
     
     aaProb[ 0 ][ 0 ] = 0xFFFF;
     for( i = 1; i < 32; i++ )
@@ -156,8 +168,8 @@ extern int main( void ) {
 
     for( i = 0; i < 54264; i++ )
 	for( j = 0; j < 32; j++ ) {
-	    putchar( aaProb[ i ][ j ] & 0xFF );
-	    putchar( aaProb[ i ][ j ] >> 8 );
+	    putc( aaProb[ i ][ j ] & 0xFF, output );
+	    putc( aaProb[ i ][ j ] >> 8, output );
 	}
 
     for( i = 0; i < 924; i++ ) {
@@ -183,8 +195,8 @@ extern int main( void ) {
 	for( j = 0; j < 924; j++ ) {
 	    k = aaEquity[ i ][ j ] * 65535.5;
 	    
-	    putchar( k & 0xFF );
-	    putchar( k >> 8 );
+	    putc( k & 0xFF, output );
+	    putc( k >> 8, output );
 	}
     
     return 0;

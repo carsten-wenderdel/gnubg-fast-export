@@ -1,31 +1,50 @@
-$Id: AUTHORS,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+                         GNU Backgammon was written by:
 
-The pre-release version 0.02 of GNU Backgammon was written by Gary Wong.
+ Joseph Heled   Øystein Johansen   David Montgomery   Jørn Thyssen   Gary Wong
 
-It includes contributions (bug reports, comments, and patches) from:
 
- Jeff Haferman
- Joseph Heled
- Øystein Johansen
- Kevin Maguire
- David Montgomery
- Dave Neary
- Petri Pitkänen
- Gary Wong
- Frank Worrell
 
-Credit is also due to those who have published information about backgammon
-playing programs (references will appear here later).  GNU Backgammon has
-borrowed ideas from:
+        Contributors (of bug reports, suggestions, and patches) include:
 
- Hans Berliner
- Chuck Bower
- David Montgomery
- Brian Sheppard
- Gerry Tesauro
- Michael Zehr
+    Kazuaki Asai            Jonathan Kinsey         James Rech
+    Eric Augustine          Johnny Kirk             Sander van Rijnswou
+    Steve Baedke            Robert Konigsberg       Jared Riley
+    Chuck Bower             Corrin Lakeland         Oliver Riordan
+    Nick Bratby             Tim Laursen             Hans-Jürgen Schäfer
+    Craig Campbell          Eli Liang               Jim Segrave
+    John Chuang             Kevin Maguire           Ian Shaw
+    Tristan Colgate         Thomas Meyer            Peter Sochovsky
+    Olivier Croisille       Achim Mueller           Mark Spencer
+    Ned Cross               Dave Neary              Maik Stiebler
+    Bill Davidson           Mirori Orange           W. Stroop (Rob)
+    Max Durbano             Peter Orum              Jacques Thiriat
+    Eric Groleau            Roy Passfield           Robert-Jan Veldhuizen
+    Jeff Haferman           Thomas Patrick          JP White
+    Alain Henry             Zvezdan Petkovic        Kit Woolsey
+    Jens Hoefkens           Nardy Pillards          Frank Worrell
+    Nis Jorgensen           Petri Pitkänen          Anders Zachrison
+    Matija Kejzar           Sam Pottle
 
-Library code from the following authors has been included in GNU Backgammon:
 
- Bob Jenkins (the ISAAC pseudo random number generator)
- Takuji Nishimura (the Mersenne Twister pseudo random number generator)
+  Credit is also due to those who have published information about backgammon
+   playing programs (references will appear here later).  GNU Backgammon has
+                              borrowed ideas from:
+
+             Hans Berliner   Rick Janowski   Gerry Tesauro
+             Chuck Bower     Brian Sheppard  Michael Zehr
+
+       
+    The manual for GNU Backgammon includes a chapter describing the rules of
+      backgammon, written by Tom Keith for his Backgammon Galore web site
+                             <http://www.bkgm.com/>.
+
+
+  Library code from the following authors has been included in GNU Backgammon:
+
+     Ulrich Drepper (an implementation of the public domain MD5 algorithm)
+             Bob Jenkins (the ISAAC pseudo random number generator)
+       Takuji Nishimura and Makoto Matsumoto (the Mersenne Twister PRNG)
+                Gerry Tesauro (the "pubeval" position evaluator)
+
+
+       Please send bug reports for GNU Backgammon to: <bug-gnubg@gnu.org>
