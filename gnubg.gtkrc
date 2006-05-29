@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: gnubg.gtkrc,v 1.20 2006/05/28 08:59:57 Superfly_Jon Exp $
+# $Id: gnubg.gtkrc,v 1.21 2006/05/29 11:26:17 c_anthon Exp $
 #
 # style <name> [= <name>]
 # {
@@ -42,8 +42,8 @@
 
 style "default"
 {
-
-#font = "-*-tahoma-normal-r-normal-*-*-100-*-*-*-*-*-*"
+#uncomment to make default font smaller
+#font_name = "9"
 
 # base, text, bg, fg are possible
 bg[SELECTED] = { 0.67, 0.67, 0.67 }
