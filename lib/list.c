@@ -2,9 +2,11 @@
  * list.c
  *
  * by Gary Wong, 1996
+ * $Id: list.c,v 1.6 2006/09/21 22:24:45 Superfly_Jon Exp $
  */
 
 #include <list.h>
+#include <stddef.h>
 #include <stdlib.h>
 
 int ListCreate( list *pl ) {
@@ -19,7 +21,7 @@ list *ListInsert( list *pl, void *p ) {
 
     list *plNew;
 
-    if( !( plNew = malloc( sizeof( *plNew ) ) ) )
+    if ( (plNew = malloc( sizeof( *plNew ))) == NULL )
 	return NULL;
 
     plNew->p = p;
@@ -41,4 +43,15 @@ int ListDelete( list *pl ) {
     free( pl );
 
     return 0;
+}
+
+int ListDeleteAll( list *pl ) {
+
+	while( pl->plNext->p )
+	{
+		free(pl->plNext->p);
+		ListDelete( pl->plNext );
+	}
+
+	return 0;
 }
