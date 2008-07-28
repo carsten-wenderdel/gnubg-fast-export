@@ -6,9 +6,11 @@
  * modified by Gary Wong for GNU Backgammon, 1999
  * optimized by Joseph Heled <joseph@gnubg.org>, 2001.
  *
- * $Id: pub_eval.c,v 1.1 2004/06/18 20:22:01 joseph Exp $
+ * $Id: pub_eval.c,v 1.2 2008/07/28 08:02:03 c_anthon Exp $
  */
-
+#if HAVE_CONFIG_H
+#include "config.h"
+#endif
 static float gwc[122] = {
     .25696,   -.66937, -1.66135, -2.02487, -2.53398 / 2.0,
     -.16092, -1.11725, -1.06654,  -.92830, -1.99558 / 2.0,
@@ -154,7 +156,7 @@ pubeval(int race, int pos[])
  *
  * modified by Gary Wong for GNU Backgammon, 1999
  *
- * $Id: pub_eval.c,v 1.1 2004/06/18 20:22:01 joseph Exp $
+ * $Id: pub_eval.c,v 1.2 2008/07/28 08:02:03 c_anthon Exp $
  */
 
 static float wr[122] = {
