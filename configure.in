@@ -1,13 +1,13 @@
-dnl  Autoconf script for gnubg, the backgammon player.
+
 dnl To rebuild the `configure' script from this, execute the command
 dnl     autoconf
 dnl in the directory containing this script.
 dnl
-dnl by Gary Wong, 1999.
+dnl by Gary Wong <gtw@gnu.org>, 1999, 2000, 2001.
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation, version 2.
+dnl the Free Software Foundation, version 3 or later.
 dnl
 dnl This program is distributed in the hope that it will be useful,
 dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,54 +16,320 @@ dnl GNU General Public License for more details.
 dnl
 dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software
-dnl Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+dnl Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+AC_REVISION($Revision: 1.214 $)
+AC_INIT([GNU Backgammon],[0.90.0],[bug-gnubg@gnu.org],[gnubg])
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST
+AC_CONFIG_SRCDIR(gnubg.c)
+AM_INIT_AUTOMAKE
+AC_CONFIG_HEADERS([config.h])
+
 dnl
-dnl $Id: configure.in,v 1.1.1.1 1999/12/15 01:17:34 gtw Exp $
+dnl parse default options
+dnl
 
-AC_INIT(gnubg.c)
-AM_INIT_AUTOMAKE(gnubg,0.02)
-AM_CONFIG_HEADER(config.h)
-
-if test -f config.options
-then
+if test -f config.options; then
   . ./config.options
 fi
 
-dnl Checks for programs.
+dnl
+dnl host specifics
+dnl
+
+win32=no
+
+AC_MSG_CHECKING([for host])
+case "$host" in
+  *-*-mingw*)
+    win32=yes
+    CFLAGS="$CFLAGS -mms-bitfields"
+    LDFLAGS="$LDFLAGS -lwinmm"
+    ;;
+  *-*-darwin*)
+   LDFLAGS="$LDFLAGS -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib -framework QuickTime `/opt/local/bin/pkg-config --libs glib-2.0`"
+    ;;
+esac
+AC_MSG_RESULT([$host])
+
+dnl
+dnl Compiler setup
+dnl
+
+AC_GNU_SOURCE
 AC_PROG_CC
-AC_PROG_INSTALL
+AM_CONDITIONAL(CROSS_COMPILING, test "x$cross_compiling" = "xyes")
 
-dnl Checks for libraries.
-AC_CHECK_LIB(m, sqrt)
-AC_CHECK_LIB(readline, readline)
-AC_CHECK_LIB(gdbm, gdbm_open)
 
-dnl Checks for header files.
-AC_HEADER_STDC
-AC_HEADER_TIME
-AC_CHECK_HEADERS(fcntl.h sys/mman.h sys/time.h unistd.h)
+dnl
+dnl Checks for programs.
+dnl
 
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
+AC_PROG_AWK
+AC_PROG_LN_S
+AC_CHECK_PROGS(DOCBOOK2TEXI, docbook2x-texi db2x_docbook2texi, false)
+AC_CHECK_PROGS(DOCBOOK2MAN, docbook2x-man db2x_docbook2man, false)
+AC_CHECK_PROGS(DBLATEX, dblatex, false)
+AC_CHECK_PROGS(XSLTPROC, xsltproc, false)
+AC_ARG_VAR([DOCBOOK2TEXI], [path for docbook2texi from docbook2x package])
+AC_ARG_VAR([DOCBOOK2MAN], [path for docbook2man from docbook2x package])
+AC_ARG_VAR([DBLATEX], [path for dblatex used to build pdf documentation])
+AC_ARG_VAR([XSLTPROC], [path for xsltproc used to build html documentation])
 
-dnl Checks for library functions.
-AC_FUNC_MMAP
-AC_CHECK_FUNCS(sigaction sigvec,break)
-AC_CHECK_FUNCS(gettimeofday)
-AC_CHECK_FUNCS(random)
-AC_TYPE_SIGNAL
+dnl
+dnl Setup libtool
+dnl
 
-dnl Check for the X Window System.
-AC_PATH_XTRA
-AM_CONDITIONAL(NOX, test "$no_x" = "yes" )
+AC_CONFIG_MACRO_DIR([m4])
+AC_DISABLE_SHARED
+AC_PROG_LIBTOOL
 
-dnl Record installation paths.
-AC_DEFINE_DIR(PKGDATADIR, pkgdatadir)
+dnl
+dnl yacc and lex setup
+dnl
 
-if test "$no_x" != "yes"; then
-  conf_ext=ext
+AC_PROG_YACC
+AM_PROG_LEX
+AM_YFLAGS='-d'
+AC_SUBST(AM_YFLAGS)
+
+
+dnl
+dnl check for pkg-config controlled libs
+dnl
+
+PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.6.0], have_glib="yes", AC_MSG_ERROR([You need to have glib2 to compile GNU backgammon]))
+PKG_CHECK_MODULES(GTHREAD, [gthread-2.0], have_gthread="yes", AC_MSG_WARN([no thread support in glib]))
+PKG_CHECK_MODULES(LIBXML2, [libxml-2.0],have_libxml="yes", AC_MSG_WARN([no xml METs support]))
+PKG_CHECK_MODULES(FREETYPE2, [freetype2], have_freetype="yes", AC_MSG_WARN([no freetype support]))
+PKG_CHECK_MODULES(LIBPNG, [libpng12], have_libpng="yes", AC_MSG_WARN([no png support]))
+PKG_CHECK_MODULES(CAIRO, [cairo >= 1.2], have_cairo="yes", [AC_MSG_WARN([no cairo support])])
+PKG_CHECK_MODULES(PANGOCAIRO, [pangocairo >= 1.0], have_pangocairo="yes", [AC_MSG_WARN([no pangocairo support])])
+PKG_CHECK_MODULES(SQLITE, [sqlite3], have_sqlite="yes", AC_MSG_WARN([no sqlite support]))
+PKG_CHECK_MODULES(GSTREAMER, [gstreamer-0.10], have_gstreamer="yes", AC_MSG_WARN([no gstreamer support]))
+PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= 2.6.0], have_gtk="yes" , AC_MSG_WARN([no gtk support]))
+PKG_CHECK_MODULES(GTKGLEXT, [gtkglext-1.0 >= 1.0], have_gtkglext="yes" , AC_MSG_WARN([no gtkglext support]))
+
+if test "x$have_libxml" = "xyes"; then
+	AC_DEFINE(HAVE_LIBXML2,1, [Define if you have libxml2.])
 fi
-AC_CONFIG_SUBDIRS(lib $conf_ext)
 
-AC_OUTPUT(Makefile)
+if test "x$have_freetype" = "xyes"; then
+	AC_DEFINE(HAVE_FREETYPE, 1, [Define if you have freetype2])
+fi
 
+if test "x$have_libpng" = "xyes"; then
+	AC_DEFINE(HAVE_LIBPNG, 1, [Define if you have libpng])
+fi
+
+if test "x$have_cairo" = "xyes"; then
+	AC_DEFINE(HAVE_CAIRO,1, [Define if you want to use libcairo])
+fi
+
+if test "x$have_pangocairo" = "xyes"; then
+	AC_DEFINE(HAVE_PANGOCAIRO,1, [Define if you want to use pangocairo])
+fi
+
+if test "x$have_sqlite" = "xyes"; then
+	AC_DEFINE(HAVE_SQLITE,1, [Define if you want to use sqlite])
+fi
+
+if test "x$have_gstreamer" = "xyes"; then
+	AC_DEFINE(HAVE_GSTREAMER,1, [Define if you want to use gstreamer])
+fi
+
+dnl have_gthread, have_gtk and have_gtk are handled later, not having glib is fatal
+
+dnl
+dnl Checks for libraries.
+dnl
+
+AC_CHECK_LIB(m,sqrt)
+AC_CHECK_LIB(gmp, __gmpz_import)
+AC_SEARCH_LIBS(gethostbyname,nsl)
+AC_SEARCH_LIBS(inet_aton,resolv)
+AC_SEARCH_LIBS(connect,socket,AC_DEFINE(HAVE_SOCKETS,1,Define if the system supports AF_LOCAL sockets.))
+
+dnl
+dnl Check for readline
+dnl
+
+bcrl=n
+AC_CHECK_LIB(ncurses,tparm,TERMLIB=-lncurses, AC_CHECK_LIB(termcap,tgetent,TERMLIB=-ltermcap))
+LDSAVE=$LDFLAGS
+LDFLAGS="$LDFLAGS $TERMLIB"
+AC_CHECK_LIB(readline,readline,
+             [AC_CHECK_HEADER(readline/readline.h,
+              READLINELIB="-lreadline $TERMLIB";bcrl=y)],
+              READLINELIB="")
+if test "$bcrl" = "y" ; then
+    AC_DEFINE([HAVE_LIBREADLINE],1,Define if you have libreadline)
+    fi
+LDFLAGS="$LDSAVE $READLINELIB"
+
+dnl
+dnl Checks for header files.
+dnl
+
+AC_CHECK_HEADERS(sys/resource.h sys/socket.h sys/time.h sys/types.h unistd.h)
+
+dnl
+dnl Checks for typedefs, structures, and compiler characteristics.
+dnl
+
+AC_C_INLINE
+AC_TYPE_SIZE_T
+
+dnl
+dnl Checks for library functions.
+dnl
+
+AC_CHECK_FUNCS(sigaction sigvec,break)
+AC_CHECK_FUNCS(strptime random setpriority)
+
+dnl *******************
+dnl optional components
+dnl *******************
+
+AC_MSG_CHECKING([wether deprecated glib functions are enabled])
+AC_ARG_ENABLE( gdeprecated, [  --enable-gdeprecated  enable deprecated glib functions], gdeprecated=$enableval)
+if test "x$gdeprecated" = "xno"; then
+	AC_DEFINE(G_DISABLE_DEPRECATED, 1, Define if you want to disable deprecated glib functions)
+fi
+AC_MSG_RESULT($gdeprecated)
+
+AC_MSG_CHECKING([wether deprecated gtk functions are enabled])
+AC_ARG_ENABLE( gtkdeprecated, [  --enable-gtkdeprecated  enable deprecated gtk functions], gtkdeprecated=$enableval)
+if test "x$gtkdeprecated" = "xno"; then
+	AC_DEFINE(GTK_DISABLE_DEPRECATED, 1, Define if you want to disable deprecated gtk functions)
+fi
+AC_MSG_RESULT($gtkprecated)
+
+dnl
+dnl Check for gtk and gtkglext
+dnl
+
+no_gtk="yes"
+no_board3d="yes"
+no_gtkglext="yes"
+AC_ARG_WITH(gtk,[  --with-gtk             use GTK+ 2.0 (Default if found)])
+AC_ARG_WITH(board3d,[  --with-board3d         compile with 3D boards (Default if found)])
+if test "$with_gtk" != "no" && test "x$have_gtk" = "xyes"; then
+   AC_DEFINE(USE_GTK, 1, [Define if you want to use the gtk gui])
+   no_gtk="no"
+fi
+
+if test "$with_gtk" = "yes" && test "$no_gtk" = "yes"; then
+	AC_MSG_ERROR([gtk requested but not found])
+fi
+
+if test  "$with_board3d" != "no" && test "$with_gtk" != "no" && test "x$have_gtk" = "xyes" && test "x$have_gtkglext" = "xyes"; then
+	AC_DEFINE(USE_BOARD3D,1, [Define if you want to use the 3d boards])
+	no_board3d="no"
+fi
+
+if test "$with_board3d" = "yes" && test "$no_board3d" = "yes"; then
+	AC_MSG_ERROR([board3d requested but gtk or gtkglext not found])
+fi
+
+AM_CONDITIONAL(USE_GTK, test "$no_gtk" != "yes" )
+AM_CONDITIONAL(USE_BOARD3D, test "$no_board3d" != "yes" )
+
+if test "$no_gtk" = "no"; then
+  AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, no)
+  if test "x$GDK_PIXBUF_CSOURCE" = "xno"; then
+    AC_MSG_WARN([Could not find gdk-pixbuf-csource in your PATH, cannot rebuild pixmaps])
+  fi
+fi
+AM_CONDITIONAL(FOUND_GDK_PIXBUF_CSOURCE, test "x$GDK_PIXBUF_CSOURCE" != "xno" )
+
+dnl
+dnl Check for Python
+dnl
+have_python="no"
+AC_ARG_WITH(python,[  --with-python             use python (Default if found)])
+AM_PATH_PYTHON(2.2)
+AM_CHECK_PYTHON_HEADERS(have_python="yes", have_python="no")
+if test "$with_python" != "no" && test "x$have_python" = "xyes"; then
+        AC_DEFINE(USE_PYTHON,1,[Define if you want to use Python inside gnubg])
+fi
+AM_CONDITIONAL(USE_PYTHON, test "$with_python" != "no" && test "$have_python" != "no" )
+
+dnl
+dnl SSE
+dnl
+
+AC_MSG_CHECKING([for sse cpu])
+AC_ARG_ENABLE( sse, [  --enable-sse=TYPE  enable SSE for newer cpus(TYPE=yes,no,cputest, default cputest)], ssecpu=$enableval, ssecpu="undef")
+if test "x$ssecpu" = "xundef"; then
+	case "$host" in
+		x86-* | i586-* | i686-* )
+        	if test x"$GCC" = xyes; then
+                	ssecpu="cputest"
+		else
+                	ssecpu="yes"
+		fi
+		;;
+		ia64-* | x86_64-* )
+		ssecpu="yes"
+		;;
+		*)
+		ssecpu="no"
+		;;
+	esac
+fi
+if test "x$ssecpu" != "xno"; then
+        AC_DEFINE(USE_SSE_VECTORIZE,1,Define if you want to compile with SSE support)
+        if test "$ssecpu" = "yes"; then
+                AC_DEFINE(DISABLE_SSE_TEST, 1, Define if you want to disable the SSE cpu test)
+        fi
+        if test x"$GCC" = xyes; then
+		if test "x$SSE_CFLAGS" = x; then
+			SSE_CFLAGS="-msse"
+		fi
+        fi
+fi
+
+AC_MSG_RESULT([$host (sse=$ssecpu, SSE_CFLAGS="$SSE_CFLAGS")])
+
+AC_ARG_VAR(SSE_CFLAGS, [CFLAGS needed for compiling in sse cpu support])
+
+dnl
+dnl Threads
+dnl
+
+AC_ARG_ENABLE( threads, [  --enable-threads  enable multithread support (Default disabled)], threadson=$enableval, threadson=no)
+AM_CONDITIONAL(USE_MULTITHREAD, test "$threadson" != "no" )
+if test "$threadson" != "no"; then
+        if test "$have_gthread" != "yes"; then
+                AC_MSG_ERROR([Threads enabled but glib doesn't seem to have gthread support])
+        fi
+        AC_DEFINE(USE_MULTITHREAD, 1, Define if you want to have multithread support)
+        AC_DEFINE(GLIB_THREADS, 1, Define if you wish to use glib threads)
+fi
+
+
+dnl *************
+dnl Misc. setings
+dnl *************
+
+dnl internationalization macros
+dnl
+AC_SUBST(GETTEXT_PACKAGE, gnubg)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [The package name, for gettext])
+ALL_LINGUAS="da de es en_US ja it fr is tr cs ru"
+AM_GLIB_GNU_GETTEXT
+
+
+dnl
+dnl config files
+dnl
+
+AC_CONFIG_FILES([Makefile doc/Makefile lib/Makefile met/Makefile po/Makefile.in po/Makefile m4/Makefile xpm/Makefile sounds/Makefile board3d/Makefile textures/Makefile scripts/Makefile flags/Makefile fonts/Makefile non-src/Makefile pixmaps/Makefile])
+
+dnl
+dnl
+dnl
+
+AC_OUTPUT
