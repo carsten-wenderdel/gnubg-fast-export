@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: external_l.l,v 1.17 2012/05/18 20:15:00 mdpetch Exp $
+ * $Id: external_l.l,v 1.18 2012/07/26 20:46:56 plm Exp $
  */
 
 #include "config.h"
@@ -63,7 +63,6 @@ cubeless        { return CUBELESS; }
 cube            { return CUBE; }
 plies           { return PLIES; }
 noise           { return NOISE; }
-reduced         { return REDUCED; }
 prune           { return PRUNE; }
 yes             { return ON; }
 on              { return ON; }
