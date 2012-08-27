@@ -17,11 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkmovelistctrl.h,v 1.5 2009/03/01 20:01:50 Superfly_Jon Exp $
+ * $Id: gtkmovelistctrl.h,v 1.6 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _GTKMOVELISTCTRL_H_
-#define _GTKMOVELISTCTRL_H_
+#ifndef GTKMOVELISTCTRL_H
+#define GTKMOVELISTCTRL_H
 
 
 /* Some boilerplate GObject type check and type cast macros.

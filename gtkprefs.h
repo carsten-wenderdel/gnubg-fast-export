@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkprefs.h,v 1.14 2009/10/07 10:18:26 Superfly_Jon Exp $
+ * $Id: gtkprefs.h,v 1.15 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _GTKPREFS_H_
-#define _GTKPREFS_H_
+#ifndef GTKPREFS_H
+#define GTKPREFS_H
 
 #include "gtkboard.h"
 

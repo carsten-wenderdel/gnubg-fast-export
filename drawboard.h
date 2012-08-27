@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: drawboard.h,v 1.18 2012/05/14 22:07:46 gflohr Exp $
+ * $Id: drawboard.h,v 1.19 2012/08/27 23:06:43 plm Exp $
  */
 
-#ifndef _DRAWBOARD_H_
-#define _DRAWBOARD_H_
+#ifndef DRAWBOARD_H
+#define DRAWBOARD_H
 
 #include "gnubg-types.h"
 

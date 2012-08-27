@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkmovefilter.h,v 1.5 2011/08/31 00:50:42 mdpetch Exp $
+ * $Id: gtkmovefilter.h,v 1.6 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _GTKMOVEFILTER_H_
-#define _GTKMOVEFILTER_H_
+#ifndef GTKMOVEFILTER_H
+#define GTKMOVEFILTER_H
 
 extern GtkWidget *
 MoveFilterWidget ( movefilter *pmf, 
@@ -36,4 +36,4 @@ extern void
 MoveFilterSetPredefined ( GtkWidget *pwMoveFilter, 
                           const int i );
 
-#endif /* _GTKMOVEFILTER_H_ */
+#endif /* GTKMOVEFILTER_H */

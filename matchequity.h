@@ -15,12 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: matchequity.h,v 1.23 2009/06/13 00:05:41 c_anthon Exp $
+ * $Id: matchequity.h,v 1.24 2012/08/27 23:06:41 plm Exp $
  */
 
 
-#ifndef _MATCHEQUITY_H_
-#define _MATCHEQUITY_H_
+#ifndef MATCHEQUITY_H
+#define MATCHEQUITY_H
 
 #include "eval.h"
 

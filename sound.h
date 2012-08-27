@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: sound.h,v 1.21 2008/05/14 08:20:28 c_anthon Exp $
+ * $Id: sound.h,v 1.22 2012/08/27 23:06:41 plm Exp $
  */
 
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#ifndef SOUND_H
+#define SOUND_H
 
 
 typedef enum _gnubgsound {

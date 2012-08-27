@@ -16,13 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: renderprefs.h,v 1.9 2009/04/24 20:00:47 c_anthon Exp $
+ * $Id: renderprefs.h,v 1.10 2012/08/27 23:06:40 plm Exp $
  */
 
-#ifndef _RENDERPREFS_H_
-#define _RENDERPREFS_H_
+#ifndef RENDERPREFS_H
+#define RENDERPREFS_H
 
-#ifndef _RENDER_H_
+#ifndef RENDER_H
 #include "render.h"
 #endif
 

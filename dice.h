@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: dice.h,v 1.30 2011/12/06 23:16:47 plm Exp $
+ * $Id: dice.h,v 1.31 2012/08/27 23:06:43 plm Exp $
  */
 
-#ifndef _DICE_H_
-#define _DICE_H_
+#ifndef DICE_H
+#define DICE_H
 
 #include <stdio.h>
 

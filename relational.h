@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: relational.h,v 1.13 2009/03/24 23:48:46 c_anthon Exp $
+ * $Id: relational.h,v 1.14 2012/08/27 23:06:40 plm Exp $
  */
 
-#ifndef _RELATIONAL_H_
-#define _RELATIONAL_H_
+#ifndef RELATIONAL_H
+#define RELATIONAL_H
 
 #include <dbprovider.h>
 #include <stddef.h>
@@ -34,4 +34,4 @@ extern int RelationalUpdatePlayerDetails(const char* oldName, const char* newNam
 extern float Ratio(float a, int b);
 extern statcontext *relational_player_stats_get(const char *player0, const char *player1);
 
-#endif /* _RELATIONAL_H_ */
+#endif /* RELATIONAL_H */

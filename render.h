@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: render.h,v 1.35 2009/10/26 16:12:26 Superfly_Jon Exp $
+ * $Id: render.h,v 1.36 2012/08/27 23:06:40 plm Exp $
  */
 
-#ifndef _RENDER_H_
-#define _RENDER_H_
+#ifndef RENDER_H
+#define RENDER_H
 
 #include "gnubg-types.h"
 

@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: bearoff.h,v 1.28 2012/03/25 14:50:18 plm Exp $
+ * $Id: bearoff.h,v 1.29 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _BEAROFF_H_
-#define _BEAROFF_H_
+#ifndef BEAROFF_H
+#define BEAROFF_H
 
 #include "gnubg-types.h"
 
@@ -102,4 +102,4 @@ BearoffHyper( const bearoffcontext *pbc,
               const unsigned int iPos,
               float arOutput[], float arEquity[] );
 
-#endif /* _BEAROFF_H_ */
+#endif /* BEAROFF_H */

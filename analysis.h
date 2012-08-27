@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: analysis.h,v 1.46 2009/03/24 23:48:45 c_anthon Exp $
+ * $Id: analysis.h,v 1.47 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _ANALYSIS_H_
-#define _ANALYSIS_H_
+#ifndef ANALYSIS_H
+#define ANALYSIS_H
 
 #include "list.h"
 #include "gnubg-types.h"

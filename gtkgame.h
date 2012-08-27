@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkgame.h,v 1.150 2011/10/31 09:41:13 c_anthon Exp $
+ * $Id: gtkgame.h,v 1.151 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _GTKGAME_H_
-#define _GTKGAME_H_
+#ifndef GTKGAME_H
+#define GTKGAME_H
 
 #include <gtk/gtk.h>
 #include "backgammon.h"

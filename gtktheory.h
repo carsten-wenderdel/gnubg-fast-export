@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtktheory.h,v 1.2 2007/07/02 12:43:39 ace Exp $
+ * $Id: gtktheory.h,v 1.3 2012/08/27 23:06:41 plm Exp $
  */
 
-#ifndef _GTKTHEORY_H_
-#define _GTKTHEORY_H_
+#ifndef GTKTHEORY_H
+#define GTKTHEORY_H
 
 extern void
 GTKShowTheory ( const int fActivePage );

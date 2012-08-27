@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: formatgs.h,v 1.4 2009/03/24 23:48:45 c_anthon Exp $
+ * $Id: formatgs.h,v 1.5 2012/08/27 23:06:42 plm Exp $
  */
 
-#ifndef _FORMATGS_H_
-#define _FORMATGS_H_
+#ifndef FORMATGS_H
+#define FORMATGS_H
 
 #include <glib.h>
 
@@ -37,4 +37,4 @@ extern GList *formatGS( const statcontext *psc, const int nMatchTo, const enum _
 extern void
 freeGS( GList *list );
 
-#endif /* _FORMATGS_H_ */
+#endif /* FORMATGS_H */

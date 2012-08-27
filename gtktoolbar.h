@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtktoolbar.h,v 1.12 2011/09/02 21:48:57 mdpetch Exp $
+ * $Id: gtktoolbar.h,v 1.13 2012/08/27 23:06:41 plm Exp $
  */
 
-#ifndef _GTKTOOLBAR_H_
-#define _GTKTOOLBAR_H_
+#ifndef GTKTOOLBAR_H
+#define GTKTOOLBAR_H
 
 #include "gtkboard.h"
 #if !(USE_GTKUIMANAGER)
@@ -63,4 +63,4 @@ extern void click_edit(void);
 extern void click_swapdirection(void);
 extern GtkWidget* ToolbarAddWidget(GtkToolbar *pwToolbar, GtkWidget *pWidget, const char *tooltip);
 
-#endif /* _GTKTOOLBAR_H_ */
+#endif /* GTKTOOLBAR_H */

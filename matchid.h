@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: matchid.h,v 1.12 2011/03/23 03:26:56 mdpetch Exp $
+ * $Id: matchid.h,v 1.13 2012/08/27 23:06:41 plm Exp $
  */
 
-#ifndef _MATCHID_H_
-#define _MATCHID_H_
+#ifndef MATCHID_H
+#define MATCHID_H
 
 #define L_MATCHID 12
 
