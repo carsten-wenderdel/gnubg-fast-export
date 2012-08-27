@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: sigmoid.h,v 1.2 2009/06/21 21:23:08 c_anthon Exp $
+ * $Id: sigmoid.h,v 1.3 2012/08/27 22:20:19 plm Exp $
  */
 
-#ifndef _SIGMOID_H
-#define _SIGMOID_H
+#ifndef SIGMOID_H
+#define SIGMOID_H
 /* e[k] = exp(k/10) / 10 */
 static float e[101] = {
 0.10000000000000001f, 
