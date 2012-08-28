@@ -18,7 +18,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *
-* $Id: gtkpanels.c,v 1.69 2011/10/31 09:41:13 c_anthon Exp $
+* $Id: gtkpanels.c,v 1.70 2012/08/28 21:35:54 plm Exp $
 */
 
 #include "config.h"
@@ -629,7 +629,7 @@ static gboolean CommandKeyPress(GtkWidget *UNUSED(widget), GdkEventKey * event,
 	return FALSE;
 }
 
-static gboolean CommandFocusIn(GtkWidget * widget, GdkEventFocus *UNUSED(eventDetails),
+static gboolean CommandFocusIn(GtkWidget *UNUSED(widget), GdkEventFocus *UNUSED(eventDetails),
 			       CommandEntryData_T *pData)
 {
 	if (pData->completing) {
