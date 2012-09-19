@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkoptions.c,v 1.110 2012/08/28 21:52:35 plm Exp $
+ * $Id: gtkoptions.c,v 1.111 2012/09/19 04:57:39 mdpetch Exp $
  */
 
 #include "config.h"
@@ -1029,7 +1029,7 @@ static void append_dice_options(optionswidget *pow)
 				gtk_box_pack_start(GTK_BOX(pwhbox), pow->pwSeed, TRUE, TRUE, 26);
 				gtk_box_pack_start(GTK_BOX(pow->pwSeed), gtk_label_new(_("Seed: ")), FALSE, FALSE, 0);
 
-				pow->padjSeed = GTK_ADJUSTMENT(gtk_adjustment_new(nRandom, 0, INT_MAX, 1, 1, 0));
+				pow->padjSeed = GTK_ADJUSTMENT(gtk_adjustment_new(nRandom, 0, UINT_MAX, 1, 1, 0));
 
 				pw = gtk_spin_button_new(GTK_ADJUSTMENT(pow->padjSeed), 1, 0);
 				gtk_box_pack_start(GTK_BOX(pow->pwSeed), pw, FALSE, FALSE, 0);
