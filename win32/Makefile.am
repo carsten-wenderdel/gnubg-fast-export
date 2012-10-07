@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.1 2012/10/07 18:05:49 mdpetch Exp $
+## $Id: Makefile.am,v 1.2 2012/10/07 20:46:02 mdpetch Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -14,7 +14,7 @@ endif
 
 BUILT_SOURCES = win32res.o
 
-win32res.o: $(WINRESOURCES)
+win32res.o: $(WINRESOURCES) Makefile
 	$(WINDRES) $< -o $@
 
 CLEANFILES=win32res.o
