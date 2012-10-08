@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.909 2012/09/19 04:57:39 mdpetch Exp $
+ * $Id: gnubg.c,v 1.910 2012/10/08 00:50:05 mdpetch Exp $
  */
 
 #include "config.h"
@@ -44,9 +44,6 @@ static char *gnubg_histfile;
 static int fReadingOther;
 static char szCommandSeparators[] = " \t\n\r\v\f";
 #endif
-
-#define STRINGIZEAUX(num) #num
-#define STRINGIZE(num) STRINGIZEAUX(num)
 
 #include "analysis.h"
 #include "backgammon.h"
