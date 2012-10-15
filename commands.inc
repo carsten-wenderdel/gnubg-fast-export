@@ -1,4 +1,4 @@
-/* $Id: commands.inc,v 1.34 2012/01/03 21:43:00 plm Exp $ */
+/* $Id: commands.inc,v 1.35 2012/10/15 21:10:11 plm Exp $ */
 
 /* All the commands are in this file */
 
@@ -210,10 +210,6 @@ command cER = {
     { "gammonline", CommandExportPositionGammOnLine,
       N_("Save the current position in .html format "
          "(special for GammOnLine)"), 
-      szFILENAME, &cFilename },
-    { "backgammonbase2clipboard", CommandExportPositionBGbase2Clipboard,
-      N_("Save the current position in html img tag fragment to clipboard"
-         "(special for BackgammonBase)"), 
       szFILENAME, &cFilename },
     { "gol2clipboard", CommandExportPositionGOL2Clipboard,
       N_("Copy the current position in .html format to clipboard"
