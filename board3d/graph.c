@@ -18,7 +18,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *
-* $Id: graph.c,v 1.29 2011/10/31 09:41:14 c_anthon Exp $
+* $Id: graph.c,v 1.30 2012/12/16 18:09:01 plm Exp $
 */
 
 
@@ -170,7 +170,7 @@ static void DrawBars(unsigned int num, float * const *values, int totalBar)
 static void PrintBottomNumber(unsigned int num, float width, float height, float x, float y)
 {
 	char numStr[10];
-	sprintf(numStr, "%d", num);
+	sprintf(numStr, "%u", num);
 
 	glPushMatrix();
 	glTranslatef(x, y, 0.f);
