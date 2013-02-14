@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: htmlimages.c,v 1.52 2013/02/07 22:04:16 plm Exp $
+ * $Id: htmlimages.c,v 1.53 2013/02/14 22:47:32 plm Exp $
  */
 
 #include "config.h"
@@ -763,7 +763,7 @@ extern void CommandExportHTMLImages( char *sz )
 }
 
 #else /* not HAVE_LIBPNG */
-extern void CommandExportHTMLImages( char *sz )
+extern void CommandExportHTMLImages( char *UNUSED(sz) )
 {
 	outputl( _("This installation of GNU Backgammon was compiled without\n"
 		"support for writing HTML images.") );
