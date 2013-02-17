@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: format.c,v 1.44 2012/03/23 16:51:42 plm Exp $
+ * $Id: format.c,v 1.45 2013/02/17 21:27:17 plm Exp $
  */
 
 #include "config.h"
@@ -32,7 +32,7 @@
 #include "positionid.h"
 
 
-int fOutputMWC = TRUE;
+int fOutputMWC = FALSE;
 int fOutputWinPC = FALSE;
 int fOutputMatchPC = TRUE;
 unsigned int fOutputDigits = 3;
