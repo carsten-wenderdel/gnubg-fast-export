@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.231 2012/10/08 20:54:37 plm Exp $
+## $Id: Makefile.am,v 1.232 2013/03/06 23:54:58 plm Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -239,7 +239,7 @@ gnubg.wd:
 	@echo ' ** on the host system.'
 else
 gnubg.wd: gnubg.weights makeweights$(EXEEXT)
-	[ -s $@ ] || \
+	[ $@ -nt $< ] || \
 	./makeweights -f $@ $< 
 gnubg_os0.bd: makebearoff$(EXEEXT)
 	[ -s $@ ] || \
