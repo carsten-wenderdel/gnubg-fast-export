@@ -1011,7 +1011,7 @@ char *sgftext;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: sgf_l.c,v 1.7 2013/03/06 17:12:46 plm Exp $
+ * $Id: sgf_l.c,v 1.8 2013/03/14 16:57:48 mdpetch Exp $
  */
 #line 23 "sgf_l.l"
 #include "config.h"
