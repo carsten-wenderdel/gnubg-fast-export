@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: html.c,v 1.229 2012/10/15 21:10:11 plm Exp $
+ * $Id: html.c,v 1.230 2013/04/13 23:32:05 plm Exp $
  */
 
 #include "config.h"
@@ -168,7 +168,7 @@ WriteStyleSheet ( FILE *pf, const htmlexportcss hecss ) {
 
     fputs( "\n"
            "/* CSS Stylesheet for " VERSION_STRING " */\n"
-           "/* $Id: html.c,v 1.229 2012/10/15 21:10:11 plm Exp $ */\n",
+           "/* $Id: html.c,v 1.230 2013/04/13 23:32:05 plm Exp $ */\n",
            pf );
 
     fputs( "/* This file is distributed as a part of the "
@@ -1846,7 +1846,7 @@ HTMLEpilogue ( FILE *pf, const matchstate *UNUSED(pms), char *aszLinks[ 4 ],
   int fFirst;
   int i;
 
-  const char szVersion[] = "$Revision: 1.229 $";
+  const char szVersion[] = "$Revision: 1.230 $";
   int iMajor, iMinor;
 
   iMajor = atoi ( strchr ( szVersion, ' ' ) );
@@ -1926,7 +1926,7 @@ HTMLEpilogueComment ( FILE *pf ) {
 
   time_t t;
 
-  const char szVersion[] = "$Revision: 1.229 $";
+  const char szVersion[] = "$Revision: 1.230 $";
   int iMajor, iMinor;
   char *pc;
 
@@ -2425,8 +2425,7 @@ HTMLPrintCubeAnalysis ( FILE *pf, matchstate *pms, moverecord *pmr,
 
   default:
 
-    g_assert ( FALSE );
-
+    g_assert_not_reached();
 
   }
 
