@@ -28,7 +28,7 @@
  *
  *     gcc -DMEC_STANDALONE mec.c -o mec
  *
- * $Id: mec.c,v 1.6 2007/12/12 23:08:18 Superfly_Jon Exp $
+ * $Id: mec.c,v 1.7 2013/04/15 21:35:51 plm Exp $
  */
 
 #include "config.h"
@@ -170,6 +170,9 @@ int main (int argc, char **argv)
 	printf ("\n");
       }
   }
+
+  free(ec);
+  free(E);
 }
 
 #else /* MEC_STANDALONE */
@@ -247,7 +250,7 @@ mec_pc( const float rGammonRate,
   /* garbage collect */
 
   free( ec );
-
+  free( E );
 }
 
 
@@ -340,7 +343,7 @@ mec( const float rGammonRate,
   /* garbage collect */
 
   free( ec );
-
+  free( E );
 }
 
 #endif /* ! MEC_STANDALONE */
