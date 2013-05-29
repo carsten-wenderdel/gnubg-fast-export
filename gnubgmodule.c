@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubgmodule.c,v 1.132 2013/05/28 20:57:52 plm Exp $
+ * $Id: gnubgmodule.c,v 1.133 2013/05/29 15:46:52 mdpetch Exp $
  */
 
 #include "config.h"
@@ -122,6 +122,10 @@ PyToMove( PyObject* p, unsigned int anMove[ 8 ] )
     if ( anIndex >= 8 && j < tuplelen)
       return 0;
 
+    return 1;
+  }
+  else {
+    /* No tuples equivalent to no legal moves */
     return 1;
   }
 
@@ -737,7 +741,7 @@ PythonMoveTuple2String( PyObject* UNUSED(self), PyObject *args ) {
   TanBoard anBoard;
 
   memset( anBoard, 0, sizeof(TanBoard) );
-  memset( anMove, 0, sizeof(anMove) );
+  memset( anMove, -1, sizeof(anMove) );
 
   if ( ! PyArg_ParseTuple( args, "|OO", 
                            &pyMove, &pyBoard ) ) 
@@ -1552,7 +1556,7 @@ PyMove(const int move[8])
       break;
     }
     {
-      PyObject* c = Py_BuildValue("(ii)", move[2*i], move[2*i+1]);
+      PyObject* c = Py_BuildValue("(ii)", move[2*i]+1, move[2*i+1]+1);
       
       PyTuple_SET_ITEM(moveTuple, i, c);
     }
@@ -1834,7 +1838,7 @@ PyGameStats(const statcontext* sc, const int fIsMatch, const int nMatchTo)
 
       {
 	skilltype st;
-	for( st = SKILL_VERYBAD; st <= SKILL_NONE; st++ ) {
+	for( st = SKILL_VERYBAD; st < N_SKILLS; st++ ) {
 	  DictSetItemSteal(m, skillString(st, 0),
 			   PyInt_FromLong(sc->anMoves[side][st]));
 	}
