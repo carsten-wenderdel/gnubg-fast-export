@@ -23,9 +23,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: gnubg.py,v 1.3 2007/07/02 12:50:13 ace Exp $
+# $Id: gnubg.py,v 1.4 2013/06/05 21:59:51 mdpetch Exp $
 #
 
+import sys
+sys.path.append('./scripts')
 
 def swapboard(board):
     """Swap the board"""
@@ -97,3 +99,4 @@ def exportBad(baseName) :
       
     # Advance to next game
     gnubg.navigate(game=1)
+
