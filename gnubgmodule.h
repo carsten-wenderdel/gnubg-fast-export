@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubgmodule.h,v 1.21 2012/10/19 23:55:32 mdpetch Exp $
+ * $Id: gnubgmodule.h,v 1.22 2013/06/07 02:41:29 mdpetch Exp $
  */
 
 #ifndef GNUBGMODULE_H
@@ -41,6 +41,7 @@ typedef int Py_ssize_t;
 #else
 #define STACKALIGN
 
+extern PyObject *PythonGnubgModule();
 #endif
 
 extern void PythonInitialise(char *argv0);
