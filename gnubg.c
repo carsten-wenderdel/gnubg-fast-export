@@ -16,14 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.921 2013/06/07 02:59:45 mdpetch Exp $
+ * $Id: gnubg.c,v 1.922 2013/06/07 04:58:49 mdpetch Exp $
  */
 
 #include "config.h"
 
-#if USE_PYTHON
 #include "gnubgmodule.h"
-#endif
 
 #include <sys/types.h>
 #include <stdlib.h>
