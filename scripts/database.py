@@ -21,11 +21,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: database.py,v 1.29 2013/06/07 08:56:16 mdpetch Exp $
+# $Id: database.py,v 1.30 2013/06/07 09:07:23 mdpetch Exp $
 #
 
 # Host settings for Mysql database
-mysql_host="192.168.67.5"
+mysql_host="localhost"
 mysql_port=3306
 
 # Host settings for Postgres database, hostname:portnum
