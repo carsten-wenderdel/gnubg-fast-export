@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: play.c,v 1.415 2013/06/08 19:46:36 plm Exp $
+ * $Id: play.c,v 1.416 2013/06/08 19:50:29 plm Exp $
  */
 
 #include "config.h"
@@ -382,7 +382,10 @@ CalculateBoard( void )
   do {
     pl = pl->plNext;
 
-    g_assert( pl && pl->p );
+    if ( !pl ) {
+        g_assert_not_reached();
+        break;
+    }
 
     ApplyMoveRecord( &ms, plGame, pl->p );
 
