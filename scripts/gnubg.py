@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: gnubg.py,v 1.5 2013/06/07 02:41:29 mdpetch Exp $
+# $Id: gnubg.py,v 1.6 2013/06/12 01:31:34 mdpetch Exp $
 #
 
 # Add the scrpts directory to the module path to allow 
@@ -57,7 +57,7 @@ def gnubg_InteractivePyShell_tui(argv=[''], banner=None):
         if (banner == None):
             banner = 'Python ' + sys.version 
 
-        code.interact(banner=banner)
+        code.interact(banner=banner,local=globals())
         return True
 
     try:
