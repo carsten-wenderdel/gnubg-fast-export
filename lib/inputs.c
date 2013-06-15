@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: inputs.c,v 1.3 2011/10/31 09:41:15 c_anthon Exp $
+ * $Id: inputs.c,v 1.4 2013/06/15 09:57:38 plm Exp $
  */
 
 #include "config.h"
@@ -24,7 +24,9 @@
 #include "eval.h"
 
 #if USE_SSE_VECTORIZE
-#ifdef USE_SSE2 
+#if defined(USE_AVX)
+#include <immintrin.h>
+#elif defined(USE_SSE2)
 #include <emmintrin.h> 
 #else
 #include <xmmintrin.h> 
@@ -133,7 +135,11 @@ baseInputs(const TanBoard anBoard, float arInput[])
 	/* bar */
 	vec0 = _mm_load_ps(inpvecb[*pB]);
 	_mm_store_ps(pInput, vec0 );
-	
+
+#if defined(USE_AVX)
+	_mm256_zeroupper();
+#endif
+
 	return;
 }
 #else
