@@ -15,25 +15,25 @@
  * list.h
  *
  * by Gary Wong, 1996
- * $Id: list.h,v 1.8 2012/08/27 22:20:18 plm Exp $
+ * $Id: list.h,v 1.9 2013/06/16 02:16:24 mdpetch Exp $
  */
 
 #ifndef LIST_H
 #define LIST_H
 
 typedef struct _list {
-  struct _list* plPrev;
-  struct _list* plNext;
-  void* p;
+    struct _list *plPrev;
+    struct _list *plNext;
+    void *p;
 } listOLD;
 /* Renamed to listOLD - use GList instead (hopefullly replace existing usage eventually */
 
-extern int ListCreate( listOLD *pl );
+extern int ListCreate(listOLD * pl);
 /* #define ListDestroy( pl ) ( assert( ListEmpty( pl ) ) ) */
 
 #define ListEmpty( pl ) ( (pl)->plNext == (pl) )
-extern listOLD* ListInsert( listOLD* pl, void* p );
-extern void ListDelete( listOLD* pl );
-extern void ListDeleteAll( const listOLD *pl );
+extern listOLD *ListInsert(listOLD * pl, void *p);
+extern void ListDelete(listOLD * pl);
+extern void ListDeleteAll(const listOLD * pl);
 
 #endif

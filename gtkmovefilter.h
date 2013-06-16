@@ -16,24 +16,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkmovefilter.h,v 1.6 2012/08/27 23:06:42 plm Exp $
+ * $Id: gtkmovefilter.h,v 1.7 2013/06/16 02:16:15 mdpetch Exp $
  */
 
 #ifndef GTKMOVEFILTER_H
 #define GTKMOVEFILTER_H
 
-extern GtkWidget *
-MoveFilterWidget ( movefilter *pmf, 
-                   int *pfOK,
-                   GCallback pfChanged, gpointer userdata );
+extern GtkWidget *MoveFilterWidget(movefilter * pmf, int *pfOK, GCallback pfChanged, gpointer userdata);
 
 extern void
-SetMovefilterCommands ( const char *sz,
-                  movefilter aamfNew[ MAX_FILTER_PLIES ][ MAX_FILTER_PLIES ], 
-                  movefilter aamfOld[ MAX_FILTER_PLIES ][ MAX_FILTER_PLIES ] );
+
+
+SetMovefilterCommands(const char *sz,
+                      movefilter aamfNew[MAX_FILTER_PLIES][MAX_FILTER_PLIES],
+                      movefilter aamfOld[MAX_FILTER_PLIES][MAX_FILTER_PLIES]);
 
 extern void
-MoveFilterSetPredefined ( GtkWidget *pwMoveFilter, 
-                          const int i );
+ MoveFilterSetPredefined(GtkWidget * pwMoveFilter, const int i);
 
-#endif /* GTKMOVEFILTER_H */
+#endif                          /* GTKMOVEFILTER_H */

@@ -16,13 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkoptions.h,v 1.6 2012/08/27 23:06:41 plm Exp $
+ * $Id: gtkoptions.h,v 1.7 2013/06/16 02:16:15 mdpetch Exp $
  */
 
 #ifndef GTKOPTIONS_H
 #define GTKOPTIONS_H
 
-extern void GTKSetOptions( void );
+extern void GTKSetOptions(void);
 extern void GTKSound(void);
 
-#endif /* GTKOPTIONS_H */
+#endif                          /* GTKOPTIONS_H */

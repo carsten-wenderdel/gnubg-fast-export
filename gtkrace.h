@@ -16,13 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkrace.h,v 1.5 2012/08/27 23:06:42 plm Exp $
+ * $Id: gtkrace.h,v 1.6 2013/06/16 02:16:16 mdpetch Exp $
  */
 
 #ifndef GTKRACE_H
 #define GTKRACE_H
 
 extern void
-GTKShowRace ( TanBoard anBoard );
+ GTKShowRace(TanBoard anBoard);
 
 #endif
