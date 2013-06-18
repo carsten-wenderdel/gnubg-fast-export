@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkoptions.c,v 1.113 2013/06/16 02:16:15 mdpetch Exp $
+ * $Id: gtkoptions.c,v 1.114 2013/06/18 21:13:24 plm Exp $
  */
 
 #include "config.h"
@@ -311,7 +311,7 @@ SoundPlayClicked(GtkWidget * UNUSED(widget), gpointer UNUSED(userdata))
 static gchar *
 CacheSizeString(GtkScale * UNUSED(scale), gdouble value)
 {
-    return g_strdup_printf("%iMB", GetCacheMB(value));
+    return g_strdup_printf("%iMB", GetCacheMB((int)value));
 }
 
 static void
