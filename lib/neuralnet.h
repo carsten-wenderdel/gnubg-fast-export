@@ -15,7 +15,7 @@
  * neuralnet.h
  *
  * by Gary Wong, 1998
- * $Id: neuralnet.h,v 1.27 2013/06/16 02:16:24 mdpetch Exp $
+ * $Id: neuralnet.h,v 1.28 2013/06/19 10:11:57 mdpetch Exp $
  */
 
 #ifndef NEURALNET_H
@@ -65,5 +65,22 @@ extern int NeuralNetLoad(neuralnet * pnn, FILE * pf);
 extern int NeuralNetLoadBinary(neuralnet * pnn, FILE * pf);
 extern int NeuralNetSaveBinary(const neuralnet * pnn, FILE * pf);
 extern int SSE_Supported(void);
+
+/* Try to determine whetehr we are 64-bit or 32-bit */
+#if _WIN32 || _WIN64
+#if _WIN64
+#define ENVIRONMENT64
+#else
+#define ENVIRONMENT32
+#endif
+#endif
+
+#if __GNUC__
+#if __x86_64__
+#define ENVIRONMENT64
+#else
+#define ENVIRONMENT32
+#endif
+#endif
 
 #endif
