@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.235 2013/06/18 01:47:47 mdpetch Exp $
+## $Id: Makefile.am,v 1.236 2013/06/19 18:33:52 mdpetch Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -96,6 +96,8 @@ gnubg_SOURCES = \
 		openurl.h \
 		osr.c \
 		osr.h \
+		output.c \
+		output.h \
 		play.c \
 		positionid.c \
 		positionid.h \
