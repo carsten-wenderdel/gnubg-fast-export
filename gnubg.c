@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.927 2013/06/19 18:33:52 mdpetch Exp $
+ * $Id: gnubg.c,v 1.928 2013/06/20 05:46:38 mdpetch Exp $
  */
 
 #include "config.h"
@@ -613,6 +613,8 @@ char const *aszBuildInfo[] = {
 #if USE_SSE_VECTORIZE
 #if USE_SSE2
     N_("SSE/SSE2 supported."),
+#elif USE_AVX
+    N_("AVX supported."),
 #else
     N_("SSE supported."),
 #endif
