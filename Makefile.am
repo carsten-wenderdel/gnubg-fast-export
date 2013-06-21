@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.236 2013/06/19 18:33:52 mdpetch Exp $
+## $Id: Makefile.am,v 1.237 2013/06/21 04:53:33 mdpetch Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -15,7 +15,7 @@ else
 localeloc=-DLOCALEDIR=\"$(localedir)\"
 endif 
 
-AM_CPPFLAGS = -I$(srcdir)/lib -I$(srcdir)/board3d \
+AM_CPPFLAGS = -I$(srcdir)/lib -I$(srcdir)/board3d -I$(srcdir)/pixmaps \
 	   $(localeloc) @FREETYPE2_CFLAGS@ @GLIB_CFLAGS@ \
 	   @LIBPNG_CFLAGS@ @GTK_CFLAGS@ @CAIRO_CFLAGS@ @PANGOCAIRO_CFLAGS@ \
 	   @GTHREAD_CFLAGS@ @GTKGLEXT_CFLAGS@ @CANBERRA_CFLAGS@
