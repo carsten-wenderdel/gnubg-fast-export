@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubgmodule.c,v 1.151 2013/06/29 23:34:16 mdpetch Exp $
+ * $Id: gnubgmodule.c,v 1.152 2013/06/30 00:43:07 mdpetch Exp $
  */
 
 #include "config.h"
@@ -617,7 +617,7 @@ PythonHint_Callback (procrecorddata *pr)
         const float *p = mi->arEvalMove;
         const float *s = mi->arEvalStdDev;
 
-        details = Py_BuildValue("s:(fffff),s:(fffff),s:f,s:f",
+        details = Py_BuildValue("{s:(fffff),s:(fffff),s:f,s:f}",
                                         "probs", p[0], p[1], p[2], p[3], p[4],
                                         "probs-std", s[0], s[1], s[2], s[3], s[4],
                                         "match-eq", p[OUTPUT_EQUITY],
