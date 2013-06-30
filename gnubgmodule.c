@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubgmodule.c,v 1.152 2013/06/30 00:43:07 mdpetch Exp $
+ * $Id: gnubgmodule.c,v 1.153 2013/06/30 01:52:07 mdpetch Exp $
  */
 
 #include "config.h"
@@ -604,8 +604,8 @@ PythonHint_Callback (procrecorddata *pr)
         break;
     case EVAL_EVAL:{
         const move *mi = &pml->amMoves[index];
-        details = Py_BuildValue("{s:(fffff)}", "probs", mi->arEvalMove[0], mi->arEvalMove[1],
-                                mi->arEvalMove[2], mi->arEvalMove[3], mi->arEvalMove[4]);
+        details = Py_BuildValue("{s:(fffff),s:f}", "probs", mi->arEvalMove[0], mi->arEvalMove[1],
+                                mi->arEvalMove[2], mi->arEvalMove[3], mi->arEvalMove[4], "score", mi->rScore);
                                         
         ctxdict = EvalContextToPy(&pes->ec); 
         hintdict = Py_BuildValue("{s:i,s:s,s:s,s:f,s:f,s:N,s:N}", "movenum", index + 1, "type", "eval", "move", szMove, 
@@ -617,11 +617,12 @@ PythonHint_Callback (procrecorddata *pr)
         const float *p = mi->arEvalMove;
         const float *s = mi->arEvalStdDev;
 
-        details = Py_BuildValue("{s:(fffff),s:(fffff),s:f,s:f}",
+        details = Py_BuildValue("{s:(fffff),s:(fffff),s:f,s:f,s:f,s:f,s:i}",
                                         "probs", p[0], p[1], p[2], p[3], p[4],
                                         "probs-std", s[0], s[1], s[2], s[3], s[4],
                                         "match-eq", p[OUTPUT_EQUITY],
-                                        "cubeful-eq", p[OUTPUT_CUBEFUL_EQUITY]);
+                                        "cubeful-eq", p[OUTPUT_CUBEFUL_EQUITY],
+                                        "score", mi->rScore, "score2", mi->rScore2, "trials", pes->rc.nGamesDone);
 
         ctxdict = RolloutContextToPy(&pes->rc); 
         hintdict = Py_BuildValue("{s:i,s:s,s:s,s:f,s:f,s:N,s:N}", "movenum", index + 1, "type", "rollout", "move", szMove,
