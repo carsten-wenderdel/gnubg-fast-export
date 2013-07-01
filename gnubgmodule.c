@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubgmodule.c,v 1.156 2013/06/30 20:03:43 mdpetch Exp $
+ * $Id: gnubgmodule.c,v 1.157 2013/07/01 19:19:15 mdpetch Exp $
  */
 
 #include "config.h"
@@ -649,8 +649,8 @@ PythonHint(PyObject * UNUSED(self), PyObject * args)
     procrecorddata prochint;
     char szNumber[6];
     char *szHintType;
-    moverecord *pmr;
-    movelist ml;
+//    moverecord *pmr;
+//    movelist ml;
     int nMaxMoves = -1;
 
     if (!PyArg_ParseTuple(args, "|i", &nMaxMoves))
