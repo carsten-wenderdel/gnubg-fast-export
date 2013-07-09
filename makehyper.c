@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: makehyper.c,v 1.38 2013/07/06 16:31:37 plm Exp $
+ * $Id: makehyper.c,v 1.39 2013/07/09 00:20:54 mdpetch Exp $
  */
 
 #include "config.h"
@@ -63,12 +63,25 @@ typedef struct _hyperequity {
 
 } hyperequity;
 
-#if USE_MULTITHREAD
+extern move *
+MT_Get_aMoves(void)
+{
+    return NULL;
+}
+
+extern NNState *
+MT_Get_nnState(void)
+{
+    return NULL;
+}
+
 extern int
 MT_GetThreadID(void)
 {
     return (0);
 }
+
+#if USE_MULTITHREAD
 
 extern void
 MT_Release(void)
