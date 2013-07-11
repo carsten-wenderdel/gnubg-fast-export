@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: util.h,v 1.14 2013/07/10 22:35:13 mdpetch Exp $
+ * $Id: util.h,v 1.15 2013/07/11 19:16:07 mdpetch Exp $
  */
 
 #ifndef UTIL_H
@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <stdio.h>
 
+extern char *prefsdir;
 extern char *datadir;
 extern char *pkg_datadir;
 extern char *docdir;
