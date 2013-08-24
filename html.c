@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: html.c,v 1.231 2013/06/16 02:16:17 mdpetch Exp $
+ * $Id: html.c,v 1.232 2013/08/24 22:50:48 plm Exp $
  */
 
 #include "config.h"
@@ -119,12 +119,6 @@ static const char *aaszStyleSheetClasses[NUM_CLASSES][2] = {
     {"boardimage", "vertical-align: top"}
 };
 
-#define FORMATHTMLPROB(f) \
-( ( f ) < 1.0f ) ? "&nbsp;" : "", \
-( ( f ) < 0.1f ) ? "&nbsp;" : "", \
-( f ) * 100.0f
-
-
 const char *aszHTMLExportType[NUM_HTML_EXPORT_TYPES] = {
     "gnu",
     "bbs",
@@ -167,7 +161,7 @@ WriteStyleSheet(FILE * pf, const htmlexportcss hecss)
 
         fputs("\n"
               "/* CSS Stylesheet for " VERSION_STRING " */\n"
-              "/* $Id: html.c,v 1.231 2013/06/16 02:16:17 mdpetch Exp $ */\n", pf);
+              "/* $Id: html.c,v 1.232 2013/08/24 22:50:48 plm Exp $ */\n", pf);
 
     fputs("/* This file is distributed as a part of the "
           "GNU Backgammon program. */\n"
@@ -1584,7 +1578,7 @@ HTMLEpilogue(FILE * pf, const matchstate * UNUSED(pms), char *aszLinks[4], const
     int fFirst;
     int i;
 
-    const char szVersion[] = "$Revision: 1.231 $";
+    const char szVersion[] = "$Revision: 1.232 $";
     int iMajor, iMinor;
 
     iMajor = atoi(strchr(szVersion, ' '));
@@ -1654,7 +1648,7 @@ HTMLEpilogueComment(FILE * pf)
 
     time_t t;
 
-    const char szVersion[] = "$Revision: 1.231 $";
+    const char szVersion[] = "$Revision: 1.232 $";
     int iMajor, iMinor;
     char *pc;
 
