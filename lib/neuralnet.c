@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: neuralnet.c,v 1.80 2013/07/20 22:06:24 mdpetch Exp $
+ * $Id: neuralnet.c,v 1.81 2013/10/18 22:06:54 plm Exp $
  */
 
 #include "config.h"
@@ -383,7 +383,7 @@ SIMD_Supported(void)
 #endif
 
 static int
-check_for_cpuid()
+check_for_cpuid(void)
 {
     int result;
 
