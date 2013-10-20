@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: file.c,v 1.26 2013/08/26 21:07:55 plm Exp $
+ * $Id: file.c,v 1.27 2013/10/20 15:17:54 plm Exp $
  */
 
 #include "config.h"
@@ -309,7 +309,16 @@ IsMATFile(FileHelper * fh)
         char c;
         fhSkipWS(fh);
         c = fhPeekNextChar(fh);
-        if (g_ascii_isdigit(c)) {
+
+        /* XG-style comment at the top of a mat file.
+         * Backgammon NJ can add so many of them that the real MAT pattern
+         * further below is pushed beyond the horizon of our probing. */
+        /* FIXME ? Check for all comments (';' and anything after that) */
+        if (c == ';') {
+            fhReadNextChar(fh);
+            if (fhReadNextChar(fh) == ' ' && fhReadNextChar(fh) == '[')
+                return TRUE;
+        } else if (g_ascii_isdigit(c)) {
             if (fhReadNumber(fh)) {
                 fhSkipWS(fh);
                 if (fhReadStringNC(fh, "point")) {
