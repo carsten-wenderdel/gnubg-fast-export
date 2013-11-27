@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: backgammon.h,v 1.441 2013/11/12 22:40:12 plm Exp $
+ * $Id: backgammon.h,v 1.442 2013/11/27 22:04:42 plm Exp $
  */
 
 #ifndef BACKGAMMON_H
@@ -498,6 +498,7 @@ extern void SetMatchDate(matchinfo * pmi);
 extern void SetMatchID(const char *szMatchID);
 extern void SetMatchInfo(char **ppch, const char *sz, char *szMessage);
 extern void SetMoveRecord(void *pmr);
+extern void SetTurn(int i);
 extern void show_8912(TanBoard anBoard, char *sz);
 extern void show_bearoff(TanBoard an, char *sz);
 extern void ShowBoard(void);
