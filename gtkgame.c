@@ -16,11 +16,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkgame.c,v 1.879 2013/12/01 16:17:41 plm Exp $
+ * $Id: gtkgame.c,v 1.880 2014/01/08 21:26:09 Superfly_Jon Exp $
  */
 
-#include "gnubgmodule.h"
 #include "config.h"
+#include "gnubgmodule.h"
 #include "gtklocdefs.h"
 #include "gtkuidefs.h"
 

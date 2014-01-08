@@ -15,7 +15,7 @@
  * cache.h
  *
  * by Gary Wong, 1997-2000
- * $Id: cache.h,v 1.22 2013/06/16 02:16:23 mdpetch Exp $
+ * $Id: cache.h,v 1.23 2014/01/08 21:26:11 Superfly_Jon Exp $
  */
 
 #ifndef CACHE_H
@@ -88,6 +88,6 @@ void CacheFlush(const evalCache * pc);
 void CacheDestroy(const evalCache * pc);
 void CacheStats(const evalCache * pc, unsigned int *pcLookup, unsigned int *pcHit, unsigned int *pcUsed);
 
-uint32_t GetHashKey(const uint32_t hashMask, const cacheNodeDetail * e);
+uint32_t GetHashKey(uint32_t hashMask, const cacheNodeDetail * e);
 
 #endif
