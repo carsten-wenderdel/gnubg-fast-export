@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: show.c,v 1.272 2013/09/30 20:30:56 plm Exp $
+ * $Id: show.c,v 1.273 2014/02/03 22:42:03 plm Exp $
  */
 
 #include "config.h"
@@ -513,6 +513,12 @@ CommandShowDelay(char *UNUSED(sz))
 #else
     outputl(_("The `show delay' command applies only when using the GUI"));
 #endif
+}
+
+extern void
+CommandShowAliases(char *UNUSED(sz))
+{
+    outputf(_("Aliases for player 1 when importing MAT files is set to \"%s\".\n "), aliases);
 }
 
 extern void
