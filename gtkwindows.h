@@ -12,7 +12,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkwindows.h,v 1.22 2013/06/16 02:16:17 mdpetch Exp $
+ * $Id: gtkwindows.h,v 1.23 2014/05/01 22:19:08 plm Exp $
  */
 
 #ifndef GTKWINDOWS_H
@@ -56,7 +56,7 @@ extern void GTKRunDialog(GtkWidget * dialog);
 extern int GTKGetInputYN(char *szPrompt);
 extern char *GTKGetInput(char *title, char *prompt, GtkWidget * parent);
 
-extern int GTKMessage(char *sz, dialogtype dt);
+extern int GTKMessage(const char *sz, dialogtype dt);
 extern void GTKSetCurrentParent(GtkWidget * parent);
 extern GtkWidget *GTKGetCurrentParent(void);
 
