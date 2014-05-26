@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: import.c,v 1.194 2014/04/28 20:50:30 plm Exp $
+ * $Id: import.c,v 1.195 2014/05/26 20:54:49 plm Exp $
  */
 
 #include "config.h"
@@ -962,11 +962,11 @@ ImportGame(FILE * fp, int iGame, int nLength, bgvariation bgVariation, int *warn
                  * CommandSetCubeOwner() needs its argument to be writable
                  * CommandSetCubeOwner("1") coredumps
                  */
-                sprintf(szco, "1");
+                sprintf(szco, "0");
                 CommandSetCubeOwner(szco);
             } else {
                 sprintf(szcv, "%d", 1 << (szLine[37] - '0'));
-                sprintf(szco, "0");
+                sprintf(szco, "1");
                 CommandSetCubeOwner(szco);
             }
 
