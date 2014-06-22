@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.954 2014/06/22 07:15:29 mdpetch Exp $
+ * $Id: gnubg.c,v 1.955 2014/06/22 23:12:33 plm Exp $
  */
 
 #include "config.h"
@@ -480,7 +480,7 @@ player ap[2] = {
 
 char default_names[2][31] = { "gnubg", "user" };
 
-char aliases[64] = "";
+char aliases[256] = "";
 
 /* Usage strings */
 static char szDICE[] = N_("<die> <die>"),
