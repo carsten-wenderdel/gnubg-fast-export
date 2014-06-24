@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.955 2014/06/22 23:12:33 plm Exp $
+ * $Id: gnubg.c,v 1.956 2014/06/24 23:56:12 mdpetch Exp $
  */
 
 #include "config.h"
@@ -4531,9 +4531,6 @@ getDiceRandomDotOrg(void)
     }
 
 }
-
-#else
-static int (*getRandomDiceDotOrg) (void) = NULL;
 #endif                          /* HAVE_SOCKETS */
 
 static void
