@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.252 2014/06/27 00:35:44 mdpetch Exp $
+## $Id: Makefile.am,v 1.253 2014/07/01 00:10:19 mdpetch Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -230,7 +230,7 @@ copying.c: copying.awk
 	$(AWK) -f $(srcdir)/copying.awk < $(srcdir)/COPYING > $@
 
 copying.$(OBJEXT): copying.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(COMPILE) -c $< -o $@
 else
 copying.c: COPYING copying.awk
 	$(AWK) -f $(srcdir)/copying.awk < $(srcdir)/COPYING > $@
