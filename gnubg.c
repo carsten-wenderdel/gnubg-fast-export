@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.960 2014/06/27 18:16:51 plm Exp $
+ * $Id: gnubg.c,v 1.961 2014/07/20 21:30:36 plm Exp $
  */
 
 #include "config.h"
@@ -544,7 +544,7 @@ char *default_sgf_folder = NULL;
 
 const char *szHomeDirectory;
 
-char const *aszBuildInfo[] = {
+static char const *aszBuildInfo[] = {
 #if USE_PYTHON
     N_("Python supported."),
 #endif
