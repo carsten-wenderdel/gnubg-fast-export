@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: set.c,v 1.384 2014/07/13 12:49:34 mdpetch Exp $
+ * $Id: set.c,v 1.385 2014/07/20 22:06:27 plm Exp $
  */
 
 #include "config.h"
@@ -79,9 +79,6 @@
 #include "boarddim.h"
 #include "sound.h"
 #include "openurl.h"
-
-
-#include "sound.h"
 
 #if USE_BOARD3D
 #include "fun3d.h"
@@ -2967,12 +2964,6 @@ CommandSetMET(char *sz)
 extern void
 CommandSetEvalParamType(char *sz)
 {
-    const char *aszEvalType[] = {
-        N_("No evaluation"),
-        N_("Neural net evaluation"),
-        N_("Rollout")
-    };
-
     switch (sz[0]) {
 
     case 'r':
