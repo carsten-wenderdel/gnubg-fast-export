@@ -20,7 +20,7 @@
  * File modified by Joern Thyssen <jthyssen@dk.ibm.com> for use with
  * GNU Backgammon.
  *
- * $Id: sound.c,v 1.97 2014/06/25 22:44:04 mdpetch Exp $
+ * $Id: sound.c,v 1.98 2014/07/20 21:28:17 plm Exp $
  */
 
 #include "config.h"
@@ -491,7 +491,7 @@ SoundWait(void)
 #endif
 }
 
-char *sound_file[NUM_SOUNDS] = { 0 };
+static char *sound_file[NUM_SOUNDS] = { 0 };
 
 extern char *
 GetDefaultSoundFile(gnubgsound sound)
