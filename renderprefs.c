@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: renderprefs.c,v 1.49 2014/02/03 22:56:34 plm Exp $
+ * $Id: renderprefs.c,v 1.50 2014/07/20 20:53:58 plm Exp $
  */
 
 #include "config.h"
@@ -43,7 +43,7 @@ const char *aszWoodName[] = {
     "oak", "pine", "redwood", "walnut", "willow", "paint"
 };
 
-renderdata rdAppearance;
+static renderdata rdAppearance;
 
 /* Limit use of global... */
 extern renderdata *
