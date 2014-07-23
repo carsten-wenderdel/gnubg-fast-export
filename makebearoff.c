@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: makebearoff.c,v 1.93 2014/05/01 20:22:29 plm Exp $
+ * $Id: makebearoff.c,v 1.94 2014/07/23 19:43:01 plm Exp $
  */
 
 #include "config.h"
@@ -1253,7 +1253,7 @@ generate_ts(const int nTSP, const int nTSC,
 static void
 version(void)
 {
-    printf("makebearoff $Revision: 1.93 $\n");
+    printf("makebearoff $Revision: 1.94 $\n");
 }
 
 
@@ -1440,14 +1440,5 @@ main(int argc, char **argv)
 
     fclose(output);
     return 0;
-
-}
-
-extern bearoffcontext *
-BearoffInitBuiltin(void)
-{
-
-    printf("Make makebearoff build (avoid resursive rules Makefile :-)\n");
-    return NULL;
 
 }
