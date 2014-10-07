@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: positionid.h,v 1.37 2014/01/12 20:02:54 plm Exp $
+ * $Id: positionid.h,v 1.38 2014/10/07 07:14:29 plm Exp $
  */
 
 #ifndef POSITIONID_H
@@ -36,6 +36,7 @@ extern
 unsigned int PositionBearoff(const unsigned int anBoard[], unsigned int nPoints, unsigned int nChequers);
 
 extern void PositionFromKey(TanBoard anBoard, const positionkey * pkey);
+extern void PositionFromKeySwapped(TanBoard anBoard, const positionkey * pkey);
 
 /* Return 1 for success, 0 for invalid id */
 extern int PositionFromID(TanBoard anBoard, const char *szID);
