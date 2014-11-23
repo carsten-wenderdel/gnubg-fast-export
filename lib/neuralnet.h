@@ -15,7 +15,7 @@
  * neuralnet.h
  *
  * by Gary Wong, 1998
- * $Id: neuralnet.h,v 1.31 2014/05/11 15:32:35 plm Exp $
+ * $Id: neuralnet.h,v 1.32 2014/11/23 20:07:37 plm Exp $
  */
 
 #ifndef NEURALNET_H
@@ -28,7 +28,6 @@ typedef struct _neuralnet {
     unsigned int cInput;
     unsigned int cHidden;
     unsigned int cOutput;
-    unsigned int fDirect;
     int nTrained;
     float rBetaHidden;
     float rBetaOutput;
