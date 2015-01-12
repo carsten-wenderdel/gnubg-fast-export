@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
- * $Id: mtsupport.c,v 1.8 2015/01/12 22:32:45 plm Exp $
+ * $Id: mtsupport.c,v 1.9 2015/01/12 22:34:16 plm Exp $
  */
 
 #include "config.h"
@@ -479,6 +479,8 @@ multi_debug(const char *str, ...)
 #else
     printf("%s: %s\n", tn, buf);
 #endif
+
+    va_end(vl);
 
 #ifdef WIN32
     ReleaseMutex(td.multiLock);
