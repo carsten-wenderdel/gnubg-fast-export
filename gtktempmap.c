@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtktempmap.c,v 1.52 2015/01/25 20:36:17 plm Exp $
+ * $Id: gtktempmap.c,v 1.53 2015/02/06 23:25:00 plm Exp $
  */
 
 #include "config.h"
@@ -513,7 +513,7 @@ DestroyDialog(gpointer p, GObject * UNUSED(obj))
 }
 
 extern void
-GTKShowTempMap(const matchstate ams[], const int n, const gchar * aszTitle[], const int fInvert)
+GTKShowTempMap(const matchstate ams[], const int n, gchar * aszTitle[], const int fInvert)
 {
 
     evalcontext ec = { TRUE, 0, FALSE, TRUE, 0.0 };
