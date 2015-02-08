@@ -20,7 +20,7 @@
  * File modified by Joern Thyssen <jthyssen@dk.ibm.com> for use with
  * GNU Backgammon.
  *
- * $Id: sound.c,v 1.98 2014/07/20 21:28:17 plm Exp $
+ * $Id: sound.c,v 1.99 2015/02/08 13:09:27 plm Exp $
  */
 
 #include "config.h"
@@ -96,7 +96,6 @@ void
 PlaySound_QuickTime(const char *cSoundFilename)
 {
     int err;
-    Str255 pSoundFilename;      /* file pathname in Pascal-string format */
     FSSpec fsSoundFile;         /* movie file location descriptor */
     short resRefNum;            /* open movie file reference */
 
@@ -206,7 +205,6 @@ CoreAudio_PlayFile_Thread(void *auGraph)
 void
 CoreAudio_PlayFile(char *const fileName)
 {
-    const char *inputFile = fileName;
     pthread_t CAThread;
 
     /* first time through initialise the mutex */
