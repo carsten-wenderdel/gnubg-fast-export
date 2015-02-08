@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: makehyper.c,v 1.45 2015/01/11 23:49:09 plm Exp $
+ * $Id: makehyper.c,v 1.46 2015/02/08 15:52:36 plm Exp $
  */
 
 #include "config.h"
@@ -35,7 +35,6 @@
 #include "eval.h"
 #include "positionid.h"
 #include "bearoff.h"
-#include "drawboard.h"
 #include "lib/simd.h"
 #include "glib-ext.h"
 #include "multithread.h"
