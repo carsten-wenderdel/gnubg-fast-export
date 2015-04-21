@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: export.c,v 1.83 2015/04/21 16:13:45 mdpetch Exp $
+ * $Id: export.c,v 1.84 2015/04/21 17:41:17 mdpetch Exp $
  */
 
 #include "config.h"
@@ -1279,6 +1279,7 @@ ExportMatchMat(char *sz, int fSst)
             break;
         default:
             g_assert_not_reached();
+            break;
         }
 
         if (mi.pchAnnotator)
