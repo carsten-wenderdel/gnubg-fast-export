@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gnubg.c,v 1.969 2015/02/08 15:27:01 plm Exp $
+ * $Id: gnubg.c,v 1.970 2015/06/26 06:39:38 mdpetch Exp $
  */
 
 #include "config.h"
@@ -1406,7 +1406,8 @@ ShowBoard(void)
                               ap[0].szName, ms.nMatchTo, ms.anScore[1],
                               ms.anScore[0], ms.anDice[0],
                               ms.anDice[1], ms.nCube,
-                              ms.fCubeOwner, ms.fDoubled, ms.fTurn, ms.fCrawford, anChequers[ms.bgv]));
+                              ms.fCubeOwner, ms.fDoubled, ms.fTurn, ms.fCrawford, anChequers[ms.bgv],
+                              ms.fPostCrawford));
 
             return;
         }
