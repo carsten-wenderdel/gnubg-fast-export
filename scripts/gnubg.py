@@ -22,14 +22,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# $Id: gnubg.py,v 1.13 2014/08/07 21:49:07 mdpetch Exp $
+# $Id: gnubg.py,v 1.14 2015/08/01 05:23:22 mdpetch Exp $
 #
 
-# Add the scrpts directory to the module path to allow
-# for modules from this directory to be improted
+# Add the scripts directory to the module path to allow
+# for modules from this directory to be imported
 import sys
+import os
+
 sys.path.insert(1, './scripts')
-#import site
+if sys.platform == 'win32':
+    os.environ['TCL_LIBRARY']='PythonLib/lib/tcl8'
 
 if sys.version_info >= (3, 0):
     import builtins as bi
