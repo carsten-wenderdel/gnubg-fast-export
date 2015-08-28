@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: export.c,v 1.85 2015/07/31 23:40:23 mdpetch Exp $
+ * $Id: export.c,v 1.86 2015/08/28 22:31:09 plm Exp $
  */
 
 #include "config.h"
@@ -1047,8 +1047,7 @@ ExportGameJF(FILE * pf, listOLD * plGame, int iGame, int withScore, int fSst)
                 fprintf(pf, " %-31s%s\n", ap[0].szName, ap[1].szName);
             msExport.fCubeOwner = -1;
             /* FIXME what about automatic doubles? */
-            continue;
-            break;
+            continue;	/* branch out of the switch and continue for (pl ...) */
         case MOVE_NORMAL:
             diceRolled = 0;
             sprintf(sz, "%u%u: ", pmr->anDice[0], pmr->anDice[1]);
