@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: timer.c,v 1.17 2013/06/16 02:16:21 mdpetch Exp $
+ * $Id: timer.c,v 1.18 2015/08/31 05:36:26 mdpetch Exp $
  */
 
 #include "config.h"
@@ -29,7 +29,7 @@
 #endif
 
 #ifdef WIN32
-#include "windows.h"
+#include <windows.h>
 
 static double perFreq = 0;
 
