@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: credits.sh,v 1.150 2015/01/11 15:44:36 plm Exp $
+# $Id: credits.sh,v 1.151 2015/10/08 00:06:41 mdpetch Exp $
 # 
 
 authors=/tmp/auth.$$
@@ -259,7 +259,7 @@ cat > credits.c <<EOF
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "config.h"
+#include "common.h"
 #include <glib/gi18n.h>
 #include "credits.h"
 
