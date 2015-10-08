@@ -18,11 +18,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: sgf_y.y,v 1.10 2015/01/11 15:50:26 plm Exp $
+ * $Id: sgf_y.y,v 1.11 2015/10/08 00:29:39 mdpetch Exp $
  */
 
 %{
-#include "config.h"
+#include "common.h"
 #include "list.h"
 #include <glib.h>
 #include <stdio.h>
