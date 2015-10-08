@@ -16,13 +16,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: backgammon.h,v 1.457 2015/10/06 06:50:40 plm Exp $
+ * $Id: backgammon.h,v 1.458 2015/10/08 00:34:36 mdpetch Exp $
  */
 
 #ifndef BACKGAMMON_H
 #define BACKGAMMON_H
 
-#include "config.h"
+#include "common.h"
 
 #include "output.h"
 #include "analysis.h"
