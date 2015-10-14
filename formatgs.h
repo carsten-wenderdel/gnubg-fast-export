@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: formatgs.h,v 1.6 2013/06/16 02:16:12 mdpetch Exp $
+ * $Id: formatgs.h,v 1.7 2015/10/14 22:19:23 plm Exp $
  */
 
 #ifndef FORMATGS_H
@@ -27,7 +27,8 @@
 #include "analysis.h"
 
 enum _formatgs {
-    FORMATGS_CHEQUER,
+    FORMATGS_ALL = -1,
+    FORMATGS_CHEQUER = 0,
     FORMATGS_CUBE,
     FORMATGS_LUCK,
     FORMATGS_OVERALL
