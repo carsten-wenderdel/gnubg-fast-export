@@ -741,7 +741,7 @@ static yyconst flex_int16_t yy_chk[878] =
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: external_l.c,v 1.23 2015/10/08 00:29:39 mdpetch Exp $
+ * $Id: external_l.c,v 1.24 2016/01/28 07:48:38 plm Exp $
  */
 
 #include "common.h"

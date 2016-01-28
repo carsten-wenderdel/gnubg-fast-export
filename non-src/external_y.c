@@ -82,7 +82,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: external_y.c,v 1.20 2015/10/08 00:29:39 mdpetch Exp $
+ * $Id: external_y.c,v 1.21 2016/01/28 07:48:38 plm Exp $
  */
 
 #ifndef EXTERNAL_Y_H
@@ -189,8 +189,8 @@ void yyerror(scancontext *scanner, const char *str)
 
 /* In a future release of Bison, this section will be replaced
    by #include "y.tab.h".  */
-#ifndef YY_YY_EXTERNAL_Y_H_INCLUDED
-# define YY_YY_EXTERNAL_Y_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -296,7 +296,7 @@ union YYSTYPE
 
 int yyparse (scancontext *scanner);
 
-#endif /* !YY_YY_EXTERNAL_Y_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 #line 127 "external_y.y" /* yacc.c:358  */
