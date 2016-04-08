@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: dbprovider.c,v 1.49 2015/04/14 22:17:15 plm Exp $
+ * $Id: dbprovider.c,v 1.50 2016/04/08 05:09:59 plm Exp $
  */
 
 #include "config.h"
@@ -38,7 +38,7 @@ int storeGameStats = TRUE;
 #include "pylocdefs.h"
 
 static PyObject *pdict;
-RowSet *ConvertPythonToRowset(PyObject * v);
+static RowSet *ConvertPythonToRowset(PyObject * v);
 
 #if !USE_SQLITE
 static int PySQLiteConnect(const char *dbfilename, const char *user, const char *password, const char *hostname);
@@ -410,7 +410,7 @@ PyCommit(void)
         PyErr_Print();
 }
 
-RowSet *
+static RowSet *
 ConvertPythonToRowset(PyObject * v)
 {
     RowSet *pRow;
