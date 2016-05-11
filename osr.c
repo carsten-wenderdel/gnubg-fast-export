@@ -20,7 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: osr.c,v 1.38 2015/08/31 05:36:26 mdpetch Exp $
+ * $Id: osr.c,v 1.39 2016/05/11 21:33:08 plm Exp $
  */
 
 /*lint -e514 */
@@ -822,7 +822,7 @@ raceProbs(const TanBoard anBoard, const unsigned int nGames, float arOutput[NUM_
 
     float w, s;
 
-    /* Seed set to ensure that OSR are reproducable */
+    /* Seed set to ensure that OSR are reproducible */
 
     init_genrand(0, &mti, mt);
 
