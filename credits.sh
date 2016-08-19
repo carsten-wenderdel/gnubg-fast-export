@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-# $Id: credits.sh,v 1.154 2016/06/11 15:46:31 plm Exp $
+# $Id: credits.sh,v 1.155 2016/08/19 22:57:24 plm Exp $
 # 
 
 authors=/tmp/auth.$$
@@ -43,13 +43,14 @@ EOF
 cat > $contributors <<EOF
 Olivier Baur
 Holger Bochnig
+Guido Flohr
 Nis Joergensen
 Petr Kadlec
 Kaoru Takahashi
 Stein Kulseth
-Rod Roark
 Ingo Macherius
-Guido Flohr
+Jeremy Moore
+Rod Roark
 EOF
 
 cat > $support <<EOF
@@ -136,7 +137,6 @@ Tom Martin
 William Maslen
 Joachim Matussek
 Thomas Meyer
-Jeremy Moore
 Daniel Murphy
 Magnar Naustdalslid
 Dave Neary
