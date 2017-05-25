@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkuidefs.h,v 1.3 2013/11/28 21:49:50 plm Exp $
+ * $Id: gtkuidefs.h,v 1.4 2017/05/25 20:02:09 plm Exp $
  */
 
 #define GNUBG_MAIN_UI \
@@ -47,7 +47,7 @@
 	      \
 	      "<menu name='CopyAsMenu' action='CopyAsMenuAction'>" \
 	        "<menuitem name='PosAsAscii' action='CopyPosAsAsciiAction' />" \
-	        "<menuitem name='GammOnLine' action='CopyAsGammOnLineAction' />" \
+	        "<menuitem name='BGonline' action='CopyAsGammOnLineAction' />" \
 	      "</menu>" \
 	      \
 	      "<menuitem name='PasteID' action='PasteIDAction' />" \
