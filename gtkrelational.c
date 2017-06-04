@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkrelational.c,v 1.44 2016/05/14 22:28:32 plm Exp $
+ * $Id: gtkrelational.c,v 1.45 2017/06/04 15:33:28 plm Exp $
  */
 
 #include "config.h"
@@ -129,6 +129,7 @@ create_model(void)
 
     if (rs->rows < 2) {
         GTKMessage(_("No data in database"), DT_INFO);
+        FreeRowset(rs);
         return 0;
     }
 
