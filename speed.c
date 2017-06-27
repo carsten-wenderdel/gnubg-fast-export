@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: speed.c,v 1.33 2015/10/24 21:10:26 plm Exp $
+ * $Id: speed.c,v 1.34 2017/06/27 19:34:18 plm Exp $
  */
 
 #include "config.h"
@@ -33,8 +33,7 @@
 #include <stdlib.h>
 #endif
 
-#include <isaac.h>
-#include "speed.h"
+#include "lib/isaac.h"
 #include "lib/simd.h"
 
 #define EVALS_PER_ITERATION 1024
@@ -42,7 +41,7 @@
 static randctx rc;
 static double timeTaken;
 
-extern void
+static void
 RunEvals(void *UNUSED(notused))
 {
     int aanBoard[EVALS_PER_ITERATION][2][25];
