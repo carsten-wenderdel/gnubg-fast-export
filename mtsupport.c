@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * 
- * $Id: mtsupport.c,v 1.10 2015/01/17 21:56:19 mdpetch Exp $
+ * $Id: mtsupport.c,v 1.11 2017/06/28 20:11:50 plm Exp $
  */
 
 #include "config.h"
@@ -28,12 +28,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#if USE_GTK
-#include <gtk/gtk.h>
+#if defined(USE_GTK)
 #include <gtkgame.h>
 #endif
 
-#include "speed.h"
 #include "rollout.h"
 #include "util.h"
 #include "lib/simd.h"
@@ -491,8 +489,7 @@ multi_debug(const char *str, ...)
 #else
 #include "multithread.h"
 #include <stdlib.h>
-#if USE_GTK
-#include <gtk/gtk.h>
+#if defined(USE_GTK)
 #include <gtkgame.h>
 #endif
 
