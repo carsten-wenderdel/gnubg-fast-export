@@ -1,4 +1,6 @@
-INCLUDES=-I$(srcdir)/../analyze \
+## $Id: Makefile.am,v 1.4 2017/08/10 19:26:49 plm Exp $
+ 
+AM_CPPFLAGS=-I$(srcdir)/../analyze \
          -I$(srcdir)/../gnubg \
 	 @PYTHON_CSPEC@
 
