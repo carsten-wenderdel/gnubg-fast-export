@@ -1,5 +1,5 @@
 #
-# gnubg.gtkrc.in
+# gnubg.gtkrc
 # by
 # Gary Wong <gtw@gnu.org>, 2001
 # Joern Thyssen <jth@gnubg.org>, 2002
@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# $Id: gnubg.gtkrc,v 1.24 2017/10/01 10:08:45 plm Exp $
+# $Id: gnubg.gtkrc,v 1.25 2017/10/01 10:16:11 plm Exp $
 #
 # style <name> [= <name>]
 # {
