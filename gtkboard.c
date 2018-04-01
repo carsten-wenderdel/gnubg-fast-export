@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkboard.c,v 1.348 2017/12/31 15:11:33 plm Exp $
+ * $Id: gtkboard.c,v 1.349 2018/04/01 20:10:27 plm Exp $
  */
 
 /*! \file gtkboard.c
@@ -165,7 +165,7 @@ static void
 board_beep(BoardData * UNUSED(bd))
 {
     if (fGUIBeep)
-        gdk_beep();
+        gdk_display_beep(gdk_display_get_default());
 }
 
 extern void
