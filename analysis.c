@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: analysis.c,v 1.246 2017/10/11 21:54:50 plm Exp $
+ * $Id: analysis.c,v 1.247 2018/04/02 19:31:30 plm Exp $
  */
 
 #include "config.h"
@@ -1044,6 +1044,8 @@ AddStatcontext(const statcontext * pscA, statcontext * pscB)
 
     int i, j;
 
+    MT_Exclusive();
+
     pscB->nGames++;
 
     pscB->fMoves |= pscA->fMoves;
@@ -1104,7 +1106,7 @@ AddStatcontext(const statcontext * pscA, statcontext * pscB)
         }
 
     }
-
+    MT_Release();
 }
 
 static int
