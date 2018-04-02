@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkmovelist.c,v 1.35 2016/05/07 21:16:48 plm Exp $
+ * $Id: gtkmovelist.c,v 1.36 2018/04/02 19:36:15 plm Exp $
  */
 
 #include "config.h"
@@ -62,7 +62,7 @@ MoveListCreate(hintdata * phd)
         N_("L bg"),
         NULL,
         N_("Diff."),
-        N_("Move")
+        N_("noun|Move")
     };
     unsigned int i;
     int showWLTree = showMoveListDetail && !phd->fDetails;
