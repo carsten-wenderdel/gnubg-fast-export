@@ -1,7 +1,7 @@
 /*
  * osr.h
  *
- * by Jørn Thyssen <jthyssen@dk.ibm.com>, 2002
+ * by Joern Thyssen <jthyssen@dk.ibm.com>, 2002
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of version 3 or later of the GNU General Public License as
@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: osr.h,v 1.8 2013/06/16 02:16:19 mdpetch Exp $
+ * $Id: osr.h,v 1.9 2018/04/23 21:49:59 plm Exp $
  */
 
 #ifndef OSR_H
