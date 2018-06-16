@@ -16,16 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: relational.h,v 1.15 2013/06/16 02:16:20 mdpetch Exp $
+ * $Id: relational.h,v 1.16 2018/06/16 14:50:07 plm Exp $
  */
 
 #ifndef RELATIONAL_H
 #define RELATIONAL_H
 
-#include <dbprovider.h>
 #include <stddef.h>
 #include <sys/types.h>
 #include "analysis.h"
+#include "dbprovider.h"
 
 #define DB_VERSION 1
 
