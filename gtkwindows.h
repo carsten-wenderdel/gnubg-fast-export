@@ -12,7 +12,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkwindows.h,v 1.23 2014/05/01 22:19:08 plm Exp $
+ * $Id: gtkwindows.h,v 1.24 2018/09/28 15:08:29 plm Exp $
  */
 
 #ifndef GTKWINDOWS_H
@@ -75,6 +75,7 @@ typedef enum _warningType {
 extern int GTKShowWarning(warningType warning, GtkWidget * pwParent);
 extern warningType ParseWarning(char *str);
 extern void SetWarningEnabled(warningType warning, int value);
+extern int GetWarningEnabled(warningType warning);
 extern void PrintWarning(warningType warning);
 extern void WriteWarnings(FILE * pf);
 
