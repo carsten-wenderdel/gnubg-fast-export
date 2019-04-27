@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: sound.h,v 1.24 2018/06/16 15:23:09 plm Exp $
+ * $Id: sound.h,v 1.25 2019/04/27 17:21:53 plm Exp $
  */
 
 #ifndef SOUND_H
@@ -56,7 +56,6 @@ extern int fSound;
 extern int fQuiet;
 
 extern void playSound(const gnubgsound gs);
-extern void SoundFlushCache(const gnubgsound gs);
 extern void SoundWait(void);
 
 extern char *GetDefaultSoundFile(gnubgsound sound);
