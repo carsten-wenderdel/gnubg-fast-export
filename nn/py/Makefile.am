@@ -1,4 +1,4 @@
-## $Id: Makefile.am,v 1.4 2017/08/10 19:26:49 plm Exp $
+## $Id: Makefile.am,v 1.5 2019/04/28 12:10:46 plm Exp $
  
 AM_CPPFLAGS=-I$(srcdir)/../analyze \
          -I$(srcdir)/../gnubg \
@@ -16,3 +16,5 @@ bin_PROGRAMS = pygnubg
 #SYSLIBS= -ldl -lpthread -lutil
 AM_CFLAGS = $(SSE_CFLAGS)
 AM_CXXFLAGS = $(SSE_CFLAGS)
+
+EXTRA_DIST = bgutil.py bgutil1.py
