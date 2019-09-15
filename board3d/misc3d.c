@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: misc3d.c,v 1.121 2019/09/10 05:33:37 plm Exp $
+ * $Id: misc3d.c,v 1.122 2019/09/15 20:05:05 plm Exp $
  */
 
 #include "config.h"
@@ -36,7 +36,6 @@
 #include "util.h"
 #include <glib/gstdio.h>
 #include "gtklocdefs.h"
-#include "glib-ext.h"
 
 #define MAX_FRAMES 10
 #define DOT_SIZE 32
@@ -465,7 +464,7 @@ LoadTextureInfo(void)
     textures = NULL;
 
     szFile = BuildFilename(TEXTURE_FILE);
-    fp = gnubg_g_fopen(szFile, "r");
+    fp = g_fopen(szFile, "r");
     g_free(szFile);
 
     if (!fp) {
