@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: graph.c,v 1.32 2017/05/27 21:34:43 plm Exp $
+ * $Id: graph.c,v 1.33 2019/09/22 17:37:06 plm Exp $
  */
 
 
@@ -219,7 +219,8 @@ DrawLeftAxis(const GraphData * pgd)
 
     for (i = 1; i <= numPoints; i++) {
         float y = NUM_HEIGHT;
-        y += (float) i *pointInc;
+
+        y += (float) (i * pointInc);
         glColor3f(1.f, 1.f, 1.f);
         PrintSideNumber(i * pointInc, NUM_WIDTH * 10, NUM_HEIGHT * 10, NUM_WIDTH - 1, y);
 
