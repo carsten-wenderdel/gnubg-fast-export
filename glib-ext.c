@@ -16,10 +16,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: glib-ext.c,v 1.14 2019/09/15 20:05:04 plm Exp $
+ * $Id: glib-ext.c,v 1.15 2019/10/15 20:14:46 Superfly_Jon Exp $
  */
 
-
+#include <config.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
