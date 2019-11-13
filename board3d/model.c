@@ -18,12 +18,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: model.c,v 1.24 2019/11/09 22:23:55 Superfly_Jon Exp $
+ * $Id: model.c,v 1.25 2019/11/13 21:41:05 Superfly_Jon Exp $
  */
 
 #include "config.h"
 #include "legacyGLinc.h"
-#include "inc3d.h"
+#include "fun3d.h"
 
 #define TOP_EDGE (-2)
 

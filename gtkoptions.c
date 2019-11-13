@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkoptions.c,v 1.129 2019/11/01 22:06:42 plm Exp $
+ * $Id: gtkoptions.c,v 1.130 2019/11/13 21:41:03 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -42,7 +42,7 @@
 #include "gtkwindows.h"
 #include "openurl.h"
 #if defined(USE_BOARD3D)
-#include "fun3d.h"
+#include "inc3d.h"
 #endif
 #include "multithread.h"
 #include "gtkoptions.h"

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkgame.h,v 1.162 2019/11/05 21:32:39 plm Exp $
+ * $Id: gtkgame.h,v 1.163 2019/11/13 21:41:03 Superfly_Jon Exp $
  */
 
 #ifndef GTKGAME_H
@@ -184,7 +184,6 @@ extern void ProcessInput(char *sz);
 
 #if defined(USE_BOARD3D)
 extern void SetSwitchModeMenuText(void);
-#include "inc3d.h"
 #endif
 
 #endif

@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkgamelist.c,v 1.49 2018/06/23 21:21:12 plm Exp $
+ * $Id: gtkgamelist.c,v 1.50 2019/11/13 21:41:03 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -35,9 +35,6 @@
 #include "positionid.h"
 #include "gtkgame.h"
 #include "util.h"
-#if defined(USE_BOARD3D)
-#include "fun3d.h"
-#endif
 
 static GtkListStore *plsGameList;
 static GtkWidget *pwGameList;

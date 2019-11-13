@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## $Id: Makefile.am,v 1.269 2019/11/05 20:43:36 plm Exp $
+## $Id: Makefile.am,v 1.270 2019/11/13 21:41:02 Superfly_Jon Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -44,7 +44,7 @@ if USE_PYTHON
 AM_CPPFLAGS += @PYTHON_CPPFLAGS@ 
 endif
 if USE_BOARD3D
-AM_CPPFLAGS += -I$(srcdir)/board3d @GTKGLEXT_CFLAGS@ 
+AM_CPPFLAGS += @GTKGLEXT_CFLAGS@ 
 endif
 
 
