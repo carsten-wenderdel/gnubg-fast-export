@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Jon Kinsey <jonkinsey@gmail.com
+ * Copyright (C) 2019 Jon Kinsey <jonkinsey@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.c,v 1.3 2019/11/13 21:41:05 Superfly_Jon Exp $
+ * $Id: ShimOGL.c,v 1.4 2019/11/14 20:08:41 plm Exp $
  */
 
 #include "config.h"
