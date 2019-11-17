@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkcolour3d.c,v 1.65 2019/11/14 20:08:41 plm Exp $
+ * $Id: gtkcolour3d.c,v 1.66 2019/11/17 15:58:37 plm Exp $
  */
 
 #include "config.h"
@@ -216,11 +216,11 @@ TextureChange(GtkComboBoxText * combo, gpointer UNUSED(data))
 }
 
 static gboolean
-exposePreviewCB(GtkWidget* widget, GdkEventExpose* eventData, Material * pMat)
+exposePreviewCB(GtkWidget* UNUSED(widget), GdkEventExpose* UNUSED(eventData), Material * pMat)
 {
     SetupLight();
     Draw(pMat);
-	return TRUE;
+    return TRUE;
 }
 
 static void
