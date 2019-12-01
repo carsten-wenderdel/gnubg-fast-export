@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: drawboard3d.c,v 1.112 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: drawboard3d.c,v 1.113 2019/12/01 20:30:20 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -115,6 +115,9 @@ void drawRectTextureMatched(float x, float y, float z, float w, float h, const T
 void
 drawBackground(const renderdata* prd, const float* bd3dbackGroundPos, const float* bd3dbackGroundSize)
 {
+	glPushMatrix();
+	glLoadIdentity();
+
 	//Bottom
 	drawRectTextureMatched(bd3dbackGroundPos[0], bd3dbackGroundPos[1], 0.f, bd3dbackGroundSize[0], -bd3dbackGroundPos[1], prd->BackGroundMat.pTexture);
 	//Left
@@ -123,6 +126,8 @@ drawBackground(const renderdata* prd, const float* bd3dbackGroundPos, const floa
 	drawRectTextureMatched(bd3dbackGroundPos[0], TOTAL_HEIGHT, 0.f, bd3dbackGroundSize[0], bd3dbackGroundSize[1] - TOTAL_HEIGHT + bd3dbackGroundPos[1], prd->BackGroundMat.pTexture);
 	//Right
 	drawRectTextureMatched(TOTAL_WIDTH, 0.f, 0.f, -bd3dbackGroundPos[0], TOTAL_HEIGHT, prd->BackGroundMat.pTexture);
+
+	glPopMatrix();
 }
 
 static void

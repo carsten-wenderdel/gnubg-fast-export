@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: font3d.c,v 1.38 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: font3d.c,v 1.39 2019/12/01 20:30:20 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -279,8 +279,7 @@ tcbEnd( /*lint -e{818} */ Mesh* pMesh)
 }
 
 #include "ShimOGL.h"
-
-void RenderCharAA(unsigned int glyph);
+#include "BoardDimensions.h"
 
 extern void
 RenderString3d(const OGLFont* pFont, const char* str, float scale, int MAA)
@@ -329,8 +328,6 @@ glPrintPointNumbers(const OGLFont* numberFont, const char* text, int MAA)
 	RenderString3d(numberFont, text, numberFont->scale, MAA);
 	glPopMatrix();
 }
-
-#include "BoardDimensions.h"
 
 void
 DrawNumbers(const OGLFont* numberFont, unsigned int sides, int swapNumbers, int MAA)
