@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.h,v 1.5 2019/11/29 19:31:07 plm Exp $
+ * $Id: ShimOGL.h,v 1.6 2019/12/01 20:21:03 Superfly_Jon Exp $
  */
 
 typedef unsigned int GLenum;
@@ -36,7 +36,6 @@ typedef float GLfloat;
 #define GL_TRUE                           1
 #define GL_FALSE                          0
 
-void SHIMsetMaterial(const Material* pMat);
 void SHIMglBegin(GLenum mode);
 void SHIMglEnd(void);
 void SHIMglMatrixMode(GLenum mode);
@@ -53,7 +52,6 @@ void SHIMglFrustum(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLf
 void SHIMglOrtho(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar);
 void SHIMglLoadIdentity(void);
 
-#define setMaterial SHIMsetMaterial
 #define glPushMatrix SHIMglPushMatrix
 #define glPopMatrix SHIMglPopMatrix
 #define glTranslatef SHIMglTranslatef
@@ -69,6 +67,3 @@ void SHIMglLoadIdentity(void);
 #define glFrustum SHIMglFrustum
 #define glOrtho SHIMglOrtho
 #define glLoadIdentity SHIMglLoadIdentity
-
-float* SHIMGetModelViewMatrix(void);
-float* SHIMGetProjectionMatrix(void);

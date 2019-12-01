@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: shadow.c,v 1.26 2019/11/13 21:41:05 Superfly_Jon Exp $
+ * $Id: shadow.c,v 1.27 2019/12/01 20:21:03 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -45,6 +45,7 @@ shadowInit(BoardData3d * bd3d, renderdata * prd)
     if (bd3d->shadowsInitialised)
         return;
 
+#ifndef USE_GTK3
     /* Darkness as percentage of ambient light */
     prd->dimness = (float)(prd->lightLevels[1] * (100 - prd->shadowDarkness)) / (100.0f * 100.0f);
 
@@ -60,6 +61,7 @@ shadowInit(BoardData3d * bd3d, renderdata * prd)
     glClearStencil(midStencilVal);
 
     bd3d->shadowsInitialised = TRUE;
+#endif
 }
 
 #ifdef TEST_HARNESS
