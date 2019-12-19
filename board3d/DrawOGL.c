@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: DrawOGL.c,v 1.7 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: DrawOGL.c,v 1.8 2019/12/19 22:09:03 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -500,17 +500,26 @@ void MAApiece(int roundPiece, int curveAccuracy)
 	GLboolean textureEnabled;
 	glGetBooleanv(GL_TEXTURE_2D, &textureEnabled);
 
+	GLboolean blendEnabled;
+	glGetBooleanv(GL_BLEND, &blendEnabled);
+
 	if (textureEnabled)
 		glDisable(GL_TEXTURE_2D);
 
 	LegacyStartAA(1.0f);
 	glDepthMask(GL_FALSE);
 
-	circleOutlineOutward(radius, PIECE_DEPTH - lip, curveAccuracy);
-	circleOutlineOutward(radius, lip, curveAccuracy);
+	glPushMatrix();
+	glLoadMatrixf(GetModelViewMatrix());
+		circleOutlineOutward(radius, PIECE_DEPTH - lip, curveAccuracy);
+		circleOutlineOutward(radius, lip, curveAccuracy);
+	glPopMatrix();
 
 	glDepthMask(GL_TRUE);
 	LegacyEndAA();
+
+	if (blendEnabled)
+		glEnable(GL_BLEND);
 
 	if (textureEnabled)
 		glEnable(GL_TEXTURE_2D);
@@ -801,9 +810,10 @@ drawFlag(const ModelManager* modelHolder, const BoardData* bd, const BoardData3d
 
 	waveFlag(bd3d->flagWaved);
 
-	MoveToFlagPos(bd);
-	renderFlag(modelHolder, bd3d, bd->rd->curveAccuracy);
-	renderFlagNumbers(bd3d, bd->resigned);
+	glPushMatrix();
+		MoveToFlagPos(bd);
+		renderFlag(modelHolder, bd3d, bd->rd->curveAccuracy);
+		renderFlagNumbers(bd3d, bd->resigned);
 	PopMatrix();	/* Move back to origin */
 
 	if (isStencil)
