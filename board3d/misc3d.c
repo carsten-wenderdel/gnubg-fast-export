@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: misc3d.c,v 1.129 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: misc3d.c,v 1.130 2019/12/19 09:23:04 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -1047,7 +1047,6 @@ idleAnimate(BoardData3d * bd3d)
     float elapsedTime = (float) (get_time() - animStartTime) / 1000.0f;
     float vel = .2f + nGUIAnimSpeed * .3f;
     float animateDistance = elapsedTime * vel;
-    renderdata *prd = bd->rd;
 
     if (stopNextTime) {         /* Stop now - last animation frame has been drawn */
         StopIdle3d(bd, bd->bd3d);
