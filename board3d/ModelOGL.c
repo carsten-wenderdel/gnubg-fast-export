@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ModelOGL.c,v 1.5 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: ModelOGL.c,v 1.6 2020/01/15 21:22:55 plm Exp $
  */
 
 #include "config.h"
@@ -57,8 +57,6 @@ void ModelManagerStart(ModelManager* modelHolder)
 	modelHolder->totalNumVertices = 0;
 	modelHolder->numModels = 0;
 }
-
-float* GetModelViewMatrix();
 
 #ifndef USE_GTK3
 void OglModelDraw(const ModelManager* modelManager, int modelNumber, const Material* pMat)
