@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: drawboard3d.c,v 1.114 2019/12/19 22:09:03 Superfly_Jon Exp $
+ * $Id: drawboard3d.c,v 1.115 2020/01/19 16:45:10 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -2036,6 +2036,7 @@ preDraw3d(const BoardData * bd, BoardData3d * bd3d, renderdata * prd)
 #ifndef USE_GTK3
 	MakeShadowModel(bd, bd3d, prd);
 #endif
+	RecalcViewingVolume(bd);
 }
 
 #include <ft2build.h>

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: widget3d.c,v 1.61 2019/11/20 14:36:36 Superfly_Jon Exp $
+ * $Id: widget3d.c,v 1.62 2020/01/19 16:45:10 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -55,9 +55,6 @@ realize_3dCB(void* data)
     InitGL(bd);
     GetTextures(bd->bd3d, bd->rd);
     preDraw3d(bd, bd->bd3d, bd->rd);
-
-	/* Make sure viewing area is correct (in preview) */	//TODO: Still needed?
-	RecalcViewingVolume(bd);
 
 #ifdef WIN32
     if (fResetSync) {
