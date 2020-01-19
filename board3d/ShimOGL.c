@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.c,v 1.7 2019/12/01 20:21:03 Superfly_Jon Exp $
+ * $Id: ShimOGL.c,v 1.8 2020/01/19 21:04:01 plm Exp $
  */
 
 #include "config.h"
@@ -40,12 +40,16 @@ static void MatStackInit(MatStack* matStack)
 
 static void MatStackPush(MatStack* matStack)
 {
+	g_assert(matStack->level < (MAX_STACK_LEVEL - 1));
+
 	matStack->level++;
 	glm_mat4_copy(matStack->stack[matStack->level - 1], matStack->stack[matStack->level]);
 }
 
 static void MatStackPop(MatStack* matStack)
 {
+	g_assert(matStack->level > 0);
+
 	matStack->level--;
 }
 
