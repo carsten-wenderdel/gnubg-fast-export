@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.c,v 1.8 2020/01/19 21:04:01 plm Exp $
+ * $Id: ShimOGL.c,v 1.9 2020/02/29 20:21:44 Superfly_Jon Exp $
  */
 
 #include "config.h"
@@ -142,6 +142,16 @@ void SHIMglNormal3f(GLfloat nx, GLfloat ny, GLfloat nz)
 	}
 }
 
+void SHIMglNormal3fv(vec3 n)
+{
+	if (curModel->data)
+	{
+		curNormal[0] = n[0];
+		curNormal[1] = n[1];
+		curNormal[2] = n[2];
+	}
+}
+
 void SHIMglTexCoord2f(GLfloat s, GLfloat t)
 {
 	if (curModel->data)
@@ -166,6 +176,11 @@ static void AddVertex(int offset)
 	}
 
 	curModel->dataLength += VERTEX_STRIDE;
+}
+
+void SHIMglVertex3fv(vec3 vertex)
+{
+	SHIMglVertex3f(vertex[0], vertex[1], vertex[2]);
 }
 
 void SHIMglVertex3f(GLfloat x, GLfloat y, GLfloat z)
@@ -286,4 +301,14 @@ float* GetModelViewMatrix()
 float* GetProjectionMatrix()
 {
 	return (float*)pjMatStack.stack[pjMatStack.level];
+}
+
+void GetModelViewMatrixMat(mat4 ret)
+{
+	glm_mat4_copy(mvMatStack.stack[mvMatStack.level], ret);
+}
+
+void GetProjectionMatrixMat(mat4 ret)
+{
+	glm_mat4_copy(pjMatStack.stack[pjMatStack.level], ret);
 }

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: font3d.c,v 1.40 2019/12/29 15:35:43 plm Exp $
+ * $Id: font3d.c,v 1.41 2020/02/29 20:21:44 Superfly_Jon Exp $
  */
 
 /* Draw 3d numbers using vera font and freetype library */
@@ -295,7 +295,9 @@ RenderString3d(const OGLFont* pFont, const char* str, float scale, int MAA)
 		else
 		{
 			/* AA outline of character */
+#ifndef USE_GTK3
 			RenderCharAA(pFont->AAglyphs + (unsigned int)offset);
+#endif
 		}
 		/* Move on to next place */
 		glTranslatef((float)(pFont->advance + GetKern(pFont, str[0], str[1])) / 64.0f, 0.f, 0.f);
