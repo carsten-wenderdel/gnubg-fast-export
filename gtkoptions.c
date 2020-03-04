@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkoptions.c,v 1.130 2019/11/13 21:41:03 Superfly_Jon Exp $
+ * $Id: gtkoptions.c,v 1.131 2020/03/04 21:59:38 plm Exp $
  */
 
 #include "config.h"
@@ -1053,7 +1053,7 @@ append_dice_options(optionswidget * pow)
 #endif
     int rngsAdded = 0, rngSelected = -1;
 
-    free(InitRNG(&nRandom, NULL, TRUE, rngCurrent));
+    free(InitRNG(&nRandom, NULL, FALSE, rngCurrent));
 
     pwp = gtk_alignment_new(0, 0, 0, 0);
     gtk_container_set_border_width(GTK_CONTAINER(pwp), 4);
