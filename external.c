@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: external.c,v 1.102 2020/02/23 20:54:56 plm Exp $
+ * $Id: external.c,v 1.103 2020/04/04 19:53:14 plm Exp $
  */
 
 #include "config.h"
@@ -397,7 +397,7 @@ ExtEvaluation(scancontext * pec)
     evalcontext ec;
 
     if (ProcessFIBSBoardInfo(&pec->bi, &processedBoard)) {
-        return szResponse = g_strdup_printf("Error: badly formed board\n");
+        return g_strdup_printf("Error: badly formed board\n");
     }
 
     anScore[0] = processedBoard.nScore;
@@ -447,7 +447,7 @@ ExtFIBSBoard(scancontext * pec)
     char *szResponse;
 
     if (ProcessFIBSBoardInfo(&pec->bi, &processedBoard))
-        return szResponse = g_strdup_printf("Error: badly formed board\n");
+        return g_strdup_printf("Error: badly formed board\n");
 
     anScore[0] = processedBoard.nScore;
     anScore[1] = processedBoard.nScoreOpp;
