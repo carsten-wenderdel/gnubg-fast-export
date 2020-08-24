@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: dice.c,v 1.102 2019/10/15 20:01:26 plm Exp $
+ * $Id: dice.c,v 1.103 2020/08/24 16:17:53 plm Exp $
  */
 
 #include "config.h"
@@ -862,6 +862,9 @@ ReadDiceFile(rngcontext * rngctx)
 
     unsigned char uch;
     size_t n;
+
+    if (rngctx->fDice == NULL)
+        return (unsigned int) (-1);
 
   uglyloop:
     {
