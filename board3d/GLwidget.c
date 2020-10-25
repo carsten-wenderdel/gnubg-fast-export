@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: GLwidget.c,v 1.8 2020/02/29 20:21:44 Superfly_Jon Exp $
+ * $Id: GLwidget.c,v 1.9 2020/10/25 21:00:59 plm Exp $
  */
 
 #include "config.h"
@@ -416,6 +416,8 @@ GLWidgetCreate(RealizeCB realizeCB, ConfigureCB configureCB, ExposeCB exposeCB, 
 		g_signal_connect(G_OBJECT(pw), "configure_event", G_CALLBACK(configure_event), glwData);
 	if (exposeCB != NULL)
 		g_signal_connect(G_OBJECT(pw), "expose_event", G_CALLBACK(expose_event), glwData);
+
+	g_object_set_data_full(G_OBJECT(pw), "GLWidgetData", glwData, free);
 
 	return pw;
 }
