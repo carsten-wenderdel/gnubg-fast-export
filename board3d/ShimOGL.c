@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.c,v 1.9 2020/02/29 20:21:44 Superfly_Jon Exp $
+ * $Id: ShimOGL.c,v 1.10 2020/10/26 21:29:50 plm Exp $
  */
 
 #include "config.h"
@@ -74,7 +74,8 @@ static MatStack* GetCurMatStack(void)
 	case GL_PROJECTION:
 		return &pjMatStack;
 	}
-	return NULL;
+	g_assert_not_reached();
+	abort();
 }
 
 static mat4* GetCurMatStackMat(void)
