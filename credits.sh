@@ -1,4 +1,5 @@
 #!/bin/sh
+# vim: set fileencoding=utf8
 
 # Copyright (C) 1998-2004 Gary Wong <gtw@gnu.org>
 # Copyright (C) 2004-2014 the AUTHORS
@@ -17,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #
-# $Id: credits.sh,v 1.161 2020/01/11 22:19:06 plm Exp $
+# $Id: credits.sh,v 1.161.2.1 2020/11/09 14:45:41 oysteijo Exp $
 # 
 
 authors=/tmp/auth.$$
@@ -29,7 +30,7 @@ extra=/tmp/extra.$$
 
 cat > $authors <<EOF
 Joseph Heled
-Oystein Johansen
+Øystein Schønning-Johansen
 Jonathan Kinsey
 David Montgomery
 Jim Segrave
@@ -54,7 +55,7 @@ Rod Roark
 EOF
 
 cat > $support <<EOF
-Oystein Johansen,Web Pages
+Øystein Schønning-Johansen,Web Pages
 Achim Mueller,Manual
 Nardy Pillards,Web Pages
 Albert Silver,Tutorial
