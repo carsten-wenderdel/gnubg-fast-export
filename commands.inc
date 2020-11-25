@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: commands.inc,v 1.54 2019/12/29 16:04:04 plm Exp $
+ * $Id: commands.inc,v 1.54.4.1 2020/11/25 05:03:26 pif Exp $
  */
 
 /* All the commands are in this file */
@@ -1394,6 +1394,9 @@ static command acSetVariation[] = {
     { "temperaturemap", CommandShowTemperatureMap, 
       N_("Show temperature map (graphic overview of dice distribution)"), 
       NULL, NULL },
+    { "scoremap", CommandShowScoreMap, 
+      N_("Show score map (graphic overview of cube at different scores)"), 
+      NULL, NULL },      
 #if defined(USE_MULTITHREAD)
     { "threads", CommandShowThreads, N_("Show number of calculation threads"),
 	NULL, NULL },
