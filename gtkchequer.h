@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkchequer.h,v 1.22 2020/01/25 21:37:08 plm Exp $
+ * $Id: gtkchequer.h,v 1.22.4.1 2020/11/25 05:02:47 pif Exp $
  */
 
 #ifndef GTKCHEQUER_H
@@ -34,6 +34,7 @@ typedef struct _hintdata {
     GtkWidget *pwShow;          /* button for showing moves */
     GtkWidget *pwTempMap;       /* button for showing temperature map */
     GtkWidget *pwCmark;         /* button for marking */
+    GtkWidget *pwScoreMap;      /* button for showing move score map */
     moverecord *pmr;
     movelist *pml;
     int fButtonsValid;

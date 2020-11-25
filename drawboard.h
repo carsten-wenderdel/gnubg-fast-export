@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: drawboard.h,v 1.26 2019/11/29 19:29:46 plm Exp $
+ * $Id: drawboard.h,v 1.26.4.1 2020/11/25 05:02:47 pif Exp $
  */
 
 #ifndef DRAWBOARD_H
@@ -31,8 +31,8 @@ extern char *DrawBoard(char *pch, const TanBoard anBoard, int fRoll, char *asz[]
  * the board looks like anBoard.  pch must have room for 28 characters plus
  * a trailing 0 (consider the move `bar/24* 23/22* 21/20* 19/18*'). */
 #define FORMATEDMOVESIZE 29
-extern char *FormatMove(char *pch, const TanBoard anBoard, int anMove[8]);
-extern char *FormatMovePlain(char *pch, TanBoard anBoard, int anMove[8]);
+extern char *FormatMove(char *pch, const TanBoard anBoard, const int anMove[8]);
+extern char *FormatMovePlain(char *pch, const TanBoard anBoard, const int anMove[8]);
 extern int ParseMove(char *pch, int an[8]);
 extern void CanonicalMoveOrder(int an[]);
 /* Fill the buffer pch with a FIBS "boardstyle 3" description of the game. */

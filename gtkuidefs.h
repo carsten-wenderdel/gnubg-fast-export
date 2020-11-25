@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gtkuidefs.h,v 1.4 2017/05/25 20:02:09 plm Exp $
+ * $Id: gtkuidefs.h,v 1.4.4.1 2020/11/25 05:02:47 pif Exp $
  */
 
 #define GNUBG_MAIN_UI \
@@ -176,6 +176,7 @@
 	      "<menuitem name='DistributionOfRolls' action='DistributionOfRollsAction' />" \
 	      "<menuitem name='TemperatureMap' action='TemperatureMapAction' />" \
 	      "<menuitem name='TemperatureMapCube' action='TemperatureMapCubeAction' />" \
+	      "<menuitem name='ScoreMapCube' action='ScoreMapCubeAction' />" \
 	      "<separator/>" \
 	      "<menuitem name='RaceTheory' action='RaceTheoryAction' />" \
 	      "<separator/>" \
