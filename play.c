@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: play.c,v 1.467 2020/03/08 14:44:38 plm Exp $
+ * $Id: play.c,v 1.467.4.1 2020/11/25 05:02:18 pif Exp $
  */
 
 #include "config.h"
@@ -156,6 +156,7 @@ NewMoveRecord(void)
     pmr->stCube = SKILL_NONE;
     pmr->ml.cMoves = 0;
     pmr->ml.amMoves = NULL;
+    pmr->MoneyCubeDecPtr = NULL;
 
     /* movenormal */
     pmr->n.stMove = SKILL_NONE;
@@ -451,6 +452,9 @@ FreeMoveRecord(moverecord * pmr)
 
     if (pmr->sz)
         free(pmr->sz);
+
+    if (pmr->MoneyCubeDecPtr)
+        free(pmr->MoneyCubeDecPtr);
 
     free(pmr);
 }

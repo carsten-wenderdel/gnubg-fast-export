@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: progress.c,v 1.81 2019/12/16 22:20:55 plm Exp $
+ * $Id: progress.c,v 1.81.4.1 2020/11/25 05:02:18 pif Exp $
  */
 
 #include "config.h"
@@ -1071,7 +1071,7 @@ TextRolloutProgress(float aarOutput[][NUM_ROLLOUT_OUTPUTS],
             sprintf(pc, " %d%c", nRank, fStopped ? 's' : 'r');
 
         if (nRank != 1 || fCubeRollout)
-            sprintf(strchr(pc, 0), " %5.3f\n", rJsd);
+            sprintf(strchr(pc, 0), " %5.3f\n", rJsd); //xxx
         else
             strcat(pc, "\n");
 
