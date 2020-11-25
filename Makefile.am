@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## $Id: Makefile.am,v 1.272 2019/12/07 14:56:57 plm Exp $
+## $Id: Makefile.am,v 1.272.4.1 2020/11/25 05:03:47 pif Exp $
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -164,8 +164,9 @@ gnubg_SOURCES += gtkboard.c gtkboard.h gtkgame.c gtkgame.h gtkfile.c gtkfile.h \
 		 gtkoptions.h gtkoptions.c gtktoolbar.h gtktoolbar.c \
 		 gtkgamelist.c gtkpanels.c gtkpanels.h gtkmovelist.c gtkmovelistctrl.c gtkmovelistctrl.h \
 		 gtkwindows.c gtkwindows.h gtkrelational.c gtkrelational.h gnubgstock.c gnubgstock.h \
-		 gtkuidefs.h gtklocdefs.c gtklocdefs.h
+		 gtkuidefs.h gtklocdefs.c gtklocdefs.h gtkscoremap.h gtkscoremap.c
 endif
+#		 gtkuidefs.h gtklocdefs.c gtklocdefs.h gtkscoremap.h gtkscoremap.c moveclassify.h moveclassify.c
 
 
 #
