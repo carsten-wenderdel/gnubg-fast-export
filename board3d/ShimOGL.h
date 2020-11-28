@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.h,v 1.9 2020/10/26 22:27:30 plm Exp $
+ * $Id: ShimOGL.h,v 1.10 2020/11/28 22:06:56 plm Exp $
  */
 
 #ifndef SHIMOGL_H
@@ -38,8 +38,6 @@
 #define GL_ALWAYS                         0x0207
 #define GL_TRUE                           1
 #define GL_FALSE                          0
-
-void InitMatStacks(void);
 
 void SHIMglBegin(GLenum mode);
 void SHIMglEnd(void);

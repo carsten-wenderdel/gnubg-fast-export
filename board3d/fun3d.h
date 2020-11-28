@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: fun3d.h,v 1.55 2020/05/26 19:55:54 plm Exp $
+ * $Id: fun3d.h,v 1.56 2020/11/28 22:06:56 plm Exp $
  */
 
 #ifndef FUN3D_H
@@ -44,6 +44,8 @@
 extern int fClockwise;          /* Player 1 moves clockwise */
 
 extern const Material* currentMat;
+
+void InitMatStacks(void);
 
 void OglModelInit(ModelManager* modelHolder, int modelNumber);
 void OglModelAlloc(ModelManager* modelHolder, int modelNumber);
