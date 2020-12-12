@@ -1,4 +1,9 @@
-<!-- $Id: catalog.dtd,v 1.1 2005/02/18 16:40:58 Superfly_Jon Exp $ -->
+<!--
+    Local copy of
+    http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd
+
+    $Id: catalog.dtd,v 1.2 2020/12/12 20:28:09 plm Exp $
+-->
 
 <!ENTITY % pubIdChars "CDATA">
 <!ENTITY % publicIdentifier "%pubIdChars;">
