@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: simpleboard.h,v 1.9 2019/12/11 21:54:51 plm Exp $
+ * $Id: simpleboard.h,v 1.10 2021/02/07 20:54:21 plm Exp $
  */
 
 #if HAVE_PANGOCAIRO
@@ -38,9 +38,9 @@ struct _SimpleBoard {
     SimpleBoardColor color_point[2];
     SimpleBoardColor color_cube;
     matchstate ms;
+    gint text_size;
     gchar *annotation;
     gchar *header;
-    gint text_size;
     gdouble size;
     gdouble surface_x;
     gdouble surface_y;
