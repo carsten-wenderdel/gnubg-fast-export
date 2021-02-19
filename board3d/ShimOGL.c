@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: ShimOGL.c,v 1.10 2020/10/26 21:29:50 plm Exp $
+ * $Id: ShimOGL.c,v 1.11 2021/02/19 21:19:55 Superfly_Jon Exp $
  */
 
 #include "config.h"
+#include "fun3d.h"
 #include <memory.h>
 #include "render.h"
 #include <cglm/affine.h>
 #include <cglm/cam.h>
 #include "ShimOGL.h"
-#include "fun3d.h"
 
 typedef struct _MatStack
 {

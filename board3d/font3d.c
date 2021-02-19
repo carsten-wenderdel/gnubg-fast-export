@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: font3d.c,v 1.42 2020/05/26 19:55:54 plm Exp $
+ * $Id: font3d.c,v 1.43 2021/02/19 21:19:55 Superfly_Jon Exp $
  */
 
 /* Draw 3d numbers using vera font and freetype library */
 
 #include "config.h"
 
-#include "types3d.h"
 #include "fun3d.h"
+#include "types3d.h"
 #include "util.h"
 #include "output.h"
 #include <glib/gi18n.h>
