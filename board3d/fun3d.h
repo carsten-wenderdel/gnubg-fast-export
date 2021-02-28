@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: fun3d.h,v 1.59 2021/02/28 09:27:27 Superfly_Jon Exp $
+ * $Id: fun3d.h,v 1.60 2021/02/28 18:17:23 Superfly_Jon Exp $
  */
 
 #ifndef FUN3D_H
@@ -279,6 +279,7 @@ extern void SetLightPos(float* lp);
 extern void SetViewPos();
 gboolean GLWidgetRender(GtkWidget* widget, ExposeCB exposeCB, GdkEventExpose* eventDetails, void* data);
 gboolean GLInit(int* argc, char*** argv);
+extern void SetLineDrawingmode(int enable);
 
 // Functions required for 3d test harness
 void SetupSimpleMatAlpha(Material* pMat, float r, float g, float b, float a);
