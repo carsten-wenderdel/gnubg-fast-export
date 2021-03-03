@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
- * $Id: multithread.c,v 1.102 2020/04/27 18:45:31 plm Exp $
+ * $Id: multithread.c,v 1.103 2021/03/03 21:20:01 plm Exp $
  */
 
 #include "config.h"
@@ -66,7 +66,7 @@ MT_TaskDone(Task * pt)
 
     if (pt) {
         free(pt->pLinkedTask);
-        free(pt);
+        g_free(pt);
     }
 }
 
@@ -262,7 +262,7 @@ mt_add_tasks(unsigned int num_tasks, AsyncFun pFun, void *taskData, gpointer lin
 #endif
     }
     for (i = 0; i < num_tasks; i++) {
-        Task *pt = (Task *) malloc(sizeof(Task));
+        Task *pt = (Task *) g_malloc(sizeof(Task));
         pt->fun = pFun;
         pt->data = taskData;
         pt->pLinkedTask = linked;
