@@ -15,13 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: export.h,v 1.42 2019/12/07 22:56:54 plm Exp $
+ * $Id: export.h,v 1.43 2021/03/24 22:20:56 plm Exp $
  */
 
 #include <glib.h>
 
 #include "backgammon.h"
-#include "render.h"
 #include "list.h"
 
 #ifndef EXPORT_H
