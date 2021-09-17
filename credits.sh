@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #
-# $Id: credits.sh,v 1.162 2021/04/03 21:05:18 plm Exp $
+# $Id: credits.sh,v 1.163 2021/09/17 21:29:09 plm Exp $
 # 
 
 authors=/tmp/auth.$$
@@ -71,6 +71,7 @@ Renzo Campagna,Italian
 Yoshito Takeuchi,Japanese
 Mihai Varzaru,Romanian
 Dmitri I Gouliaev,Russian
+Fernando García García,Spanish
 Akif Dinc,Turkish
 EOF
 
@@ -222,12 +223,12 @@ cat > credits.h <<EOF
 
 #include <glib/gi18n.h>
 
-typedef struct _credEntry {
+typedef struct {
 	char* Name;
 	char* Type;
 } credEntry;
 
-typedef struct _credits {
+typedef struct {
 	const char* Title;
 	credEntry *Entry;
 } credits;
