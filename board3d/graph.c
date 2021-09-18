@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: graph.c,v 1.41 2019/12/24 08:45:11 plm Exp $
+ * $Id: graph.c,v 1.42 2021/09/18 22:13:14 plm Exp $
  */
 
 #include "config.h"
@@ -27,11 +27,11 @@
 #include "common.h"
 #include "analysis.h"
 
-struct _GraphData {
+typedef struct GraphData {
     float ***data;
     unsigned int numGames;
     float maxY;
-};
+} GraphData;
 
 #define COL_WIDTH 5.f
 #define MID_GAP 1
