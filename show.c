@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: show.c,v 1.297 2020/10/26 21:40:29 plm Exp $
+ * $Id: show.c,v 1.298 2021/09/25 21:33:38 plm Exp $
  */
 
 #include "config.h"
@@ -839,7 +839,7 @@ CommandShowPlayer(char *UNUSED(sz))
             break;
         case PLAYER_GNU:
             outputf(_("gnubg:\n"));
-            outputl(_("    Checker play:"));
+            outputl(_("    Chequer play:"));
             ShowEvalSetup(&ap[i].esChequer);
             outputl(_("    Move filters:"));
             ShowMoveFilters(ap[i].aamf);
