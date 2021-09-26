@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #
-# $Id: credits.sh,v 1.164 2021/09/20 20:36:22 plm Exp $
+# $Id: credits.sh,v 1.165 2021/09/26 19:13:42 plm Exp $
 # 
 
 authors=/tmp/auth.$$
@@ -46,11 +46,13 @@ Holger Bochnig
 Guido Flohr
 Nis Joergensen
 Petr Kadlec
+Isaac Keslassy
 Kaoru Takahashi
 Stein Kulseth
 Ingo Macherius
 Jeremy Moore
 Rod Roark
+Aaron Tikuisis
 EOF
 
 cat > $support <<EOF
