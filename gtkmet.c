@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkmet.c,v 1.33 2022/01/09 14:55:27 plm Exp $
+ * $Id: gtkmet.c,v 1.34 2022/01/13 21:16:03 plm Exp $
  */
 
 #include "config.h"
@@ -24,6 +24,7 @@
 #include "matchequity.h"
 #include "gtkmet.h"
 #include "gtkwindows.h"
+#include "gtklocdefs.h"
 
 typedef struct {
     GtkWidget *pwTable;
