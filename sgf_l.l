@@ -15,20 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: sgf_l.l,v 1.3 2020/04/12 19:02:41 plm Exp $
+ * $Id: sgf_l.l,v 1.4 2022/01/19 22:32:23 plm Exp $
  */
 
 %{
 #include "common.h"
 #include <ctype.h>
 #include "list.h"
-#include <string.h>
 
 #include "sgf.h"
 #include "sgf_y.h"
 #include <glib/gi18n.h>
-
-extern int _SGFWarning( char * );
 
 static int error( char *s ) {
 
