@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: play.c,v 1.472 2022/01/11 20:59:17 plm Exp $
+ * $Id: play.c,v 1.473 2022/01/23 20:25:58 plm Exp $
  */
 
 #include "config.h"
@@ -2828,9 +2828,11 @@ SetMatchDate(matchinfo * pmi)
     time_t t = time(NULL);
     struct tm *ptm = localtime(&t);
 
-    pmi->nYear = ptm->tm_year + 1900;
-    pmi->nMonth = ptm->tm_mon + 1;
-    pmi->nDay = ptm->tm_mday;
+    if (ptm) {
+        pmi->nYear = ptm->tm_year + 1900;
+        pmi->nMonth = ptm->tm_mon + 1;
+        pmi->nDay = ptm->tm_mday;
+    }
 }
 
 extern void
