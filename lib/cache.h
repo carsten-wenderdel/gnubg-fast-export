@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: cache.h,v 1.27 2021/06/09 21:25:43 plm Exp $
+ * $Id: cache.h,v 1.28 2022/02/19 21:39:59 plm Exp $
  */
 
 #ifndef CACHE_H
@@ -90,7 +90,10 @@ CacheAddNoLocking(evalCache * pc, const cacheNodeDetail * e, const uint32_t l)
 
 void CacheFlush(const evalCache * pc);
 void CacheDestroy(const evalCache * pc);
+
+#if CACHE_STATS
 void CacheStats(const evalCache * pc, unsigned int *pcLookup, unsigned int *pcHit, unsigned int *pcUsed);
+#endif
 
 #if defined(HAVE_FUNC_ATTRIBUTE_PURE)
 uint32_t GetHashKey(uint32_t hashMask, const cacheNodeDetail * e) __attribute((pure));
