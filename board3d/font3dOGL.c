@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: font3dOGL.c,v 1.13 2021/10/28 23:05:33 plm Exp $
+ * $Id: font3dOGL.c,v 1.14 2022/03/06 22:45:43 plm Exp $
  */
 
 #include "config.h"
@@ -35,7 +35,7 @@ CheckOpenglError(void)
 {
 	GLenum glErr = glGetError();
 	if (glErr != GL_NO_ERROR)
-		g_print("OpenGL Error: %s\n", gluErrorString(glErr));
+		g_print(_("OpenGL error: %s\n"), gluErrorString(glErr));
 }
 
 int MAArenderGlyph(const FT_Outline* pOutline, int AA);
