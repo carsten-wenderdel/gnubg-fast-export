@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: font3d.c,v 1.47 2022/03/06 22:45:43 plm Exp $
+ * $Id: font3d.c,v 1.48 2022/03/14 21:52:48 plm Exp $
  */
 
 /* Draw 3d numbers using vera font and freetype library */
@@ -235,7 +235,7 @@ TidyMemory(const Vectoriser* pVect, const Mesh* pMesh)
 void TESS_CALLBACK
 tcbError(GLenum error)
 {                               /* This is very unlikely to happen... */
-	g_print(_("Tesselation error! (%d)\n"), error);
+	g_print(_("Tessellation error! (%d)\n"), error);
 }
 
 void TESS_CALLBACK
