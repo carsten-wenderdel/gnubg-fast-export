@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: GLwidget.c,v 1.18 2022/03/06 21:40:16 plm Exp $
+ * $Id: GLwidget.c,v 1.19 2022/04/10 19:30:46 plm Exp $
  */
 
 #include "config.h"
@@ -403,7 +403,6 @@ GtkWidget* GLWidgetCreate(RealizeCB realizeCB, ConfigureCB configureCB, ExposeCB
 	}
 
 	GLWidgetData* glwData = g_malloc(sizeof(GLWidgetData));
-	if (!glwData) return NULL;
 
 	glwData->cbData = data;
 	glwData->realizeCB = realizeCB;
