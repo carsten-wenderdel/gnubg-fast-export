@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkchequer.c,v 1.131 2021/10/05 20:58:46 plm Exp $
+ * $Id: gtkchequer.c,v 1.132 2022/06/06 20:50:41 plm Exp $
  */
 
 #include "config.h"
@@ -369,9 +369,8 @@ MoveListRolloutPresets(GtkWidget * pw, hintdata * phd)
 typedef int (*cfunc) (const void *, const void *);
 
 static int
-CompareInts(int *p0, int *p1)
+CompareInts(const int *p0, const int *p1)
 {
-
     return *p0 - *p1;
 }
 
