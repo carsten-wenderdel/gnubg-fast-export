@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #
-# $Id: db_import.py,v 1.7 2019/10/28 21:18:50 plm Exp $
+# $Id: db_import.py,v 1.8 2022/06/29 21:09:18 plm Exp $
 #
 
 """
@@ -25,6 +25,7 @@
 \n"""
 
 import os
+import sys
 
 if sys.version_info >= (3, 0):
     def python3_raw_input(prompt):
