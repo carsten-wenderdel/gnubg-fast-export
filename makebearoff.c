@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: makebearoff.c,v 1.110 2022/02/26 20:31:23 plm Exp $
+ * $Id: makebearoff.c,v 1.111 2022/07/26 21:16:44 plm Exp $
  */
 
 #include "config.h"
@@ -349,7 +349,7 @@ BearOff(int nId, unsigned int nPoints,
 #if !defined(G_DISABLE_ASSERT)
     int iBest;
 #endif
-    int iMode, j, anRoll[2], aProb[64];
+    int iMode, j, anRoll[2], aProb[64] = { 0 };
     unsigned int i;
     TanBoard anBoard, anBoardTemp;
     movelist ml;
@@ -371,7 +371,7 @@ BearOff(int nId, unsigned int nPoints,
     /* initialise probabilities */
 
     for (i = 0; i < 64; i++)
-        aProb[i] = aOutProb[i] = 0;
+        aOutProb[i] = 0;
 
     /* all chequers off is easy :-) */
 
@@ -1265,7 +1265,7 @@ generate_ts(const int nTSP, const int nTSC,
 static void
 version(void)
 {
-    printf("makebearoff $Revision: 1.110 $\n");
+    printf("makebearoff $Revision: 1.111 $\n");
 }
 
 
