@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * $Id: gtkgamelist.c,v 1.51 2020/01/25 21:41:57 plm Exp $
+ * $Id: gtkgamelist.c,v 1.52 2022/10/02 12:43:20 plm Exp $
  */
 
 #include "config.h"
@@ -85,6 +85,12 @@ GameListSelectRow(GtkTreeView * tree_view, gpointer UNUSED(p))
     gtk_tree_view_get_cursor(tree_view, &path, &column);
     if (!path)
         return;
+
+    /* This didn't seem to happen with GTK2 but has been noticed with GTK3 */
+    if (!column) {
+        gtk_tree_path_free(path);
+        return;
+    }
 
     pPlayer = g_object_get_data(G_OBJECT(column), "player");
     if (!pPlayer) {
@@ -569,7 +575,7 @@ GTKSetMoveRecord(moverecord * pmr)
 }
 
 extern void
-GTKPopMoveRecord(moverecord * pmr)
+GTKPopMoveRecord(moverecord * const pmr)
 {
     GtkTreeIter iter;
     gboolean iterValid, recordFound = FALSE;
